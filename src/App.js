@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from "./pages/Login/login.js"
+import SignUp from "./pages/Signup/signup.js"
 
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
-        <Route path="/auth/login" element={<Login/>}></Route>
+        <Route path="/signup/createAccount" element={<SignUp/>}></Route>
       </Routes>
       </BrowserRouter>
     
