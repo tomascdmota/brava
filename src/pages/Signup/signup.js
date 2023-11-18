@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -11,7 +11,8 @@ function Signup () {
     const [email, setEmail] = useState();
     const [password, setPassword]= useState();
     const [passwordVerify, setPasswordVerify] = useState();
-
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async(e) => {
         e.preventDefault(); //prevents page from refreshing after form submition
@@ -38,23 +39,46 @@ function Signup () {
             return;
         }
         else {
-            axios.post("http://localhost:3001/signup/createAccount", {
-                name: name,
+            try{
+            axios.post("http://localhost:3306/api/sign-up", {
+                username: name,
                 email: email,
-                password: passwordVerify,
+                password: password,
+                passwordVerify: passwordVerify
             }).then((res) => {
-                console.log("Response data", res.data);
+                const {userId} = res.data;
                 document.cookie =  `Session_Token= ${res.data}; Secure; max-age=max-age-in-seconds;samesite`;
+                // TODO mudar route para /id/dashboard
+            
+                navigate(`/profile/${userId}`);
             }).catch((err) => {
                 console.log("AXIOS error", err);
             })
+        } catch (error){
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                if (error.response.status === 409) {
+                    console.log("um user com este username ja existe")
+                  setError("Um utilizador com este email já existe.");
+                } else {
+                  setError("Erro de servidor. Tente novamente mais tarde.");
+                }
+              } else if (error.request) {
+                // The request was made but no response was received
+                setError("Sem resposta do servidor. Tente novamente mais tarde.");
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                setError("Erro na requisição. Tente novamente mais tarde.");
+              }
+        }
         }
     }
     
 return(
     
     <div>
-        <Link to="/signup/createAccount"></Link>
+        <Link to="/signup"></Link>
         <div className="background"></div>
             <div className="card">
                 <img className="logo" src="https://res.cloudinary.com/dnho57ne8/image/upload/v1699913993/brava_fqk4h4.png" />
@@ -68,7 +92,7 @@ return(
                     </form>
                     <footer>
                         Existing users, sign in
-                        <a href="#"> here</a>
+                        <button onClick={()=> navigate("/login")}> here</button>
                     </footer>
             </div>
     </div>
