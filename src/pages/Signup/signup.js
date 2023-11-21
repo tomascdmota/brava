@@ -46,11 +46,11 @@ function Signup () {
                 password: password,
                 passwordVerify: passwordVerify
             }).then((res) => {
-                const {userId} = res.data;
-                document.cookie =  `Session_Token= ${res.data}; Secure; max-age=max-age-in-seconds;samesite`;
+                const { token } = res.data; // Corrected this line
+                document.cookie = `Session_Token=${token}; Secure; HttpOnly; max-age=max-age-in-seconds; SameSite=None`;
+                console.log(token)
+                navigate(`/profile/${res.data.user.id}`);
                 // TODO mudar route para /id/dashboard
-            
-                navigate(`/profile/${userId}`);
             }).catch((err) => {
                 console.log("AXIOS error", err);
             })

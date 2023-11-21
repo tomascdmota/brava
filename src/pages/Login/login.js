@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import "./login.css"
 
 export default function Login() {
@@ -26,10 +27,19 @@ export default function Login() {
                     email: email,
                     password: password
                 }).then((res)=> {
-                    const {userId} = res.data;
+                    console.log("Server response:", res.data);
+                    const { user, token } = res.data; // Destructure user and token from the response
+                    const { id: userId } = user;
+                    Cookies.set("Session_Token", token, {
+                        secure: true,
+                        httpOnly: true,
+                        expires: 30, // expires in 30 days
+                        sameSite: "None",
+                      });
+              
                     navigate(`/profile/${userId}`);
                 }).catch((err) =>{
-                    console.log("AXios error", err);
+                    console.log("Axios error", err);
                 })
             } catch(error){
                 console.log("EERRORRR")
@@ -37,7 +47,7 @@ export default function Login() {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
                     if (error.response.status === 409) {
-                        console.log("um user com este username ja existe")
+                        console.log("um user com este email não existe")
                     } else {
                       console.log("Erro de servidor. Tente novamente mais tarde.");
                     }
