@@ -31,9 +31,9 @@ export default function Login() {
                     const { user, token } = res.data; // Destructure user and token from the response
                     const { id: userId } = user;
                     Cookies.set("Session_Token", token, {
-                        secure: true,
-                        httpOnly: true,
-                        expires: 30, // expires in 30 days
+                        secure: false,  // Set to true in production (requires HTTPS)
+                        httpOnly: false, // Set to true in production for added security
+                        expires: 30,    // expires in 30 days
                         sameSite: "None",
                       });
               
