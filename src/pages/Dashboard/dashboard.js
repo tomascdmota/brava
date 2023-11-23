@@ -1,8 +1,10 @@
 import React from 'react'
 import './dashboard.scss'
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import axios from "axios"
 import {useEffect, useState} from 'react'
+import { Navigate } from 'react-router-dom';
+import Header from './Components/Header';
 
 export function Dashboard() {
 
@@ -23,60 +25,16 @@ export function Dashboard() {
     }, [id]);
 
     if(!userData) {
+		
         return <div>Loading...</div>;
     }
+	
   return (
-    <div><div className="appp">
-	<header className="app-header">
-		<div className="app-header-logo">
-			<div className="logo">
-				<span className="logo-icon">
-					<img src="https://res.cloudinary.com/dnho57ne8/image/upload/v1699913993/brava_fqk4h4.png" />
-				</span>
-				<h1 className="logo-title">
-					<span>Brava</span>
-					<span>NFC</span>
-				</h1>
-			</div>
-		</div>
-		<div className="app-header-navigation">
-			<div className="tabs">
-				<a href="#" className="active">
-					Overview
-				</a>
-				<a href="#" >
-					Payments
-				</a>
-				<a href="#">
-					Cards
-				</a>
-				<a href="#">
-					Account
-				</a>
-				<a href="#">
-					System
-				</a>
-				
-			</div>
-		</div>
-		<div className="app-header-actions">
-			<button className="user-profile">
-				<span>{userData.username}</span>
-				<span>
-					<img src="https://assets.codepen.io/285131/almeria-avatar.jpeg" />
-				</span>
-			</button>
-			
-		</div>
-		<div className="app-header-mobile">
-			<button className="icon-button large">
-				<i className="ph-list"></i>
-			</button>
-		</div>
-
-	</header>
-	<div className="app-body">
-		<div className="app-body-navigation">
+    <div>
+		<div className="dashboard">
+	<Header username={userData.username}/>
+	<div className="dashboard-body">
+		<div className="dashboard-body-navigation">
 			<nav className="navigation">
 				<a href="#">
 					<i className="ph-browsers"></i>
@@ -108,7 +66,7 @@ export function Dashboard() {
 				</div>
 			</footer>
 		</div>
-		<div className="app-body-main-content">
+		<div className="dashboard-body-main-content">
 			<section className="service-section">
 				<h2>Service</h2>
 				<div className="service-section-header">
@@ -132,53 +90,7 @@ export function Dashboard() {
 						Toggle search
 					</button>
 				</div>
-				<div className="tiles">
-					<article className="tile">
-						<div className="tile-header">
-							<i className="ph-lightning-light"></i>
-							<h3>
-								<span>Electricity</span>
-								<span>UrkEnergo LTD.</span>
-							</h3>
-						</div>
-						<a href="#">
-							<span>Go to service</span>
-							<span className="icon-button">
-								<i className="ph-caret-right-bold"></i>
-							</span>
-						</a>
-					</article>
-					<article className="tile">
-						<div className="tile-header">
-							<i className="ph-fire-simple-light"></i>
-							<h3>
-								<span>Heating Gas</span>
-								<span>Gazprom UA</span>
-							</h3>
-						</div>
-						<a href="#">
-							<span>Go to service</span>
-							<span className="icon-button">
-								<i className="ph-caret-right-bold"></i>
-							</span>
-						</a>
-					</article>
-					<article className="tile">
-						<div className="tile-header">
-							<i className="ph-file-light"></i>
-							<h3>
-								<span>Tax online</span>
-								<span>Kharkov 62 str.</span>
-							</h3>
-						</div>
-						<a href="#">
-							<span>Go to service</span>
-							<span className="icon-button">
-								<i className="ph-caret-right-bold"></i>
-							</span>
-						</a>
-					</article>
-				</div>
+				
 				<div className="service-section-footer">
 					<p>Services are paid according to the current state of the currency and tariff.</p>
 				</div>
@@ -199,12 +111,12 @@ export function Dashboard() {
 				<div className="transfers">
 					<div className="transfer">
 						<div className="transfer-logo">
-							<img src="https://assets.codepen.io/285131/apple.svg" />
+							<img src="https://assets.codepen.io/285131/dashboardle.svg" />
 						</div>
 						<dl className="transfer-details">
 							<div>
-								<dt>Apple Inc.</dt>
-								<dd>Apple ID Payment</dd>
+								<dt>dashboardle Inc.</dt>
+								<dd>dashboardle ID Payment</dd>
 							</div>
 							<div>
 								<dt>4012</dt>
@@ -266,7 +178,7 @@ export function Dashboard() {
 				</div>
 			</section>
 		</div>
-		<div className="app-body-sidebar">
+		<div className="dashboard-body-sidebar">
 			<section className="payment-section">
 				<h2>New Payment</h2>
 				<div className="payment-section-header">

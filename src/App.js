@@ -4,6 +4,7 @@ import SignUp from "./pages/Signup/signup.js"
 import Profile from './pages/Profile/profile';
 import Login from './pages/Login/login';
 import Dashboard from './pages/Dashboard/dashboard';
+import Cards from './pages/Dashboard/Cards/Cards.js';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/profile/:id" element={<Profile />} />
         <Route path='/dashboard/:id' element={<Dashboard/>}/>
+        <Route path='/dashboard/cards/:id' element={<Cards/>}/>
       </Routes>
       </BrowserRouter>
     

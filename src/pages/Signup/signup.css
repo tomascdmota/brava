@@ -27,6 +27,11 @@
       padding: 0;
     }
   }
+ 
+
+  a {
+    color: gray;
+  }
   
   .background {
     position: fixed;
@@ -86,7 +91,7 @@
     top: 0px;
     left: 50%;
     translate: -50% 0;
-    width: 120px;
+    width: 150px;
     height: 124px;
   }
   
