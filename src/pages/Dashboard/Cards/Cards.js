@@ -25,10 +25,40 @@ function Cards() {
   if (!userData) {
     return (
       <div className='cards-container'>
-        <Header />
-        {/* ... */}
+      <Header />
+      <h1>My Cards</h1>
+      <div className='nav-tiles'>
+        <div className="tiles">
+          <article className="tile" onClick={() => navigate(`/${userId}/dashboard/createcard`)}>
+            <div className="tile-header">
+              <i className="ph-lightning-light"></i>
+              <h2>
+                <span>Let's create your first card!</span>
+              </h2>
+            </div>
+          </article>
+          <article className="tile" style={{ backgroundColor: "#bdbbb7" }}>
+            <div className="tile-header">
+              <i className="ph-fire-simple-light"></i>
+              <h3>
+                <span>Personal</span>
+                <span>N/A</span>
+              </h3>
+            </div>
+          </article>
+          <article className="tile">
+            <div className="tile-header">
+              <i className="ph-file-light"></i>
+              <h3>
+                <span>Work</span>
+                <span>N/A</span>
+              </h3>
+            </div>
+          </article>
+        </div>
       </div>
-    );
+    </div>
+  );
   }
 
   return (

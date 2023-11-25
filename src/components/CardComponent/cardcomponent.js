@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
+import "./cardcomponent.css"
 
 function CardComponent({ email, phone, company, profile_image_url }) {
   const [image, setImage] = useState(null);
@@ -11,37 +12,51 @@ function CardComponent({ email, phone, company, profile_image_url }) {
 
   useEffect(() => {
     const fetchImage = async () => {
-      try {
-        const s3Client = new S3({
-          credentials: {
-            accessKeyId,
-            secretAccessKey,
-          },
-          region: "eu-west-2"
-        });
+  try {
+    const s3Client = new S3({
+      credentials: {
+        accessKeyId,
+        secretAccessKey,
+      },
+      region: "eu-west-2",
+    });
 
-        const key = new URL(profile_image_url).pathname.replace(/^\//, '');
-        const getObjectParams = {
-          Bucket,
-          Key: encodeURIComponent(key),
-        };
-
-        const command = new GetObjectCommand(getObjectParams);
-        const response = await s3Client.send(command);
-
-        const imageInfo = imageType(await response.Body.getReader().read());
-        const imageType = response.ContentType; // Adjust if necessary
-        const blob = new Blob([response.Body], { type: imageInfo.mime });
-        const imageUrl = URL.createObjectURL(blob);
-
-        setImage(imageUrl);
-
-        // Log the rendered HTML of the image element
-        
-      } catch (error) {
-        console.error('Error fetching image:', error);
-      }
+    const key = new URL(profile_image_url).pathname.replace(/^\//, '');
+    const getObjectParams = {
+      Bucket,
+      Key: encodeURIComponent(key),
     };
+
+    const command = new GetObjectCommand(getObjectParams);
+    const response = await s3Client.send(command);
+
+    // ReadableStream to Uint8Array
+    const chunks = [];
+    const streamReader = response.Body.getReader();
+
+    while (true) {
+      const { done, value } = await streamReader.read();
+
+      if (done) {
+        break;
+      }
+
+      chunks.push(value);
+    }
+
+    const arrayBuffer = chunks.length > 1 ? chunks.reduce((a, b) => [...a, ...b]) : chunks[0];
+    const imageBuffer = new Uint8Array(arrayBuffer);
+
+    // Convert Uint8Array to Blob
+    const blob = new Blob([imageBuffer], { type: response.ContentType });
+
+    const imageUrl = URL.createObjectURL(blob);
+
+    setImage(imageUrl);
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+};
    
     fetchImage();
 
