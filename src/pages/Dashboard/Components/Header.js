@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.scss';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Header(props) {
   const { activeTab, onTabClick } = props;
+
+ 
 
   return (
     <div className="header-container">

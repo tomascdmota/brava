@@ -6,6 +6,7 @@ import Login from './pages/Login/login';
 import Dashboard from './pages/Dashboard/dashboard';
 import Cards from './pages/Dashboard/Cards/Cards.js';
 import CreateCard from './pages/Dashboard/CreateCard/CreateCard.js';
+import ProfileCard from './components/ProfileCard.js';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/:id/dashboard/overview' element={<Dashboard/>}/>
         <Route path='/:id/dashboard/cards' element={<Cards/>}/>
         <Route path=':id/dashboard/createcard' element={<CreateCard/>}/>
+        <Route path='/profile/:cardId' element={<ProfileCard/>}/>
       </Routes>
       </BrowserRouter>
     

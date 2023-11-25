@@ -1,33 +1,42 @@
-import React from "react";
-import "./ProfileCard.css";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import axios from "axios";
+import "./ProfileCard.scss";
 
-function ProfileCard(props) {
-	return (
-		<div className="card-container">
-			<header>
-				<img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/profile-icon.png" alt={props.name} />
-			</header>
-			<h1 className="bold-text">
-				{props.name} <br></br><span className="normal-text">{props.age}</span>
-			</h1>
-			<h2 className="normal-text">{props.phone}</h2>
-			<div className="social-container">
-				<div className="followers">
-					<h1 className="bold-text">{props.followers}</h1>
-					<h2 className="smaller-text">Followers</h2>
-				</div>
-				<div className="likes">
-					<h1 className="bold-text">{props.likes}</h1>
-					<h2 className="smaller-text">Likes</h2>
-				</div>
-				<div className="photos">
-					<h1 className="bold-text">{props.photos}</h1>
-					<h2 className="smaller-text">Photos</h2>
-				</div>
-			</div>
-            
+function ProfileCard() {
+  const { id: userId } = useParams();
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch all cards for the user
+        const cardResponse = await axios.get(`http://localhost:3306/api/${userId}/profile`);
+        const cardData = cardResponse.data;
+
+        if (cardResponse.status === 200) {
+          setCards(cardData.cards || []); // Provide a default empty array if cards is undefined
+        } else {
+          console.error(cardData.message);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the function to initiate the data fetch
+  }, [userId]);
+
+  return (
+    <div>
+      <div class="iphone-x">
+		<i>Speaker</i>
+		<b>Camera</b>
+		<s>10:24</s>
+		
 		</div>
-	);
+    </div>
+  );
 }
 
 export default ProfileCard;

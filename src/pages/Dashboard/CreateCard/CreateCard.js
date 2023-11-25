@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router';
 import "./CreateCard.css";
+import { CiGlobe } from "react-icons/ci";
 import axios from 'axios';
 import Header from '../Components/Header'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -161,6 +162,7 @@ const CreateCard = () => {
           </div>
         
           <div className="social-input">
+          <CiGlobe fontSize="25px"/>
             <input
               type="text"
               name="twitter"
