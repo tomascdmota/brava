@@ -8,10 +8,7 @@
 body{
   border: 0;
   top: 0;
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+  background-color: rgb(24, 24, 24);
 }
 
 @media (prefers-reduced-motion: no-preference) {

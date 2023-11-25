@@ -5,6 +5,7 @@ import Profile from './pages/Profile/profile';
 import Login from './pages/Login/login';
 import Dashboard from './pages/Dashboard/dashboard';
 import Cards from './pages/Dashboard/Cards/Cards.js';
+import CreateCard from './pages/Dashboard/CreateCard/CreateCard.js';
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignUp/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path='/dashboard/:id' element={<Dashboard/>}/>
-        <Route path='/dashboard/cards/:id' element={<Cards/>}/>
+        <Route path="/:id/profile" element={<Profile />} />
+        <Route path='/:id/dashboard' element={<Dashboard/>}/>
+        <Route path='/:id/dashboard/overview' element={<Dashboard/>}/>
+        <Route path='/:id/dashboard/cards' element={<Cards/>}/>
+        <Route path=':id/dashboard/createcard' element={<CreateCard/>}/>
       </Routes>
       </BrowserRouter>
     

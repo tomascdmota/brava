@@ -8,9 +8,9 @@ function ProfileCard(props) {
 				<img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/profile-icon.png" alt={props.name} />
 			</header>
 			<h1 className="bold-text">
-				{props.name} <span className="normal-text">{props.age}</span>
+				{props.name} <br></br><span className="normal-text">{props.age}</span>
 			</h1>
-			<h2 className="normal-text">{props.city}</h2>
+			<h2 className="normal-text">{props.phone}</h2>
 			<div className="social-container">
 				<div className="followers">
 					<h1 className="bold-text">{props.followers}</h1>

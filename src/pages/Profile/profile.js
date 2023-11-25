@@ -11,9 +11,11 @@ function Profile() {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:3306/api/profile/${id}`);
+                const response = await axios.get(`http://localhost:3306/api/${id}/profile`);
+                console.log(response.data)
                 setUserData(response.data);
             } catch(error){
+                
                 console.log("Error fetchin data:", error);
             }
         }
@@ -33,7 +35,7 @@ function Profile() {
 			<ProfileCard
 				name={userData.username}
 				age={userData.email}
-				city="London"
+				phone={userData.phone}
 				followers="80K"
 				likes="803K"
 				photos="1.4K"

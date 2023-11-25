@@ -7,50 +7,34 @@
     box-sizing: border-box;
   }
   
-  html,
-  body {
-    height: 100%;
-  }
-  
-  body {
-    display: grid;
-    place-items: center;
-    margin: 0;
-    padding: 0 32px;
-    background: #111111;
-    font-family: "chivo";
-    animation: rotate 6s infinite alternate linear;
-  }
+ .welcome {
+  margin-top: 0;
+ }
+ .existing-users-text {
+  color: gray;
+ }
+
+ form a{
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid #00544F;
+  padding: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 15px;
+  background-color: #00544F;
+ }
   
   @media (width >= 500px) {
     body {
       padding: 0;
     }
   }
-  
-  .background {
-    position: fixed;
-    top: -50vmin;
-    left: -50vmin;
-    width: 100vmin;
-    height: 100vmin;
-    border-radius: 37% 53% 61% 39% / 45% 51% 49% 95%;
-    background: #111111;
-  }
-  
-  .background::after {
-    content: "";
-    position: inherit;
-    right: -50vmin;
-    bottom: -55vmin;
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    background: #111111;
-  }
+
+
   
   .card {
-    margin-top: 10%;
     overflow: hidden;
     position: relative;
     z-index: 3;
@@ -79,6 +63,12 @@
     .card {
       margin: 0;
       width: 360px;
+    }
+  }
+
+  @media (width <= 400px) {
+    .card{
+      width: auto;
     }
   }
   

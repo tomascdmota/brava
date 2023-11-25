@@ -7,20 +7,8 @@
     box-sizing: border-box;
   }
   
-  html,
-  body {
-    height: 100%;
-  }
-  
-  body {
-    display: grid;
-    place-items: center;
-    margin: 0;
-    padding: 0 32px;
-    background: #111111;
-    font-family: "chivo";
-    animation: rotate 6s infinite alternate linear;
-  }
+ 
+
   
   @media (width >= 500px) {
     body {

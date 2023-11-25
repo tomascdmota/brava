@@ -49,10 +49,10 @@ function Signup () {
                 passwordVerify: passwordVerify,
                 phone: phone
             }).then((res) => {
-                const { token } = res.data; // Corrected this line
+                const {  token } = res.data; // Destructure user and token from the response
                 document.cookie = `Session_Token=${token}; Secure; HttpOnly; max-age=max-age-in-seconds; SameSite=None`;
                 console.log(token)
-                navigate(`/profile/${res.data.user.id}`);
+                navigate(`/${res.data.userId}/dashboard`);
                 // TODO mudar route para /id/dashboard
             }).catch((err) => {
                 console.log("AXIOS error", err);
@@ -82,18 +82,18 @@ return(
     
     <div>
         <Link to="/signup"></Link>
-        <h1>Bem vindo à Brava</h1>
+        <h1 className="welcome">Bem vindo à Brava</h1>
             <div className="card">
                 <img className="logo" src="https://res.cloudinary.com/dnho57ne8/image/upload/v1699913993/brava_fqk4h4.png" />
                 <h2>Vamos começar por criar uma conta!</h2>
                     <form className="form" onSubmit={handleSubmit}>
                         <input type="text" placeholder="Nome" name="name" id="name" onChange={e => setName(e.target.value)} value={name}/>
                         <input type="email"placeholder="Email"  name="email" id="email" onChange={e => setEmail(e.target.value)} value={email} />
+                        <input type="tel" placeholder="Telemovel" name="phone" id="phone" onChange={e => setPhone(e.target.value)} value={phone}/>
                         <input type="password" placeholder="Password" name="password" id="password" onChange={e => setPassword(e.target.value)} value={password} />
                         <input type="password" placeholder="Verificar Password" name="passwordVerify" id="passworVerify" onChange={e => setPasswordVerify(e.target.value)} value={passwordVerify} />
-                        <input type="tel" placeholder="Telemovel" name="phone" id="phone" onChange={e => setPhone(e.target.value)} value={phone}/>
                         <button type="submit">Criar Conta</button>
-                        <p>Existing users, sign in</p>
+                        <p className="existing-users-text">Existing users, sign in</p>
                         <a onClick={()=> navigate("/login")}> here</a>
                     </form>
                  

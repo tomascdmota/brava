@@ -14,7 +14,7 @@ export default function Login() {
     const handleSubmit = async(e) => {
         e.preventDefault();
         
-
+        
         const email = e.target.elements.email ? e.target.email.value : "";
         const password = e.target.elements.password ? e.target.password.value: "";
        
@@ -63,21 +63,20 @@ export default function Login() {
     }
 
   return (
-    <div>
+    <div className='login-container'>
         <Link to="/login"></Link>
-        <div className="background"></div>
+        <h1 className="welcome">Bem vindo à Brava</h1>
             <div className="card">
                 <img className="logo" src="https://res.cloudinary.com/dnho57ne8/image/upload/v1699913993/brava_fqk4h4.png" />
-                <h2>CREATE AN ACCOUNT TO GET STARTED!</h2>
+                <h2>Entre para gerir a sua conta </h2>
                     <form className="form" onSubmit={handleSubmit}>
                         <input type="email"placeholder="Email"  name="email" id="email" onChange={e => setEmail(e.target.value)} value={email} />
                         <input type="password" placeholder="Password" name="password" id="password" onChange={e => setPassword(e.target.value)} value={password} />
                         <button type="submit" >SIGN UP</button>
+                        <p className="existing-users-text">Don't have an account yet?</p>
+                        <a onClick={()=> navigate("/signup")}> Click me!</a>
                     </form>
-                    <footer>
-                        Existing users, sign in
-                        <button onClick={()=> navigate("/signup")}> here</button>
-                    </footer>
+                   
             </div>
     </div>
   )
