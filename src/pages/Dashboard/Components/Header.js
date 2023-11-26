@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Header.scss';
 import axios from 'axios';
+import { useParams } from 'react-router';
 
 function Header(props) {
   const { activeTab, onTabClick } = props;
-
+  const {id} = useParams();
  
 
   return (
@@ -23,16 +24,16 @@ function Header(props) {
         <div className="dashboard-header-navigation">
           <div className="tabs">
             
-            <a onClick={() => onTabClick('overview')} href='Overview' className={activeTab === 'overview' ? 'active' : ''}>
+            <a onClick={() => onTabClick('overview')} href={`/${id}/dashboard/overview`} className={activeTab === 'overview' ? 'active' : ''}>
               Overview
             </a>
-            <a onClick={() => onTabClick('profiles')} href='Profiles' className={activeTab === 'profiles' ? 'active' : ''}>
+            <a onClick={() => onTabClick('profiles')} href={`/${id}/dashboard/profiles`} className={activeTab === 'profiles' ? 'active' : ''}>
               Profiles
             </a>
-            <a onClick={() => onTabClick('cards')} href='Cards' className={activeTab === 'cards' ? 'active' : ''}>
+            <a onClick={() => onTabClick('cards')} href={`/${id}/dashboard/cards`} className={activeTab === 'cards' ? 'active' : ''}>
               Cards
             </a>
-            <a onClick={() => onTabClick('account')}  href='Account' className={activeTab === 'account' ? 'active' : ''}>
+            <a onClick={() => onTabClick('account')}  href={`/${id}/dashboard/account`} className={activeTab === 'account' ? 'active' : ''}>
               Account
             </a>
           </div>

@@ -1,18 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { SocialIcon } from 'react-social-icons';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import './cardcomponent.css';
-import { SocialIcon } from 'react-social-icons'
 
-function CardComponent({ email, phone, company, title, profile_image_url, onLoad, facebook, linkedin, instagram, url }) {
+function CardComponent({
+  email,
+  card_id,
+  phone,
+  company,
+  title,
+  profile_image_url,
+  onLoad,
+  facebook,
+  linkedin,
+  instagram,
+  url,
+}) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
-  const accessKeyId = 'AKIAS74Z5OF3XZBMVMOE';
-  const secretAccessKey = '+6ZXeRRaY97aWqPYCIibAuaBApGMXKR1N/ERKMB2';
+  const accessKeyId = 'YOUR_ACCESS_KEY'; // Replace with your AWS access key
+  const secretAccessKey = 'YOUR_SECRET_KEY'; // Replace with your AWS secret key
   const region = 'eu-west-2';
   const Bucket = 'brava-bucket';
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchImage = async () => {
       try {
         const s3Client = new S3({
@@ -20,7 +34,7 @@ function CardComponent({ email, phone, company, title, profile_image_url, onLoad
             accessKeyId,
             secretAccessKey,
           },
-          region: 'eu-west-2',
+          region,
         });
 
         const key = new URL(profile_image_url).pathname.replace(/^\//, '');
@@ -31,6 +45,11 @@ function CardComponent({ email, phone, company, title, profile_image_url, onLoad
 
         const command = new GetObjectCommand(getObjectParams);
         const response = await s3Client.send(command);
+
+        if (!isMounted) {
+          // Avoid updating state if the component is unmounted
+          return;
+        }
 
         // ReadableStream to Uint8Array
         const chunks = [];
@@ -70,6 +89,8 @@ function CardComponent({ email, phone, company, title, profile_image_url, onLoad
     fetchImage();
 
     return () => {
+      isMounted = false; // Set isMounted to false when the component is unmounted
+
       if (image) {
         URL.revokeObjectURL(image);
       }
@@ -79,22 +100,50 @@ function CardComponent({ email, phone, company, title, profile_image_url, onLoad
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
       <div className="card-component-header">
-        
-          <img className='card-image' src={image} alt="Profile" />
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <img className="card-image" src={image} alt="Profile" />
+        )}
       </div>
       <div className="card-body">
         <h3>{company}</h3>
         <p>{title}</p>
         <p>{email}</p>
         <p>{phone}</p>
-        <SocialIcon href={facebook} bgColor='transparent' fgColor='black' style={{height: "55px", borderTop: "none"}}  network='facebook' target='blank'/>
-        <SocialIcon href={instagram} bgColor='transparent' fgColor='black' style={{height: "55px", borderTop: "none"}} network='instagram' target='blank'/>
-        <SocialIcon href={linkedin} bgColor='transparent' fgColor='black' style={{height: "55px", borderTop: "none"}} network='linkedin' target='blank'/>
-        <SocialIcon href={url} bgColor='transparent' fgColor='black' style={{height: "55px", borderTop: "none"}} network='sharethis' target='blank'/>
-      
+        <SocialIcon
+          href={facebook}
+          bgColor="transparent"
+          fgColor="#9003c4"
+          style={{ height: '55px', borderTop: 'none' }}
+          network="facebook"
+          target="_blank"
+        />
+        <SocialIcon
+          href={instagram}
+          bgColor="transparent"
+          fgColor="#9003c4"
+          style={{ height: '55px', borderTop: 'none' }}
+          network="instagram"
+          target="_blank"
+        />
+        <SocialIcon
+          href={linkedin}
+          bgColor="transparent"
+          fgColor="#9003c4"
+          style={{ height: '55px', borderTop: 'none' }}
+          network="linkedin"
+          target="_blank"
+        />
+        <SocialIcon
+          href={url}
+          bgColor="transparent"
+          fgColor="#9003c4"
+          style={{ height: '55px', borderTop: 'none' }}
+          network="sharethis"
+          target="_blank"
+        />
       </div>
-
-      
     </div>
   );
 }
@@ -105,6 +154,12 @@ CardComponent.propTypes = {
   company: PropTypes.string.isRequired,
   profile_image_url: PropTypes.string.isRequired,
   onLoad: PropTypes.func,
+  card_id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  facebook: PropTypes.string.isRequired,
+  linkedin: PropTypes.string.isRequired,
+  instagram: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default CardComponent;

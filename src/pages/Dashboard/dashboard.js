@@ -8,6 +8,7 @@ import OverviewContent from './Overview/Overview'; // Import your content compon
 import ProfilesContent from '../Profile/profile';
 import CardsContent from './Cards/Cards';
 import AccountContent from './Account/Account';
+import Cookies from 'js-cookie';
 
 export function Dashboard() {
 	const { id: userId } = useParams();
@@ -22,7 +23,7 @@ export function Dashboard() {
 	  const fetchUserProfile = async () => {
 		try {
 		  // Assuming you have a userId available, update the URL accordingly
-		  const response = await axios.get(`http://localhost:3306/api/${userId}/dashboard`);
+		  const response = await axios.get(`http://localhost:3306/api/${userId}/dashboard`,{ withCredentials: true });
 		  setUserData(response.data);
 		} catch (error) {
 		  console.log('Error fetching data:', error);

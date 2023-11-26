@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import "./ProfileCard.scss";
+import ExtendedCardComponent from "./ExtendedCardComponent/ExtendedCardComponent";
 
 function ProfileCard() {
   const { id: userId } = useParams();
@@ -10,12 +11,13 @@ function ProfileCard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch all cards for the user
-        const cardResponse = await axios.get(`http://localhost:3306/api/${userId}/profile`);
+        const cardResponse = await axios.get(`http://localhost:3306/api/${userId}/cards`);
         const cardData = cardResponse.data;
-
+        
+        console.log("Card Data:", cardData); // Add this line
+  
         if (cardResponse.status === 200) {
-          setCards(cardData.cards || []); // Provide a default empty array if cards is undefined
+          setCards(cardData.cards || []);
         } else {
           console.error(cardData.message);
         }
@@ -23,18 +25,18 @@ function ProfileCard() {
         console.error("Error fetching data:", error);
       }
     };
-
-    fetchData(); // Call the function to initiate the data fetch
-  }, [userId]);
-
+  
+    fetchData();
+  }, [userId, setCards]);
+  console.log(cards);
   return (
-    <div>
-      <div class="iphone-x">
-		<i>Speaker</i>
-		<b>Camera</b>
-		<s>10:24</s>
-		
-		</div>
+    <div className="profile-card-container">
+      <div>
+      <h1 className="profile-title">PICK A CARD</h1>
+      </div>
+    {cards.map((card) => {
+  return <ExtendedCardComponent key={card.card_id} {...card} />;
+})}
     </div>
   );
 }

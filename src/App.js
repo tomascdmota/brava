@@ -20,7 +20,7 @@ function App() {
         <Route path='/:id/dashboard/overview' element={<Dashboard/>}/>
         <Route path='/:id/dashboard/cards' element={<Cards/>}/>
         <Route path=':id/dashboard/createcard' element={<CreateCard/>}/>
-        <Route path='/profile/:cardId' element={<ProfileCard/>}/>
+        <Route path=':id/cards' element={<ProfileCard/>}/>
       </Routes>
       </BrowserRouter>
     
