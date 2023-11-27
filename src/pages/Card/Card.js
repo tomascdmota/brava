@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
-import './Cards.scss';
-import Header from '../Components/Header';
-import CardComponent from '../../../components/CardComponent/cardcomponent';
+import './Card.scss';
+import CardComponent from './CardComponent/CardComponent';
 
 function Cards() {
   const { id: userId } = useParams();
@@ -14,7 +13,7 @@ function Cards() {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.155:3306/api/${userId}/dashboard/cards`,{ withCredentials: true })
+      .get(`http://192.168.1.155:3306/api/${userId}/cards`,{ withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
@@ -31,7 +30,6 @@ function Cards() {
     // Check for userData to be null instead of !userData
     return (
       <div className="cards-container">
-        <Header />
         <h1>My Cards</h1>
         {loading && <div className="spinner-container"><div className="spinner"></div></div>}
         <div className="nav-tiles">
@@ -43,7 +41,6 @@ function Cards() {
 
   return (
     <div className="cards-container">
-      <Header />
       <h1 className='title'>My Cards</h1>
       {loading && <div className="spinner-container"><div className="spinner"></div></div>}
       <div className="nav-tiles">

@@ -83,7 +83,7 @@ const CreateCard = () => {
     formDataToSubmit.append('userId', id);
   
     try {
-      const response = await axios.post("http://localhost:3306/api/createcard", formDataToSubmit, {
+      const response = await axios.post("http://192.168.1.155:3306/api/createcard", formDataToSubmit, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

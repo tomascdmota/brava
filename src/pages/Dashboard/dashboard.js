@@ -23,7 +23,7 @@ export function Dashboard() {
 	  const fetchUserProfile = async () => {
 		try {
 		  // Assuming you have a userId available, update the URL accordingly
-		  const response = await axios.get(`http://localhost:3306/api/${userId}/dashboard`,{ withCredentials: true });
+		  const response = await axios.get(`http://192.168.1.155:3306/api/${userId}/dashboard`,{ withCredentials: true });
 		  setUserData(response.data);
 		} catch (error) {
 		  console.log('Error fetching data:', error);
@@ -44,7 +44,7 @@ export function Dashboard() {
 		  <Header username={userData.username} activeTab={activeTab} onTabClick={handleTabClick} />
 		  <div className="dashboard-body">
 			{/* Render content based on the active tab */}
-			{activeTab === 'overview' && <OverviewContent userId={userData.id} />}
+			{activeTab === 'overview' && <OverviewContent userId={userData.id} username={userData.username} />}
 			{activeTab === 'profiles' && <ProfilesContent userId={userData.id} />}
 			{activeTab === 'cards' && <CardsContent />}
 			{activeTab === 'account' && <AccountContent />}

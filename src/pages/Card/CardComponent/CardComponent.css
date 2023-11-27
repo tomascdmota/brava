@@ -1,0 +1,113 @@
+.card-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    height: 100%;
+    justify-content: start;
+    background-color: white;
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    margin: 0 20px;
+    border-radius: 1.25rem;
+    &:hover{
+        transform: translateY(-5px);
+		cursor: pointer;
+    }
+
+}
+
+.card-component::before {
+    content: "";
+    position: absolute;
+    top: -850px;
+    left: 50%;
+    translate: -50% 0;
+    width: 1000px;
+    height: 1000px;
+}
+
+.card-image {
+    margin-top: 70%;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    border: 4px solid black;
+}
+.card-component-header{
+    z-index: 999;
+}
+
+
+.card-body h3 {
+    font-size: 20px;
+    color: black;
+}
+.card-body p{
+    font-size: 20px;
+    color: black;
+}
+
+
+
+  
+  .card-component::before {
+    content: "";
+    position: absolute;
+    top: -850px;
+    left: 50%;
+    translate: -50% 0;
+    width: 1000px;
+    height: 1000px;
+    border-radius: 0%;
+    background: #00544F;
+  }
+  
+  @media (width >= 500px) {
+    .card-component {
+      margin: 0;
+      width: 360px;
+    }
+  }
+
+  @media (width <= 700px) {
+    .card-component{
+      width: 90vw;
+    }
+  }
+  
+  .card-component .logo {
+    border: none;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    translate: -50% 0;
+    width: 130px;
+    height: 144px;
+  }
+  
+  .card-component > h2 {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0 0 30px;
+    color: #2a3444;
+  }
+
+  
+  .card-buttons{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+  }
+  .card-buttons button {
+     background-color: #00544F;
+     padding: 10px 10px;
+     width: 35vw;
+     color: white;
+     border-radius: 10px;
+     margin: 20px;
+     font-size: 15px;
+  }

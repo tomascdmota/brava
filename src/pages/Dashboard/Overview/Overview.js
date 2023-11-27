@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Overview.scss"
 
-const OverviewContent = ({ userId }) => {
+const OverviewContent = (props) => {
   return (
     <div>
 		<div className="overview">
@@ -81,7 +81,7 @@ const OverviewContent = ({ userId }) => {
 						</div>
 						<dl className="transfer-details">
 							<div>
-								<dt>Miguel Afonso</dt>
+								<dt>{props.username}</dt>
 								<dd>Pessoa Individual</dd>
 							</div>
 							<div>
