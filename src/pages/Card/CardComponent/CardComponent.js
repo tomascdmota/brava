@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SocialIcon } from 'react-social-icons';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'; 
 import vcf from 'vcf';
 import './CardComponent.css';
 
@@ -93,53 +94,52 @@ function CardComponent({
     };
   }, [profile_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
 
+
   const saveToContacts = async () => {
     try {
-      const card = vcf();
-
+      const card = new vcf();
+  
       // Set basic properties
-      card.set('fn', username);
-      card.set('organization', company);
-      card.set('tel', phone, { type: 'work' });
-      card.set('email', email, { type: 'work' });
-
+      card.add('fn', username);
+      card.add('org', company);
+      card.add('tel', phone, { type: 'work' });
+      card.add('email', email, { type: 'work' });
+  
       // Set additional properties
-      card.set('title', title);
-      card.set('url', url);
-
+      card.add('title', title);
+      card.add('url', url);
+  
       // Set social media properties
-      card.set('facebook', facebook);
-      card.set('instagram', instagram);
-      card.set('linkedin', linkedin);
+      card.add('x-socialprofile', facebook, { type: 'Facebook' });
+      card.add('x-socialprofile', instagram, { type: 'Instagram' });
+      card.add('x-socialprofile', linkedin, { type: 'Linkedin' });
+  
+         // Set image as a URL
+    if (image) {
+      // Assuming the content type is 'image/jpeg' for the example
+      const contentType = 'image/jpeg';
 
-      // Set image as a custom property
-      if (image) {
-        // Convert the image data to base64
-        const base64Image = await fetch(image).then((response) => response.blob()).then((blob) => new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result.split(',')[1]);
-          reader.readAsDataURL(blob);
-        }));
-
-        card.set('x-photo', base64Image);
-      }
-
-      // Generate vCard data as a string
-      const vCardData = card.toString('3.0'); // Specify the vCard version, e.g., '3.0' or '4.0'
-
-      // Create a Blob from the vCard data
-      const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
-
-      // Create a data URI from the Blob
-      const blobUrl = URL.createObjectURL(blob);
-
-      // Open a new URL to prompt the user to add the contact
-      window.open(blobUrl);
-    } catch (error) {
-      console.error('Error saving to contacts:', error);
+      // Set the X-URL property with the image URL
+      card.add('x-url', image, { type: `image/${contentType}` });
     }
-  };
 
+    console.log(card.toString());
+
+    // Generate vCard data as a string
+    const vCardData = card.toString();
+
+    // Create a Blob from the vCard data with explicit UTF-8 encoding
+    const blob = new Blob([new TextEncoder().encode(vCardData)], { type: 'text/vcard;charset=utf-8' });
+
+    // Create a data URI from the Blob
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Open a new URL to prompt the user to add the contact
+    window.open(blobUrl);
+  } catch (error) {
+    console.error('Error saving to contacts:', error);
+  }
+};
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
       <div className="card-component-header">
@@ -208,5 +208,6 @@ CardComponent.propTypes = {
   instagram: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 };
+
 
 export default CardComponent;
