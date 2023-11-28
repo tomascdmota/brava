@@ -4,13 +4,12 @@
     align-items: center;
     padding-top: 30px;
     padding-bottom: 50px;
-    height: 100%;
+    height: 100vh;
     justify-content: start;
     background-color: white;
     overflow: hidden;
     position: relative;
     z-index: 3;
-    width: 100%;
     margin: 0 20px;
     border-radius: 1.25rem;
     &:hover{
@@ -31,11 +30,11 @@
 }
 
 .card-image {
-    margin-top: 70%;
+    margin-top: 25%;
     border-radius: 50%;
-    height: 100px;
-    width: 100px;
-    border: 4px solid black;
+    height: 150px;
+    width: 150px;
+    border: 4px solid white;
 }
 .card-component-header{
     z-index: 999;
@@ -52,7 +51,6 @@
 }
 
 
-
   
   .card-component::before {
     content: "";
@@ -63,7 +61,7 @@
     width: 1000px;
     height: 1000px;
     border-radius: 0%;
-    background: #00544F;
+    background: #2274a5;
   }
   
   @media (width >= 500px) {
@@ -75,7 +73,23 @@
 
   @media (width <= 700px) {
     .card-component{
-      width: 90vw;
+      height: 100vh;
+      margin: 0;
+      width: 100vw;
+      margin-top: 0;
+      border: none;
+      border-radius: 0px;
+    }
+    .card-component::before {
+      content: "";
+      position: absolute;
+      top: -850px;
+      left: 50%;
+      translate: -50% 0;
+      width: 1000px;
+      height: 1000px;
+      border-radius: 0%;
+      background: #2274a5;
     }
   }
   
@@ -101,13 +115,52 @@
     width: auto;
     display: flex;
     flex-direction: row;
+    justify-content: center;
   }
   .card-buttons button {
-     background-color: #00544F;
+     background-color: #2274a5;
      padding: 10px 10px;
-     width: 35vw;
+     width: 37vw;
      color: white;
-     border-radius: 10px;
-     margin: 20px;
-     font-size: 15px;
+     border-radius: 5px;
+     border: 0.5px solid black;
+     margin: 10px;
+     font-family: 'chivo';
+     font-weight: 500;
+     letter-spacing: 1px;
+     font-size: 18px;
+  }
+
+
+  .social-icons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px; /* Adjust the gap between icons */
+  margin-top: 10%;
+  justify-content: center; /* Align the icons horizontally to the center */
+  align-items: center; /* Align the icons vertically to the center */
+  
+}
+
+.social-icons svg {
+  height: 80px; /* Adjust the height of the icons */
+  width: 80px; /* Adjust the width of the icons */
+  color: #2274a5;
+  align-content: center;
+  
+
+}
+
+  .card-background {
+    content: "";
+    position: absolute;
+    top: -850px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 1000px;
+    height: 1000px;
+    border-radius: 0%;
+    background-size: cover; /* This property will make the background image cover the entire container */
+    background-position: center;
+    background-repeat: no-repeat;
   }

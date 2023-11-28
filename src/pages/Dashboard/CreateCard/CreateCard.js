@@ -86,10 +86,11 @@ const CreateCard = () => {
       const response = await axios.post("http://192.168.1.155:3306/api/createcard", formDataToSubmit, {
         headers: {
           'Content-Type': 'multipart/form-data',
-        },
+        }, withCredentials: true 
       });
   
       if (response.status === 201 || response.status === 204) {
+        localStorage.removeItem('formData');
         navigate(`/${response.data.userId}/dashboard/cards`);
       } else {
         console.error("Error creating card:", response.data);
