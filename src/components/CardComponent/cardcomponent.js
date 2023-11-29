@@ -19,8 +19,8 @@ function CardComponent({
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
-  const accessKeyId = 'YOUR_ACCESS_KEY'; // Replace with your AWS access key
-  const secretAccessKey = 'YOUR_SECRET_KEY'; // Replace with your AWS secret key
+  const accessKeyId = 'AKIAS74Z5OF3XZBMVMOE'; // Replace with your AWS access key
+  const secretAccessKey = '+6ZXeRRaY97aWqPYCIibAuaBApGMXKR1N/ERKMB2'; // Replace with your AWS secret key
   const region = 'eu-west-2';
   const Bucket = 'brava-bucket';
 

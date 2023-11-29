@@ -1,7 +1,11 @@
 import React from 'react';
 import "./Overview.scss"
+import ContactComponent from './Components/ContactComponent';
+
 
 const OverviewContent = (props) => {
+
+
   return (
     <div>
 		<div className="overview">
@@ -61,87 +65,20 @@ const OverviewContent = (props) => {
 					<p>Services are paid according to the current state of the currency and tariff.</p>
 				</div>
 			</section>
-			<section className="transfer-section">
-				<div className="transfer-section-header">
-					<h2>Últimos Contactos</h2>
-					<div className="filter-options">
-						<p>Filter selected: more than 100 $</p>
-						<button className="icon-button">
-							<i className="ph-funnel"></i>
-						</button>
-						<button className="icon-button">
-							<i className="ph-plus"></i>
-						</button>
-					</div>
+			<section className="contact-section">
+			<div className="contact-section-header">
+				<h2>Últimos Contactos</h2>
+				<div className="filter-options">
+					<p>Filter selected: more than 100 $</p>
+					<button className="icon-button">
+						<i className="ph-funnel"></i>
+					</button>
+					<button className="icon-button">
+						<i className="ph-plus"></i>
+					</button>
 				</div>
-				<div className="transfers">
-					<div className="transfer">
-						<div className="transfer-logo">
-							<img src="" />
-						</div>
-						<dl className="transfer-details">
-							<div>
-								<dt>{props.username}</dt>
-								<dd>Pessoa Individual</dd>
-							</div>
-							<div>
-								<dt>4012</dt>
-								<dd>Last four digits</dd>
-							</div>
-							<div>
-								<dt>28 Oct. 21</dt>
-								<dd>Data do contacto</dd>
-							</div>
-						</dl>
-						<div className="reply">
-							<button>Responder</button> 
-						</div>
-					</div>
-					<div className="transfer">
-						<div className="transfer-logo">
-							<img src="" />
-						</div>
-						<dl className="transfer-details">
-							<div>
-								<dt>Joao Moreira</dt>
-								<dd>Remax Estoril</dd>
-							</div>
-							<div>
-								<dt>5214</dt>
-								<dd>Last four digits</dd>
-							</div>
-							<div>
-								<dt>Data do contacto</dt>
-								<dd>28 jun 2019</dd>
-							</div>
-						</dl>
-						<div className="reply">
-							<button>Responder</button> 
-						</div>
-					</div>
-					<div className="transfer">
-						<div className="transfer-logo">
-							<img src="" />
-						</div>
-						<dl className="transfer-details">
-							<div>
-								<dt>Jose Maria</dt>
-								<dd>Inditex</dd>
-							</div>
-							<div>
-								<dt>2228</dt>
-								<dd>Last four digits</dd>
-							</div>
-							<div>
-								<dt>Data do contacto</dt>
-								<dd>28 jun 2019</dd>
-							</div>
-						</dl>
-						<div className="reply">
-							<button>Responder</button> 
-						</div>
-					</div>
-				</div>
+			</div>
+			<ContactComponent/>
 			</section>
 		</div>
 		<div className="overview-body-sidebar">

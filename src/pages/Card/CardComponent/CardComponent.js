@@ -1,17 +1,16 @@
   import React, { useEffect, useState } from 'react';
   import PropTypes from 'prop-types';
-  import { SocialIcon } from 'react-social-icons';
   import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
   import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
   import vcf from 'vcf';
   import { openDB } from 'idb';
   import unorm from 'unorm';
   import Modal from '../../../components/Modal/Modal';
-  import LinkIcon from '@mui/icons-material/Link';
+  import LinkIcon from '@mui/icons-material/Public';
   import ReviewsIcon from '@mui/icons-material/Reviews';
   import InstagramIcon from '@mui/icons-material/Instagram';
   import FacebookIcon from '@mui/icons-material/Facebook';
-  import NotesIcon from '@mui/icons-material/Notes';
+  import NotesIcon from '@mui/icons-material/Description';
 
   import './CardComponent.css';
 
