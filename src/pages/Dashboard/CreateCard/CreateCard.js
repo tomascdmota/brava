@@ -20,7 +20,8 @@ const CreateCard = () => {
     url: '',
     facebook: '',
     linkedin: '',
-    image: ''
+    image: '',
+    background_image: ''
   });
 
   const navigate = useNavigate();
@@ -35,17 +36,26 @@ const CreateCard = () => {
     }
   }, []);
 
+ 
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setFormData((prevData) => ({
       ...prevData,
-      image: file,
+      profilePicture: file,
+    }));
+  };
+  
+  const handleImageChanges = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      background_image: file,
     }));
   };
 
 
-
-    const handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -79,15 +89,21 @@ const CreateCard = () => {
     formDataToSubmit.append('facebook', formData.facebook);
     formDataToSubmit.append('linkedin', formData.linkedin);
     formDataToSubmit.append('url', formData.url);
-    formDataToSubmit.append('profilePicture', formData.image);
+    formDataToSubmit.append('profilePicture', formData.profilePicture);
+    formDataToSubmit.append('background_image', formData.background_image);
     formDataToSubmit.append('userId', id);
   
     try {
-      const response = await axios.post("http://192.168.1.155:3306/api/createcard", formDataToSubmit, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }, withCredentials: true 
-      });
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_HOST}:3306/api/createcard`,
+        formDataToSubmit,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        }
+      );
   
       if (response.status === 201 || response.status === 204) {
         localStorage.removeItem('formData');
@@ -100,6 +116,10 @@ const CreateCard = () => {
       console.log("Error creating card", err);
     }
   };
+
+
+
+
   return (
     <div className='createcard-container'>
       <Header/>
@@ -194,7 +214,7 @@ const CreateCard = () => {
           <h2 className="fs-title">Profile Picture</h2>
           <h3 className="fs-subtitle">Upload your profile picture</h3>
           <div className="profile-picture-container">
-            <input
+          <input
               type="file"
               name="profilePicture"
               id="profilePictureInput"
@@ -203,6 +223,19 @@ const CreateCard = () => {
               className="file-input"
             />
             <label htmlFor="profilePictureInput" className="file-label">
+              Choose an image
+            </label>
+          </div>
+          <div className="profile-picture-container">
+              <input
+                  type="file"
+                  name="background_image"
+                  id="backgroundImageInput"
+                  accept="image/*"
+                  onChange={handleImageChanges}
+                  className="file-input"
+                />
+            <label htmlFor="backgroundImageInput" className="file-label">
               Choose an image
             </label>
           </div>

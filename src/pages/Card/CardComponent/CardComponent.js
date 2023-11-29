@@ -32,11 +32,10 @@
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [shortenedUrl, setShortenedUrl] = useState('')
-    const accessKeyId = 'AKIAS74Z5OF3XZBMVMOE';
-    const secretAccessKey = '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';
-    const Region = 'eu-west-2';
-    const Bucket = 'brava-bucket';
+    const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
+    const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+    const Region =  process.env.REACT_APP_S3_REGION;
+    const Bucket =  process.env.REACT_APP_BUCKET;
 
     const openModal = () => {
       setIsModalOpen(true);
@@ -99,10 +98,6 @@
         const tx = db.transaction('images');
         const store = tx.objectStore('images');
         const entry = await store.get('profileImage');
-    
-        if (entry) {
-          console.log('Retrieved imageBuffer:', entry.data);
-        }
     
         return entry ? entry.data : null;
       } catch (error) {
@@ -181,7 +176,6 @@
       try {
         const card = new vcf();
         const imageBuffer = await loadImageFromIndexedDB();
-        console.log("Image buffer:", imageBuffer)
     
         if (!imageBuffer) {
           console.error('Image not found in IndexedDB.');
@@ -226,16 +220,8 @@
         // Generate a pre-signed URL for the image
         const imageURL = await generatePresignedURL(imageKey);
     
-        // Check if the image can be fetched and encoded successfully
-        const encodedImage = await fetchAndEncodeImage(imageURL);
-        if (!encodedImage) {
-          console.error('Error fetching and encoding image.');
-          return;
-        }
-
-        console.log("Encoded image",encodedImage)
-        // Set image in vCard
-        card.add('photo', encodedImage, { encoding: 'b', type: 'image/jpeg' });  // Use 'image/png' or 'image/jpeg' based on the actual image type
+        // Set image URL in vCard directly
+        card.add('photo', imageURL);
     
         // Generate vCard data as a string
         const vCardData = card.toString();
@@ -374,7 +360,7 @@
 
     return (
       <div className={`card-component ${loading ? 'loading' : ''}`}  >
-        <div className="card-background"  style={{ backgroundImage: `url(https://cdn.wallpapersafari.com/25/32/pP8ouZ.jpg)` }}> </div>
+        <div className="card-background"  style={{ backgroundImage: `url(${background_image_url})` }}> </div>
         <div className="card-component-header" >
          
           {loading ? (

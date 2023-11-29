@@ -23,7 +23,7 @@ export function Dashboard() {
 	  const fetchUserProfile = async () => {
 		try {
 		  // Assuming you have a userId available, update the URL accordingly
-		  const response = await axios.get(`http://10.11.66.111:3306/api/${userId}/dashboard`,{ withCredentials: true });
+		  const response = await axios.get(`http://${process.env.REACT_APP_HOST}:3306/api/${userId}/dashboard`,{ withCredentials: true });
 		  setUserData(response.data);
 		} catch (error) {
 		  console.log('Error fetching data:', error);

@@ -11,7 +11,7 @@ function Profile() {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:3306/api/${id}/profile`);
+                const response = await axios.get(`http://${process.env.REACT_APP_HOST}:3306/api/${id}/profile`);
                 console.log(response.data)
                 setUserData(response.data);
             } catch(error){

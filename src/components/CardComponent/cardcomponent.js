@@ -11,33 +11,35 @@ function CardComponent({
   company,
   title,
   profile_image_url,
+  background_image_url,
   onLoad,
   facebook,
   linkedin,
   instagram,
   url,
 }) {
-  const [image, setImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const [backgroundImage, setBackgroundImage] = useState(null);
   const [loading, setLoading] = useState(true);
-  const accessKeyId = 'AKIAS74Z5OF3XZBMVMOE'; // Replace with your AWS access key
-  const secretAccessKey = '+6ZXeRRaY97aWqPYCIibAuaBApGMXKR1N/ERKMB2'; // Replace with your AWS secret key
-  const region = 'eu-west-2';
-  const Bucket = 'brava-bucket';
+  const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID; // Replace with your AWS access key
+  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY; // Replace with your AWS secret key
+  const Bucket = process.env.REACT_APP_BUCKET;
+  const Region = process.env.REACT_APP_S3_REGION;
 
   useEffect(() => {
     let isMounted = true;
 
-    const fetchImage = async () => {
+    const fetchImage = async (imageType, imageUrl, setImageCallback) => {
       try {
         const s3Client = new S3({
           credentials: {
             accessKeyId,
             secretAccessKey,
           },
-          region,
+          region: Region,
         });
 
-        const key = new URL(profile_image_url).pathname.replace(/^\//, '');
+        const key = new URL(imageUrl).pathname.replace(/^\//, '');
         const getObjectParams = {
           Bucket,
           Key: encodeURIComponent(key),
@@ -47,11 +49,9 @@ function CardComponent({
         const response = await s3Client.send(command);
 
         if (!isMounted) {
-          // Avoid updating state if the component is unmounted
           return;
         }
 
-        // ReadableStream to Uint8Array
         const chunks = [];
         const streamReader = response.Body.getReader();
 
@@ -69,41 +69,57 @@ function CardComponent({
           chunks.length > 1 ? chunks.reduce((a, b) => [...a, ...b]) : chunks[0];
         const imageBuffer = new Uint8Array(arrayBuffer);
 
-        // Convert Uint8Array to Blob
         const blob = new Blob([imageBuffer], { type: response.ContentType });
 
-        const imageUrl = URL.createObjectURL(blob);
+        const imageObjectURL = URL.createObjectURL(blob);
 
-        setImage(imageUrl);
-        setLoading(false);
-
-        // Callback to notify that the card is loaded
-        if (onLoad) {
-          onLoad();
-        }
+        setImageCallback(imageObjectURL);
       } catch (error) {
-        console.error('Error fetching image:', error);
+        console.error(`Error fetching ${imageType} image:`, error);
       }
     };
 
-    fetchImage();
+    const fetchProfileImage = () => {
+      fetchImage('profile', profile_image_url, setProfileImage);
+    };
+
+    const fetchBackgroundImage = () => {
+      fetchImage('background', background_image_url, setBackgroundImage);
+    };
+
+    const fetchImages = async () => {
+      await Promise.all([fetchProfileImage(), fetchBackgroundImage()]);
+
+      setLoading(false);
+
+      if (onLoad) {
+        onLoad();
+      }
+    };
+
+    fetchImages();
 
     return () => {
-      isMounted = false; // Set isMounted to false when the component is unmounted
+      isMounted = false;
 
-      if (image) {
-        URL.revokeObjectURL(image);
+      if (profileImage) {
+        URL.revokeObjectURL(profileImage);
+      }
+
+      if (backgroundImage) {
+        URL.revokeObjectURL(backgroundImage);
       }
     };
-  }, [profile_image_url, Bucket, region, accessKeyId, secretAccessKey, onLoad]);
+  }, [profile_image_url, background_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
 
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
+       <div className="card-background"  style={{ backgroundImage: `url(${backgroundImage})` }}> </div>
       <div className="card-component-header">
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <img className="card-image" src={image} alt="Profile" />
+          <img className="card-image" src={profileImage} alt="Profile" />
         )}
       </div>
       <div className="card-body">

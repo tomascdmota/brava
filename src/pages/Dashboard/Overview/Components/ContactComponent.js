@@ -10,7 +10,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
         
     <div className="contacts">
         <div className="contact">
-          
+          <PersonOutlineIcon/>
             <dl className="contact-details">
                 <div>
                     <dt>Name</dt>
@@ -19,6 +19,10 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
                 <div>
                     <dt>Email</dt>
                     <dd>{email}</dd>
+                </div>
+                <div>
+                    <dt>Contact Date</dt>
+                    <dd>{contact_date}</dd>
                 </div>
                 <div className='contact-message'>
                     <dt>Message</dt>

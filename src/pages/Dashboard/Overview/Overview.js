@@ -9,11 +9,12 @@ const OverviewContent = () => {
 	const {id:userId} = useParams();
 	const [contactData, setContactData] = useState([]);
 	const [contactCounter, setContactCounter] = useState(0);
+	const host = process.env.REACT_APP_HOST;
 
 
 	useEffect(()=>{
 		const fetchContacts = async () => {
-			await axios.get(`http://10.11.66.111:3306/api/${userId}/dashboard`,{ withCredentials: true 
+			await axios.get(`http://${host}:3306/api/${userId}/dashboard`,{ withCredentials: true 
 			  }).then((res)=> {
 				setContactData(res.data);
 				console.log("Messages:", contactData)
@@ -33,7 +34,7 @@ const OverviewContent = () => {
 		<div className="overview">
 	<div className="overview-body">
 		<div className="overview-body-navigation">
-			<nav className="navigation">
+		{/*	<nav className="navigation">
 				<a href="#">
 					<i className="ph-browsers"></i>
 					<span>Analytics </span>
@@ -55,11 +56,11 @@ const OverviewContent = () => {
 					<span>Sharing</span>
 				</a>
 				
-			</nav>
+  </nav> */	}
 			
 		</div>
 		<div className="overview-body-main-content">
-			<section className="service-section">
+			{/*<section className="service-section">
 				<h2>Este mês</h2>
 				<div className="service-section-header">
 					<div className="search-field">
@@ -86,11 +87,11 @@ const OverviewContent = () => {
 				<div className="service-section-footer">
 					<p>Services are paid according to the current state of the currency and tariff.</p>
 				</div>
-			</section>
+</section> */}	
 			<section className="contact-section">
 			<div className="contact-section-header">
 				<h2>Últimos Contactos</h2>
-				<div className="filter-options">
+				{/*<div className="filter-options">
 					<p>Filter selected: more than 100 $</p>
 					<button className="icon-button">
 						<i className="ph-funnel"></i>
@@ -98,9 +99,9 @@ const OverviewContent = () => {
 					<button className="icon-button">
 						<i className="ph-plus"></i>
 					</button>
-				</div>
+</div> */}
 			</div>
-			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} message={contact.message} />)}
+			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} contact_date={contact.contact_date} message={contact.message} />)}
 
 			
 			</section>
@@ -112,7 +113,7 @@ const OverviewContent = () => {
 				<div className="payment-section-header">
 					
 				</div>
-				<div className="payments">
+				{/*<div className="payments">
 					<div className="payment">
 						<div className="profile-card green">
 							<span>01/22</span>
@@ -164,7 +165,7 @@ const OverviewContent = () => {
 							</div>
 						</div>
 					</div>
-				</div>
+</div>
 				<div className="faq">
 					<p>Most frequently asked questions</p>
 					<div>
@@ -181,6 +182,7 @@ const OverviewContent = () => {
 						<span>More settings</span>
 					</button>
 				</div>
+				*/}
 			</section>
 		</div>
 	</div>

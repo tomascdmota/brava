@@ -79,6 +79,7 @@ a {
 		);
 
 	column-gap: 4rem;
+	justify-content: center;
 	padding-top: 2.5rem;
 
 	@media (max-width: 1200px) {
@@ -89,6 +90,10 @@ a {
 	}
 }
 
+.overview-body-main-content {
+	width: 50vw;
+}
+/*
 .overview-body-navigation {
 	display: flex;
 	flex-direction: column;
@@ -98,6 +103,11 @@ a {
 	@media (max-width: 1200px) {
 		display: none;
 	}
+}
+
+*/
+.overview-body-sidebar {
+	width: auto;
 }
 
 
@@ -521,6 +531,8 @@ a {
 	& > h2 {
 		font-size: 1.5rem;
 	}
+	width: 10vw;
+	margin-top: 10%;
 }
 
 .payment-section-header {
