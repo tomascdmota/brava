@@ -13,7 +13,7 @@ function Cards() {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.155:3306/api/${userId}/cards`,{ withCredentials: true })
+      .get(`http://10.11.66.111:3306/api/${userId}/cards`,{ withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);

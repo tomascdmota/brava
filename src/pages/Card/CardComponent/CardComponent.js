@@ -3,6 +3,7 @@
   import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
   import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
   import vcf from 'vcf';
+  import ImageCompressor from 'image-compressor';
   import { openDB } from 'idb';
   import unorm from 'unorm';
   import Modal from '../../../components/Modal/Modal';
@@ -31,6 +32,7 @@
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [shortenedUrl, setShortenedUrl] = useState('')
     const accessKeyId = 'AKIAS74Z5OF3XZBMVMOE';
     const secretAccessKey = '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';
     const Region = 'eu-west-2';
@@ -45,15 +47,50 @@
     };
 
     const initIndexedDB = async () => {
-      const db = await openDB('brava-db', 1, {
-        upgrade(db) {
-          if (!db.objectStoreNames.contains('images')) {
-            const imagesStore = db.createObjectStore('images', { keyPath: 'key' });
-            imagesStore.createIndex('url', 'url', { unique: true });
-          }
-        },
-      });
-      return db;
+      try {
+        const db = await openDB('brava-db', 1, {
+          upgrade(db) {
+            if (!db.objectStoreNames.contains('images')) {
+              const imagesStore = db.createObjectStore('images', { keyPath: 'key' });
+              imagesStore.createIndex('url', 'url', { unique: true });
+            }
+          },
+        });
+        return db;
+      } catch (error) {
+        console.error('Error initializing IndexedDB:', error);
+        throw error;
+      }
+    };
+
+   
+  
+    const saveImageToIndexedDB = async (imageBlob) => {
+      try {
+        const db = await initIndexedDB();
+        const tx = db.transaction('images', 'readwrite');
+        const store = tx.objectStore('images');
+    
+        // Use a unique key, such as the S3 key, assuming it's unique for each image
+        const key = 'profileImage';
+        
+        // Create an object with a URL (if needed) and the image data
+        const data = {
+          key,
+          url: profile_image_url,  // Add the URL if it's necessary for your use case
+          data: imageBlob,
+        };
+    
+        // Store the data in IndexedDB
+        store.put(data);
+    
+        // Complete the transaction
+        await tx.complete;
+    
+        console.log('Image stored in IndexedDB:', data);
+      } catch (error) {
+        console.error('Error storing image in IndexedDB:', error);
+      }
     };
 
     const loadImageFromIndexedDB = async () => {
@@ -62,6 +99,11 @@
         const tx = db.transaction('images');
         const store = tx.objectStore('images');
         const entry = await store.get('profileImage');
+    
+        if (entry) {
+          console.log('Retrieved imageBuffer:', entry.data);
+        }
+    
         return entry ? entry.data : null;
       } catch (error) {
         console.error('Error loading from IndexedDB:', error);
@@ -91,8 +133,10 @@
         const command = new GetObjectCommand(getObjectParams);
         const response = await s3Client.send(command);
     
-        const blob = new Blob([response.Body], { type: response.ContentType });
+       
     
+        const blob = new Blob([response.Body], { type: response.ContentType });
+        saveImageToIndexedDB(blob);
         // Save the image Blob directly to the state
         setImage(blob);
         setLoading(false);
@@ -131,10 +175,13 @@
       };
     }, [profile_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
 
+
+  
     const saveToContacts = async () => {
       try {
         const card = new vcf();
         const imageBuffer = await loadImageFromIndexedDB();
+        console.log("Image buffer:", imageBuffer)
     
         if (!imageBuffer) {
           console.error('Image not found in IndexedDB.');
@@ -185,7 +232,8 @@
           console.error('Error fetching and encoding image.');
           return;
         }
-    
+
+        console.log("Encoded image",encodedImage)
         // Set image in vCard
         card.add('photo', encodedImage, { encoding: 'b', type: 'image/jpeg' });  // Use 'image/png' or 'image/jpeg' based on the actual image type
     
@@ -219,66 +267,74 @@
         const response = await fetch(imageUrl);
         const imageBlob = await response.blob();
     
-        // Resize and compress the image
-        const resizedAndCompressedBlob = await resizeAndCompressImage(imageBlob, { maxWidth: 200, maxHeight: 200, quality: 0.8 });
+        // Resize and compress the image with a lower quality
+        const resizedAndCompressedBase64 = await resizeAndCompressImage(imageBlob, {
+          maxWidth: 200,
+          maxHeight: 200,
+          quality: 0.5, // Adjust the quality as needed
+        });
     
-        // Convert the resized and compressed image to base64
-        const resizedAndCompressedBuffer = await new Response(resizedAndCompressedBlob).arrayBuffer();
-        const encodedImage = btoa(new Uint8Array(resizedAndCompressedBuffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-    
-        return encodedImage;
+        return resizedAndCompressedBase64;
       } catch (error) {
         console.error('Error fetching, resizing, and encoding image:', error);
         return null;
       }
     };
     
-    const resizeAndCompressImage = (blob, options) => {
-      return new Promise((resolve, reject) => {
+    const resizeAndCompressImage = async (blob, options) => {
+      try {
         const image = new Image();
-        image.onload = () => {
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-    
-          const { maxWidth, maxHeight, quality } = options;
-    
-          let width = image.width;
-          let height = image.height;
-    
-          if (width > height) {
-            if (width > maxWidth) {
-              height *= maxWidth / width;
-              width = maxWidth;
-            }
-          } else {
-            if (height > maxHeight) {
-              width *= maxHeight / height;
-              height = maxHeight;
-            }
-          }
-    
-          canvas.width = width;
-          canvas.height = height;
-    
-          context.drawImage(image, 0, 0, width, height);
-    
-          // Convert the canvas content to a blob
-          canvas.toBlob(
-            (resizedBlob) => {
-              resolve(resizedBlob);
-            },
-            'image/jpeg',
-            quality
-          );
-        };
-    
-        image.onerror = (error) => {
-          reject(error);
-        };
-    
         image.src = URL.createObjectURL(blob);
-      });
+    
+        await new Promise((resolve, reject) => {
+          image.onload = resolve;
+          image.onerror = reject;
+        });
+    
+        const { maxWidth, maxHeight, quality } = options;
+    
+        let width = image.width;
+        let height = image.height;
+    
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+    
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+    
+        // Draw the image on the canvas progressively
+        context.drawImage(image, 0, 0, width, height);
+    
+        // Convert the canvas content to a blob
+        const resizedBlob = await new Promise((resolve) => {
+          canvas.toBlob(resolve, 'image/jpeg', quality);
+        });
+    
+        // Convert the resized blob to base64
+        const resizedBlobBuffer = await new Response(resizedBlob).arrayBuffer();
+        const resizedBlobBase64 = btoa(
+          new Uint8Array(resizedBlobBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+    
+        return resizedBlobBase64;
+      } catch (error) {
+        console.error('Error resizing and compressing image:', error);
+        return null;
+      }
     };
+    
+    
     
     const generatePresignedURL = async (imageKey) => {
       try {

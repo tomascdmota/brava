@@ -3,30 +3,26 @@ import './ContactComponent.scss'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 
- function ContactComponent(props) {
-
-
+ function ContactComponent({user_id, contact_id, name, email, message,contact_date}) {
 
   return (
     <div>
         
     <div className="contacts">
         <div className="contact">
-            <div className="contact-logo">
-                <PersonOutlineIcon/>
-            </div>
+          
             <dl className="contact-details">
                 <div>
                     <dt>Name</dt>
-                    <dd>{props.name}</dd>
+                    <dd>{name}</dd>
                 </div>
                 <div>
                     <dt>Email</dt>
-                    <dd>{props.email}</dd>
+                    <dd>{email}</dd>
                 </div>
-                <div>
+                <div className='contact-message'>
                     <dt>Message</dt>
-                    <dd>{props.message}</dd>
+                    <dd>{message}</dd>
                 </div>
             </dl>
             <div className="reply">

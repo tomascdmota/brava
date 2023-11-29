@@ -23,6 +23,7 @@
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.3.1",
     "idb": "^7.1.1",
+    "image-compressor": "^2.0.3",
     "image-size": "^1.0.2",
     "image-type": "^5.2.0",
     "js-cookie": "^3.0.5",

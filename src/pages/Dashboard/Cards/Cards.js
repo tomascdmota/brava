@@ -14,7 +14,7 @@ function Cards() {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.155:3306/api/${userId}/dashboard/cards`,{ withCredentials: true })
+      .get(`http://10.11.66.111:3306/api/${userId}/dashboard/cards`,{ withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
@@ -35,7 +35,6 @@ function Cards() {
         <h1>My Cards</h1>
         {loading && <div className="spinner-container"><div className="spinner"></div></div>}
         <div className="nav-tiles">
-          {/* ... */}
         </div>
       </div>
     );
