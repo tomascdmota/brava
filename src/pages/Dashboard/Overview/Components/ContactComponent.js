@@ -4,13 +4,19 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 
  function ContactComponent({user_id, contact_id, name, email, message,contact_date}) {
-
+    const isMobile = window.innerWidth <= 1000;
   return (
     <div>
         
     <div className="contacts">
         <div className="contact">
-          <PersonOutlineIcon/>
+        {!isMobile && <PersonOutlineIcon />  }
+        {isMobile && (
+              <div>
+                <dt>Contact Date</dt>
+                <dd>{contact_date}</dd>
+              </div>
+            )}
             <dl className="contact-details">
                 <div>
                     <dt>Name</dt>
@@ -20,13 +26,15 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
                     <dt>Email</dt>
                     <dd>{email}</dd>
                 </div>
-                <div>
-                    <dt>Contact Date</dt>
-                    <dd>{contact_date}</dd>
-                </div>
-                <div className='contact-message'>
-                    <dt>Message</dt>
-                    <dd>{message}</dd>
+                {!isMobile && (
+              <div>
+                <dt>Contact Date</dt>
+                <dd>{contact_date}</dd>
+              </div>
+            )}
+                 <div className={`contact-message ${isMobile ? 'full-width-message' : ''}`}>
+                  <dt>Message</dt>
+                  <dd>{message}</dd>
                 </div>
             </dl>
             <div className="reply">

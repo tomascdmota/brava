@@ -8,6 +8,7 @@ import Cards from './pages/Dashboard/Cards/Cards.js';
 import CreateCard from './pages/Dashboard/CreateCard/CreateCard.js';
 import ProfileCard from './components/ProfileCard.js';
 import Card from './pages/Card/Card.js';
+import Account from './pages/Dashboard/Account/Account.js';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/:id/dashboard/overview' element={<Dashboard/>}/>
         <Route path='/:id/dashboard/cards' element={<Cards/>}/>
         <Route path=':id/dashboard/createcard' element={<CreateCard/>}/>
+        <Route path=':id/dashboard/account' element={<Account/>}/>
         <Route path=':id/cards' element={<ProfileCard/>}/>
         <Route path=':id/cards/:cardId' element={<Card/>}/>
       </Routes>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
+import Cookie from 'js-cookie';
 import './Cards.scss';
 import Header from '../Components/Header';
 import CardComponent from '../../../components/CardComponent/cardcomponent';
@@ -12,6 +13,17 @@ function Cards() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    // Check if the session_token cookie exists
+    const sessionToken = Cookie.get('session_token');
+
+    if (!sessionToken) {
+      // Redirect to the login page if the cookie does not exist
+      navigate('/login');
+    }
+  }, [navigate]);
+  
   useEffect(() => {
     axios
       .get(`http://${process.env.REACT_APP_HOST}:3306/api/${userId}/dashboard/cards`,{ withCredentials: true })
@@ -26,6 +38,8 @@ function Cards() {
         setLoading(false); // Set loading to false regardless of success or failure
       });
   }, [userId]);
+
+
 
   if (userData === null) {
     // Check for userData to be null instead of !userData

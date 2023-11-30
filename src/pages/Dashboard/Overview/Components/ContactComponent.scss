@@ -1,5 +1,15 @@
 .contact-section {
 	margin-top: 2.5rem;
+	@media (width <= 800px) {
+		margin-top: 0;
+	}
+	.gen-leads{
+		@media(max-width:1000px){
+			.contact-counter{
+
+			}
+		}
+	}
 }
 
 .contact-section-header {
@@ -11,21 +21,31 @@
 	h2 {
 		font-size: 1.5rem;
 	}
+	@media (width <= 800px){
+		justify-content: center;
+		padding-top: 0;
+	}
 }
 
 .contacts {
 	display: flex;
 	flex-direction: column;
 	margin-top: 1.5rem;
+	@media(max-width: 800px){
+		align-items: center;
+	}
 }
 
 .contact {
 	display: flex;
 	align-items: center;
-	width: 100%;
+	width: auto;
 	font-size: 0.875rem;
+	background-color: #313131;
+	border-radius: 20px;
+	padding: 10px;
 	@media (max-width: 1000px) {
-		align-items: flex-start;
+		align-items: centert;
 		flex-direction: column;
 	}
 	& + * {
@@ -58,8 +78,11 @@
 	flex: 1;
 	@media (max-width: 1000px) {
 		flex-wrap: wrap;
-		margin-left: 0;
-		margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
 	}
 	div {
 		width: calc(100% / 3 - 1rem);
@@ -84,9 +107,22 @@
 		margin-left: 2rem;
 		padding: 2px;
 	}
-	.contact-message{
-		margin-left: 4rem;
-	}
+	.contact-message {
+    margin-left: 4rem;
+
+    @media (max-width: 1000px) {
+      margin-left: 0;
+      margin-right: 0; /* Reset margin for smaller screens */
+    }
+
+    &.full-width-message {
+      @media (max-width: 1000px) {
+        margin-left: -4rem; /* Compensate for the margin applied earlier */
+        margin-right: -4rem; /* Compensate for the margin applied earlier */
+        width: calc(100% + 8rem); /* 4rem margin on each side */
+      }
+    }
+  }
 }
 
 .contact-counter {
@@ -94,5 +130,16 @@
 	border-radius: 10px;
 	padding: 10px;
 	background-color: #00544F;
+	@media (max-width: 1000px){
+		width: 50%;
+	}
+}
+.gen-leads{
+	@media(max-width: 1000px) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 }
 

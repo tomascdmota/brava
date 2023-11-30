@@ -36,7 +36,6 @@ const Login = () => {
         password: password,
       });
 
-      console.log('Server response:', response.data);
       const { token } = response.data;
       const { userId } = decodeToken(token);
 

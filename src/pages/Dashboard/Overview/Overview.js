@@ -1,23 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate} from 'react-router';
 import "./Overview.scss"
 import ContactComponent from './Components/ContactComponent';
 import axios from 'axios';
-
+import Cookie from 'js-cookie';
 
 const OverviewContent = () => {
 	const {id:userId} = useParams();
 	const [contactData, setContactData] = useState([]);
 	const [contactCounter, setContactCounter] = useState(0);
 	const host = process.env.REACT_APP_HOST;
-
+	const isMobile = window.innerWidth <= 1000;
+	const navigate = useNavigate()
+	
 
 	useEffect(()=>{
 		const fetchContacts = async () => {
 			await axios.get(`http://${host}:3306/api/${userId}/dashboard`,{ withCredentials: true 
 			  }).then((res)=> {
 				setContactData(res.data);
-				console.log("Messages:", contactData)
 				setContactCounter(res.data.length);
 			  }).catch((error)=> {
 				console.log(error)
@@ -25,7 +26,16 @@ const OverviewContent = () => {
 		}
 		fetchContacts()
 	}, [userId])
+
+	useEffect(() => {
+		// Check if the session_token cookie exists
+		const sessionToken = Cookie.get('session_token');
 	
+		if (!sessionToken) {
+		  // Redirect to the login page if the cookie does not exist
+		  navigate('/login');
+		}
+	  }, [navigate]);
 
 	
 
@@ -57,6 +67,7 @@ const OverviewContent = () => {
 				</a>
 				
   </nav> */	}
+   			
 			
 		</div>
 		<div className="overview-body-main-content">
@@ -89,6 +100,12 @@ const OverviewContent = () => {
 				</div>
 </section> */}	
 			<section className="contact-section">
+			{isMobile && (
+              <div className='gen-leads'>
+                <h2 >GENERATED LEADS: </h2>
+				<div className='contact-counter'>{contactCounter}</div>
+              </div>
+            )}
 			<div className="contact-section-header">
 				<h2>Últimos Contactos</h2>
 				{/*<div className="filter-options">
@@ -108,8 +125,8 @@ const OverviewContent = () => {
 		</div>
 		<div className="overview-body-sidebar">
 			<section className="payment-section">
-				<h2>GENERATED LEADS: </h2>
-				<div className='contact-counter'>{contactCounter}</div>
+			{!isMobile && (<div><h2>GENERATED LEADS: </h2>
+				<div className='contact-counter'>{contactCounter}</div></div>)}
 				<div className="payment-section-header">
 					
 				</div>

@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import "./CreateCard.css";
 import { CiGlobe } from "react-icons/ci";
 import axios from 'axios';
 import Header from '../Components/Header'
+import Cookie from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { useNavigate } from 'react-router';
+
+
 
 const CreateCard = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -26,6 +28,16 @@ const CreateCard = () => {
 
   const navigate = useNavigate();
   const { id: id } = useParams();
+
+  useEffect(() => {
+		// Check if the session_token cookie exists
+		const sessionToken = Cookie.get('session_token');
+	
+		if (!sessionToken) {
+		  // Redirect to the login page if the cookie does not exist
+		  navigate('/login');
+		}
+	  }, [navigate]);
 
 
   useEffect(() => {
