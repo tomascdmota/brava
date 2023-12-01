@@ -16,7 +16,7 @@ const OverviewContent = () => {
 
 	useEffect(()=>{
 		const fetchContacts = async () => {
-			await axios.get(`http://${host}:3306/api/${userId}/dashboard`,{ withCredentials: true 
+			await axios.get(`http://${host}:4001/api/${userId}/dashboard`,{ withCredentials: true 
 			  }).then((res)=> {
 				setContactData(res.data);
 				setContactCounter(res.data.length);

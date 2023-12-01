@@ -11,7 +11,7 @@ function ProfileCard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cardResponse = await axios.get(`http://localhost:3306/api/${userId}/cards`);
+        const cardResponse = await axios.get(`http://${process.env.REACT_APP_HOST}:4001/api/${userId}/cards`);
         const cardData = cardResponse.data;
         
         console.log("Card Data:", cardData); // Add this line
