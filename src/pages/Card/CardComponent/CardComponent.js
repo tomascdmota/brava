@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import vcf from 'vcf';
-import ImageCompressor from 'image-compressor';
 import { openDB } from 'idb';
 import unorm from 'unorm';
 import Modal from '../../../components/Modal/Modal';
@@ -32,10 +31,11 @@ function CardComponent({
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
-  const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
-  const Region =  process.env.REACT_APP_S3_REGION;
-  const Bucket =  process.env.REACT_APP_BUCKET;
+  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+  const Region = process.env.REACT_APP_S3_REGION;
+  const Bucket = process.env.REACT_APP_BUCKET;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -62,30 +62,23 @@ function CardComponent({
     }
   };
 
- 
-
   const saveImageToIndexedDB = async (imageBlob) => {
     try {
       const db = await initIndexedDB();
       const tx = db.transaction('images', 'readwrite');
       const store = tx.objectStore('images');
-  
-      // Use a unique key, such as the S3 key, assuming it's unique for each image
+
       const key = 'profileImage';
-      
-      // Create an object with a URL (if needed) and the image data
       const data = {
         key,
-        url: profile_image_url,  // Add the URL if it's necessary for your use case
+        url: profile_image_url,
         data: imageBlob,
       };
-  
-      // Store the data in IndexedDB
+
       store.put(data);
-  
-      // Complete the transaction
+
       await tx.complete;
-  
+
       console.log('Image stored in IndexedDB:', data);
     } catch (error) {
       console.error('Error storing image in IndexedDB:', error);
@@ -98,7 +91,7 @@ function CardComponent({
       const tx = db.transaction('images');
       const store = tx.objectStore('images');
       const entry = await store.get('profileImage');
-  
+
       return entry ? entry.data : null;
     } catch (error) {
       console.error('Error loading from IndexedDB:', error);
@@ -109,7 +102,6 @@ function CardComponent({
   const fetchImage = async () => {
     try {
       if (!profile_image_url || !background_image_url) {
-        // Skip fetching image if profile URL or background image is null
         setLoading(false);
         return;
       }
@@ -153,7 +145,6 @@ function CardComponent({
 
     const loadImageAndSetState = async () => {
       if (!profile_image_url || !background_image_url) {
-        // Skip loading image if profile URL or background image is null
         setLoading(false);
 
         if (onLoad) {
@@ -183,10 +174,163 @@ function CardComponent({
         URL.revokeObjectURL(image);
       }
     };
-  }, [profile_image_url, background_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
+  }, [profile_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
 
   const saveToContacts = async () => {
-    // ... (unchanged)
+    try {
+      const card = new vcf();
+      const imageBuffer = await loadImageFromIndexedDB();
+  
+      if (!imageBuffer) {
+        console.warn('Image not found in IndexedDB.');
+        // Continue with other properties, even if the image is not found
+      }
+  
+      const removeDiacritics = (str) => unorm.nfkd(str).replace(/[\u0300-\u036f]/g, '');
+      const decodedUsername = removeDiacritics(decodeURIComponent(username));
+  
+      card.add('n', [decodedUsername]);
+      card.add('fn', [decodedUsername]);
+      card.add('org', company);
+      card.add('tel', phone);
+      card.add('email', email);
+  
+      card.add('title', title);
+      card.add('url', url || ''); // Provide a default empty string if url is null or undefined
+  
+      if (facebook) {
+        card.add('x-socialprofile', facebook, { type: 'Facebook' });
+      }
+      if (instagram) {
+        card.add('x-socialprofile', instagram, { type: 'Instagram' });
+      }
+      if (linkedin) {
+        card.add('x-socialprofile', linkedin, { type: 'Linkedin' });
+      }
+  
+      const urlObject = profile_image_url ? new URL(profile_image_url) : null;
+      const imageKey = urlObject ? decodeURIComponent(urlObject.pathname.replace(/^\//, '')) : null;
+  
+      const imageURL = imageKey ? await generatePresignedURL(imageKey) : null;
+  
+      if (imageURL) {
+        card.add('photo', imageURL);
+      }
+  
+      const vCardData = card.toString('3.0');
+      console.log(vCardData);
+  
+      const vcard_blob = new Blob([new TextEncoder().encode(vCardData)], {
+        type: 'text/vcard;charset=utf-8',
+      });
+  
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(vcard_blob);
+      downloadLink.download = 'contact.vcf';
+  
+      downloadLink.click();
+  
+      URL.revokeObjectURL(downloadLink.href);
+    } catch (error) {
+      console.error('Error saving to contacts:', error);
+    }
+  };
+  
+
+  const fetchAndEncodeImage = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl);
+      const imageBlob = await response.blob();
+
+      const resizedAndCompressedBase64 = await resizeAndCompressImage(imageBlob, {
+        maxWidth: 200,
+        maxHeight: 200,
+        quality: 0.8,
+      });
+
+      return resizedAndCompressedBase64;
+    } catch (error) {
+      console.error('Error fetching, resizing, and encoding image:', error);
+      return null;
+    }
+  };
+
+  const resizeAndCompressImage = async (blob, options) => {
+    try {
+      const image = new Image();
+      image.src = URL.createObjectURL(blob);
+
+      await new Promise((resolve, reject) => {
+        image.onload = resolve;
+        image.onerror = reject;
+      });
+
+      const { maxWidth, maxHeight, quality } = options;
+
+      let width = image.width;
+      let height = image.height;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext('2d');
+
+      context.drawImage(image, 0, 0, width, height);
+
+      const resizedBlob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, 'image/jpeg', quality);
+      });
+
+      const resizedBlobBuffer = await new Response(resizedBlob).arrayBuffer();
+      const resizedBlobBase64 = btoa(
+        new Uint8Array(resizedBlobBuffer).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+
+      return resizedBlobBase64;
+    } catch (error) {
+      console.error('Error resizing and compressing image:', error);
+      return null;
+    }
+  };
+
+  const generatePresignedURL = async (imageKey) => {
+    try {
+      const s3Client = new S3({
+        region: 'eu-west-2',
+        credentials: {
+          accessKeyId: accessKeyId,
+          secretAccessKey: secretAccessKey,
+        },
+      });
+
+      const params = {
+        Bucket: 'brava-bucket',
+        Key: imageKey,
+        Expires: 900,
+      };
+
+      const signedURL = getSignedUrl(s3Client, new GetObjectCommand(params));
+      console.log(signedURL);
+      return signedURL;
+    } catch (error) {
+      console.error('Error generating pre-signed URL:', error);
+      throw error;
+    }
   };
 
   const handleGetInTouch = () => {
@@ -196,6 +340,7 @@ function CardComponent({
       console.error('Error opening modal:', error);
     }
   };
+
 
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
@@ -235,7 +380,7 @@ CardComponent.propTypes = {
   email: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
-  profile_image_url: PropTypes.string.isRequired,
+  profile_image_url: PropTypes.string,
   onLoad: PropTypes.func,
   card_id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
