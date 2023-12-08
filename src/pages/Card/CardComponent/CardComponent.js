@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import vcf from 'vcf';
-import ImageCompressor from 'image-compressor';
 import { openDB } from 'idb';
 import unorm from 'unorm';
 import Modal from '../../../components/Modal/Modal';
-import LinkIcon from '@mui/icons-material/Public';
-import ReviewsIcon from '@mui/icons-material/Reviews';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import NotesIcon from '@mui/icons-material/Description';
+import FacebookLogo from './Logos/facebook.png';
+import InstagramLogo from './Logos/instagram.svg';
+import LinkedInLogo from './Logos/linkedin.png';
+import NotesLogo from './Logos/notes.png';
+import GoogleReviewsLogo from './Logos/googlereviews.png';
+import UrlLogo from './Logos/url.png';
+import YouTubeLogo from "./Logos/youtube.svg";
 
 import './CardComponent.css';
 
@@ -27,15 +28,17 @@ function CardComponent({
   facebook,
   linkedin,
   instagram,
+  youtube,
+  google_reviews,
   url,
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
-  const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
-  const Region =  process.env.REACT_APP_S3_REGION;
-  const Bucket =  process.env.REACT_APP_BUCKET;
+  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+  const Region = process.env.REACT_APP_S3_REGION;
+  const Bucket = process.env.REACT_APP_BUCKET;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -62,30 +65,28 @@ function CardComponent({
     }
   };
 
- 
-
   const saveImageToIndexedDB = async (imageBlob) => {
     try {
       const db = await initIndexedDB();
       const tx = db.transaction('images', 'readwrite');
       const store = tx.objectStore('images');
-  
+
       // Use a unique key, such as the S3 key, assuming it's unique for each image
       const key = 'profileImage';
-      
+
       // Create an object with a URL (if needed) and the image data
       const data = {
         key,
-        url: profile_image_url,  // Add the URL if it's necessary for your use case
+        url: profile_image_url, // Add the URL if it's necessary for your use case
         data: imageBlob,
       };
-  
+
       // Store the data in IndexedDB
       store.put(data);
-  
+
       // Complete the transaction
       await tx.complete;
-  
+
       console.log('Image stored in IndexedDB:', data);
     } catch (error) {
       console.error('Error storing image in IndexedDB:', error);
@@ -98,7 +99,7 @@ function CardComponent({
       const tx = db.transaction('images');
       const store = tx.objectStore('images');
       const entry = await store.get('profileImage');
-  
+
       return entry ? entry.data : null;
     } catch (error) {
       console.error('Error loading from IndexedDB:', error);
@@ -177,38 +178,36 @@ function CardComponent({
     };
   }, [profile_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
 
-
-
   const saveToContacts = async () => {
     try {
       const card = new vcf();
       const imageBuffer = await loadImageFromIndexedDB();
-  
+
       if (!imageBuffer) {
         console.error('Image not found in IndexedDB.');
         return;
       }
-  
+
       // Set basic properties
-  
+
       // Manually encode special characters in the names
       const removeDiacritics = (str) => unorm.nfkd(str).replace(/[\u0300-\u036f]/g, '');
       const decodedUsername = removeDiacritics(decodeURIComponent(username));
-  
+
       // Set structured name with properly encoded values
       card.add('n', [decodedUsername]);
-  
+
       // Set formatted name with the full, properly encoded name
       card.add('fn', [decodedUsername]);
-  
+
       card.add('org', company);
       card.add('tel', phone);
       card.add('email', email);
-  
+
       // Set additional properties
       card.add('title', title);
       card.add('url', url);
-  
+
       // Set social media properties
       if (facebook) {
         card.add('x-socialprofile', facebook, { type: 'Facebook' });
@@ -219,76 +218,88 @@ function CardComponent({
       if (linkedin) {
         card.add('x-socialprofile', linkedin, { type: 'Linkedin' });
       }
-  
+      if (youtube) {
+        card.add('x-socialprofile', youtube, { type: 'Youtube' });
+      }
+      if (google_reviews) {
+        card.add('x-socialprofile', google_reviews, { type: 'Google' });
+      }
+      if (url) {
+        card.add('x-socialprofile', url, { type: 'Url' });
+      }
+
       // Extract the S3 key from the profile_image_url
       const urlObject = new URL(profile_image_url);
+    
+      
       const imageKey = decodeURIComponent(urlObject.pathname.replace(/^\//, ''));
-  
+
       // Generate a pre-signed URL for the image
       const imageURL = await generatePresignedURL(imageKey);
-  
+
       // Set image URL in vCard directly
       card.add('photo', imageURL);
-  
+
       // Generate vCard data as a string
       const vCardData = card.toString();
       console.log(vCardData);
-  
+
       // Create a Blob from the vCard data with explicit UTF-8 encoding
-      const vcard_blob = new Blob([new TextEncoder().encode(vCardData)], {
-        type: 'text/vcard;charset=utf-8',
-      });
-  
-      // Open a new URL to prompt the user to add the contact
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(vcard_blob);
-      downloadLink.download = 'contact.vcf';
-  
-      // Trigger a click event to simulate a download prompt
-      downloadLink.click();
-  
-      // Release the object URLs
-      URL.revokeObjectURL(downloadLink.href);
+      // Create a Blob with explicit UTF-8 encoding
+const blob = new Blob([new TextEncoder().encode(vCardData)], {
+  type: 'text/vcard;charset=utf-8',
+});
+
+// Trigger a click event to simulate a download prompt
+const downloadLink = document.createElement('a');
+downloadLink.href = URL.createObjectURL(blob);
+downloadLink.download = 'contact.vcf';
+document.body.appendChild(downloadLink);
+downloadLink.click();
+document.body.removeChild(downloadLink);
+
+// Release the object URL
+URL.revokeObjectURL(downloadLink.href);
     } catch (error) {
       console.error('Error saving to contacts:', error);
     }
   };
-  
+
   // Function to fetch and encode the image
   const fetchAndEncodeImage = async (imageUrl) => {
     try {
       const response = await fetch(imageUrl);
       const imageBlob = await response.blob();
-  
+
       // Resize and compress the image with a lower quality
       const resizedAndCompressedBase64 = await resizeAndCompressImage(imageBlob, {
         maxWidth: 200,
         maxHeight: 200,
         quality: 0.8, // Adjust the quality as needed
       });
-  
+
       return resizedAndCompressedBase64;
     } catch (error) {
       console.error('Error fetching, resizing, and encoding image:', error);
       return null;
     }
   };
-  
+
   const resizeAndCompressImage = async (blob, options) => {
     try {
       const image = new Image();
       image.src = URL.createObjectURL(blob);
-  
+
       await new Promise((resolve, reject) => {
         image.onload = resolve;
         image.onerror = reject;
       });
-  
+
       const { maxWidth, maxHeight, quality } = options;
-  
+
       let width = image.width;
       let height = image.height;
-  
+
       // Resize the image while maintaining its aspect ratio
       if (width > height) {
         if (width > maxWidth) {
@@ -301,36 +312,41 @@ function CardComponent({
           height = maxHeight;
         }
       }
-  
+
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
       const context = canvas.getContext('2d');
-  
+
       // Draw the resized image on the canvas
       context.drawImage(image, 0, 0, width, height);
-  
+
       // Convert the canvas content to a Blob
       const resizedBlob = await new Promise((resolve) => {
         canvas.toBlob(resolve, 'image/jpeg', quality);
       });
-  
+
       // Convert the resized Blob to base64
       const resizedBlobBuffer = await new Response(resizedBlob).arrayBuffer();
       const resizedBlobBase64 = btoa(
         new Uint8Array(resizedBlobBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
       );
-  
+
       return resizedBlobBase64;
     } catch (error) {
       console.error('Error resizing and compressing image:', error);
       return null;
     }
   };
-  
-  
+
   const generatePresignedURL = async (imageKey) => {
     try {
+      // If there is no profile_image_url, return a default placeholder URL
+      if (!profile_image_url) {
+        // Replace 'https://placekitten.com/200/200' with your desired placeholder URL
+        return 'https://placekitten.com/200/200';
+      }
+  
       const s3Client = new S3({
         region: 'eu-west-2',
         credentials: {
@@ -348,27 +364,12 @@ function CardComponent({
       // Generate a pre-signed URL
       const signedURL = await getSignedUrl(s3Client, new GetObjectCommand(params));
   
-      // Fetch the image to get the base64-encoded representation
-      const response = await fetch(signedURL);
-      const imageBlob = await response.blob();
-  
-      // Convert the Blob to base64 using FileReader
-      const base64EncodedImage = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result.split(',')[1]);
-        };
-        reader.readAsDataURL(imageBlob);
-      });
-  
-      return base64EncodedImage;
+      return signedURL;
     } catch (error) {
       console.error('Error generating pre-signed URL:', error);
       throw error;
     }
   };
-
-
 
   const handleGetInTouch = () => {
     try {
@@ -380,38 +381,38 @@ function CardComponent({
   };
 
   return (
-    <div className={`card-component ${loading ? 'loading' : ''}`}  >
-      <div className="card-background"  style={{ backgroundImage: `url(${background_image_url})` }}> </div>
-      <div className="card-component-header" >
-       
+    <div className={`card-component ${loading ? 'loading' : ''}`}>
+      <div className="card-background" style={{ backgroundImage: `url(${background_image_url})` }}></div>
+      <div className="card-component-header">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-          <img className="card-image" src={profile_image_url} alt="Profile" />
-        </>
+            {profile_image_url && <img className="card-image" src={profile_image_url} alt="Profile" />}
+          </>
         )}
       </div>
       <div className="card-body">
         <h3>{company}</h3>
         <p>{title}</p>
-        <div className='card-buttons'>
+        <div className="card-buttons">
           <button onClick={saveToContacts}>Save</button>
           <button onClick={handleGetInTouch}>Get in touch</button>
         </div>
-        <div className='social-icons'>
-        <a href={url}><LinkIcon  focusable/></a>
-        <a href={url}><ReviewsIcon href=""focusable /></a>
-        <a href={url}><InstagramIcon href={instagram}focusable/></a>
-        <a href={url}><FacebookIcon href={facebook} focusable/></a>
-        <a href={url}><NotesIcon focusable/></a>
-        </div>
+        <div className="social-icons">
+         <a href={url}><img src={UrlLogo} alt="Url" focusable /></a>
+        <a href={google_reviews}><img src={GoogleReviewsLogo} alt="Instagram" focusable /></a>
+        {instagram && <a href={instagram}><img src={InstagramLogo} alt="Instagram" focusable /></a>}
+        {facebook && <a href={facebook}><img src={FacebookLogo} alt="Facebook" focusable /></a>}
+        {linkedin && <a href={linkedin}><img src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
+        <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>
+        <a href={google_reviews}><img src={NotesLogo} alt="Notes" focusable /></a>
+      </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }
-
 
 CardComponent.propTypes = {
   email: PropTypes.string.isRequired,

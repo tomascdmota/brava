@@ -147,6 +147,17 @@
   
 }
 
+.social-icons > a {
+  display: flex; /* Ensure the link behaves as a flex container */
+  justify-content: center; /* Center the content horizontally within each link */
+  align-items: center; /* Center the content vertically within each link */
+}
+
+.social-icons img {
+  height: 80px;
+  width: 80px;
+}
+
 .social-icons svg {
   height: 80px; /* Adjust the height of the icons */
   width: 80px; /* Adjust the width of the icons */
