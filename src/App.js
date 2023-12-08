@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import SignUp from "./pages/Signup/signup.js"
 import Profile from './pages/Profile/profile';
 import Login from './pages/Login/login';
@@ -15,6 +15,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
+      <Route
+        path="/"
+        element={<Navigate to="/login" replace />}
+    />
         <Route path="/signup" element={<SignUp/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/:id/profile" element={<Profile />} />
