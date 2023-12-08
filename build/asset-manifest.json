@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b16ef207.css",
+    "main.js": "/static/js/main.abf37a09.js",
+    "static/js/787.0ed150d9.chunk.js": "/static/js/787.0ed150d9.chunk.js",
+    "static/media/Chivo-Italic-VariableFont_wght.ttf": "/static/media/Chivo-Italic-VariableFont_wght.b08b2bba23b9a72c232d.ttf",
+    "static/media/url.png": "/static/media/url.3c3937cd24e8f4cfb13b.png",
+    "static/media/googlereview.png": "/static/media/googlereview.a0998f3f7fc14a058324.png",
+    "static/media/facebook.png": "/static/media/facebook.72bcbac3148288b18f6a.png",
+    "static/media/linkedin.png": "/static/media/linkedin.68ac41e1459436bfd38f.png",
+    "static/media/instagram.svg": "/static/media/instagram.91084741d108d56af3316af30168910a.svg",
+    "index.html": "/index.html",
+    "static/media/youtube.svg": "/static/media/youtube.0365909a13b3f4a04c8189245b91551b.svg",
+    "main.b16ef207.css.map": "/static/css/main.b16ef207.css.map",
+    "main.abf37a09.js.map": "/static/js/main.abf37a09.js.map",
+    "787.0ed150d9.chunk.js.map": "/static/js/787.0ed150d9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b16ef207.css",
+    "static/js/main.abf37a09.js"
+  ]
+}
