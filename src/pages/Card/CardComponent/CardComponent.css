@@ -139,8 +139,8 @@
 
   .social-icons {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px; /* Adjust the gap between icons */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px; /* Adjust the gap between icons */
   margin-top: 10%;
   justify-content: center; /* Align the icons horizontally to the center */
   align-items: center; /* Align the icons vertically to the center */
@@ -154,8 +154,8 @@
 }
 
 .social-icons img {
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
 }
 
 .social-icons svg {

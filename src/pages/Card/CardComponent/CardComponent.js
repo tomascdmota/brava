@@ -10,7 +10,7 @@ import FacebookLogo from './Logos/facebook.png';
 import InstagramLogo from './Logos/instagram.svg';
 import LinkedInLogo from './Logos/linkedin.png';
 import NotesLogo from './Logos/notes.png';
-import GoogleReviewsLogo from './Logos/googlereviews.png';
+import GoogleReviewsLogo from './Logos/googlereview.png';
 import UrlLogo from './Logos/url.png';
 import YouTubeLogo from "./Logos/youtube.svg";
 
@@ -30,6 +30,7 @@ function CardComponent({
   instagram,
   youtube,
   google_reviews,
+  notes,
   url,
 }) {
   const [image, setImage] = useState(null);
@@ -224,8 +225,8 @@ function CardComponent({
       if (google_reviews) {
         card.add('x-socialprofile', google_reviews, { type: 'Google' });
       }
-      if (url) {
-        card.add('x-socialprofile', url, { type: 'Url' });
+      if(notes) {
+        card.add('')
       }
 
       // Extract the S3 key from the profile_image_url
@@ -416,7 +417,7 @@ function CardComponent({
           {facebook && <a href={facebook}><img src={FacebookLogo} alt="Facebook" focusable /></a>}
           {linkedin && <a href={linkedin}><img src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
           <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>
-          <a href={google_reviews}><img src={NotesLogo} alt="Notes" focusable /></a>
+          <a  href={notes}><img style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
