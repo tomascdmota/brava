@@ -194,7 +194,7 @@ function CardComponent({
       // Manually encode special characters in the names
       const removeDiacritics = (str) => unorm.nfkd(str).replace(/[\u0300-\u036f]/g, '');
       const decodedUsername = removeDiacritics(decodeURIComponent(username));
-
+      const decodedTitle = removeDiacritics(decodeURI(title))
       // Set structured name with properly encoded values
       card.add('n', [decodedUsername]);
 
@@ -206,7 +206,12 @@ function CardComponent({
       card.add('email', email);
 
       // Set additional properties
-      card.add('title', title);
+    
+
+      // ...
+
+    
+      card.add('title', decodedTitle);
       card.add('url', url);
 
       // Set social media properties
@@ -287,50 +292,53 @@ function CardComponent({
     try {
       const image = new Image();
       image.src = URL.createObjectURL(blob);
-
+  
       await new Promise((resolve, reject) => {
         image.onload = resolve;
         image.onerror = reject;
       });
-
-      const { maxWidth, maxHeight, quality } = options;
-
+  
+      const { maxWidth, maxHeight, quality, maxFileSize } = options;
+  
+      // Calculate new dimensions while maintaining the aspect ratio
       let width = image.width;
       let height = image.height;
-
-      // Resize the image while maintaining its aspect ratio
-      if (width > height) {
-        if (width > maxWidth) {
-          height *= maxWidth / width;
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width *= maxHeight / height;
-          height = maxHeight;
-        }
+  
+      if (width > maxWidth) {
+        height *= maxWidth / width;
+        width = maxWidth;
       }
-
+  
+      if (height > maxHeight) {
+        width *= maxHeight / height;
+        height = maxHeight;
+      }
+  
+      // Create a new canvas with the final dimensions
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
       const context = canvas.getContext('2d');
-
+  
       // Draw the resized image on the canvas
       context.drawImage(image, 0, 0, width, height);
-
-      // Convert the canvas content to a Blob
+  
+      // Convert the canvas content to a Blob with additional compression
       const resizedBlob = await new Promise((resolve) => {
         canvas.toBlob(resolve, 'image/jpeg', quality);
       });
-
-      // Convert the resized Blob to base64
-      const resizedBlobBuffer = await new Response(resizedBlob).arrayBuffer();
-      const resizedBlobBase64 = btoa(
-        new Uint8Array(resizedBlobBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
-
-      return resizedBlobBase64;
+  
+      // Check if the file size is within the specified limit
+      if (resizedBlob.size > maxFileSize) {
+        return resizeAndCompressImage(resizedBlob, {
+          maxWidth,
+          maxHeight,
+          quality: quality - 0.1, // Adjust compression quality
+          maxFileSize,
+        });
+      }
+  
+      return resizedBlob;
     } catch (error) {
       console.error('Error resizing and compressing image:', error);
       return null;
