@@ -4,7 +4,7 @@
     align-items: center;
     padding-top: 30px;
     padding-bottom: 50px;
-    height: 100vh;
+    height: 100%;
     justify-content: start;
     background-color: white;
     overflow: hidden;
@@ -120,7 +120,7 @@
   .card-buttons button {
      background-color: #2274a5;
      padding: 10px 10px;
-     width: 37vw;
+     width: 100%;
      color: white;
      border-radius: 5px;
      border: 0.5px solid black;
@@ -131,6 +131,11 @@
      font-size: 18px;
   }
 
+@media (max-width: 1000px){
+  .card-buttons button{
+    width: 37vw;
+  }
+}
 
   .social-icons {
   display: grid;

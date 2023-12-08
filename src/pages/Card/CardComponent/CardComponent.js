@@ -108,6 +108,15 @@ function CardComponent({
 
   const fetchImage = async () => {
     try {
+      // If there is no profile_image_url, skip fetching image
+      if (!profile_image_url) {
+        setLoading(false);
+        if (onLoad) {
+          onLoad();
+        }
+        return;
+      }
+  
       const s3Client = new S3({
         credentials: {
           accessKeyId,
@@ -127,8 +136,6 @@ function CardComponent({
   
       const command = new GetObjectCommand(getObjectParams);
       const response = await s3Client.send(command);
-  
-     
   
       const blob = new Blob([response.Body], { type: response.ContentType });
       saveImageToIndexedDB(blob);
