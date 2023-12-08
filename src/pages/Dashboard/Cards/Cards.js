@@ -46,7 +46,6 @@ function Cards() {
     return (
       <div className="cards-container">
         <Header />
-        <h1>My Cards</h1>
         {loading && <div className="spinner-container"><div className="spinner"></div></div>}
         <div className="nav-tiles">
         </div>
@@ -57,7 +56,6 @@ function Cards() {
   return (
     <div className="cards-container">
       <Header />
-      <h1 className='title'>My Cards</h1>
       {loading && <div className="spinner-container"><div className="spinner"></div></div>}
       <div className="nav-tiles">
         <div className="tiles">
