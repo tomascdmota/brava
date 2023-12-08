@@ -117,7 +117,7 @@ function CardComponent({
         }
         return;
       }
-  
+
       const s3Client = new S3({
         credentials: {
           accessKeyId,
@@ -125,25 +125,25 @@ function CardComponent({
         },
         region: Region,
       });
-  
+
       // Parse the profile_image_url to extract the S3 key
       const urlObject = new URL(profile_image_url);
       const key = decodeURIComponent(urlObject.pathname.replace(/^\//, ''));
-  
+
       const getObjectParams = {
         Bucket,
         Key: key,
       };
-  
+
       const command = new GetObjectCommand(getObjectParams);
       const response = await s3Client.send(command);
-  
+
       const blob = new Blob([response.Body], { type: response.ContentType });
       saveImageToIndexedDB(blob);
       // Save the image Blob directly to the state
       setImage(blob);
       setLoading(false);
-  
+
       if (onLoad) {
         onLoad();
       }
@@ -230,8 +230,6 @@ function CardComponent({
 
       // Extract the S3 key from the profile_image_url
       const urlObject = new URL(profile_image_url);
-    
-      
       const imageKey = decodeURIComponent(urlObject.pathname.replace(/^\//, ''));
 
       // Generate a pre-signed URL for the image
@@ -245,21 +243,20 @@ function CardComponent({
       console.log(vCardData);
 
       // Create a Blob from the vCard data with explicit UTF-8 encoding
-      // Create a Blob with explicit UTF-8 encoding
-const blob = new Blob([new TextEncoder().encode(vCardData)], {
-  type: 'text/vcard;charset=utf-8',
-});
+      const vcard_blob = new Blob([new TextEncoder().encode(vCardData)], {
+        type: 'text/vcard;charset=utf-8',
+      });
 
-// Trigger a click event to simulate a download prompt
-const downloadLink = document.createElement('a');
-downloadLink.href = URL.createObjectURL(blob);
-downloadLink.download = 'contact.vcf';
-document.body.appendChild(downloadLink);
-downloadLink.click();
-document.body.removeChild(downloadLink);
+      // Open a new URL to prompt the user to add the contact
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(vcard_blob);
+      downloadLink.download = 'contact.vcf';
 
-// Release the object URL
-URL.revokeObjectURL(downloadLink.href);
+      // Trigger a click event to simulate a download prompt
+      downloadLink.click();
+
+      // Release the object URLs
+      URL.revokeObjectURL(downloadLink.href);
     } catch (error) {
       console.error('Error saving to contacts:', error);
     }
@@ -346,7 +343,7 @@ URL.revokeObjectURL(downloadLink.href);
         // Replace 'https://placekitten.com/200/200' with your desired placeholder URL
         return 'https://placekitten.com/200/200';
       }
-  
+
       const s3Client = new S3({
         region: 'eu-west-2',
         credentials: {
@@ -354,17 +351,30 @@ URL.revokeObjectURL(downloadLink.href);
           secretAccessKey: secretAccessKey,
         },
       });
-  
+
       const params = {
         Bucket: 'brava-bucket',
         Key: imageKey,
         Expires: 900,
       };
-  
+
       // Generate a pre-signed URL
       const signedURL = await getSignedUrl(s3Client, new GetObjectCommand(params));
   
-      return signedURL;
+      // Fetch the image to get the base64-encoded representation
+      const response = await fetch(signedURL);
+      const imageBlob = await response.blob();
+  
+      // Convert the Blob to base64 using FileReader
+      const base64EncodedImage = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result.split(',')[1]);
+        };
+        reader.readAsDataURL(imageBlob);
+      });
+  
+      return base64EncodedImage;
     } catch (error) {
       console.error('Error generating pre-signed URL:', error);
       throw error;
@@ -400,14 +410,14 @@ URL.revokeObjectURL(downloadLink.href);
           <button onClick={handleGetInTouch}>Get in touch</button>
         </div>
         <div className="social-icons">
-         <a href={url}><img src={UrlLogo} alt="Url" focusable /></a>
-        <a href={google_reviews}><img src={GoogleReviewsLogo} alt="Instagram" focusable /></a>
-        {instagram && <a href={instagram}><img src={InstagramLogo} alt="Instagram" focusable /></a>}
-        {facebook && <a href={facebook}><img src={FacebookLogo} alt="Facebook" focusable /></a>}
-        {linkedin && <a href={linkedin}><img src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
-        <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>
-        <a href={google_reviews}><img src={NotesLogo} alt="Notes" focusable /></a>
-      </div>
+          <a href={url}><img src={UrlLogo} alt="Url" focusable /></a>
+          <a href={google_reviews}><img src={GoogleReviewsLogo} alt="Instagram" focusable /></a>
+          {instagram && <a href={instagram}><img src={InstagramLogo} alt="Instagram" focusable /></a>}
+          {facebook && <a href={facebook}><img src={FacebookLogo} alt="Facebook" focusable /></a>}
+          {linkedin && <a href={linkedin}><img src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
+          <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>
+          <a href={google_reviews}><img src={NotesLogo} alt="Notes" focusable /></a>
+        </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
     </div>
