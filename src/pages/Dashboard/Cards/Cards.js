@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import './Cards.scss';
 import Header from '../Components/Header';
-import CardComponent from '../../../components/CardComponent/cardcomponent';
+import CardComponent from '../../Card/CardComponent/CardComponent';
 
 function Cards() {
   const { id: userId } = useParams();
