@@ -42,7 +42,7 @@ function Signup () {
         }
         else {
             try{
-            axios.post(`http://${process.env.REACT_APP_HOST}:4001/api/sign-up`, {
+            axios.post(`https://${process.env.REACT_APP_HOST}/api/sign-up`, {
                 username: name,
                 email: email,
                 password: password,

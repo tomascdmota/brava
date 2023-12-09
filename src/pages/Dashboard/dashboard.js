@@ -33,7 +33,7 @@ export function Dashboard() {
 	useEffect(() => {
 		const fetchUserProfile = async () => {
 		  try {
-			const response = await axios.get(`http://${process.env.REACT_APP_HOST}:4001/api/${userId}/dashboard`, { withCredentials: true });
+			const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
 			setUserData(response.data)
 		  } catch (error) {
 			console.log('Error fetching data:', error);

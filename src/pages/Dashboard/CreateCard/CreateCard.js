@@ -107,7 +107,7 @@ const CreateCard = () => {
   
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_HOST}:4001/api/createcard`,
+        `https://${process.env.REACT_APP_HOST}:4001/api/createcard`,
         formDataToSubmit,
         {
           headers: {
