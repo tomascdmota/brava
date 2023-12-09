@@ -26,7 +26,7 @@ function Cards() {
   
   useEffect(() => {
     axios
-      .get(`http://${process.env.REACT_APP_HOST}:4001/api/${userId}/dashboard/cards`,{ withCredentials: true })
+      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard/cards`,{ withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
