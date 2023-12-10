@@ -184,4 +184,5 @@
     background-size: cover; /* This property will make the background image cover the entire container */
     background-position: center;
     background-repeat: no-repeat;
+    background-color: rgb(25, 25, 25);
   }
