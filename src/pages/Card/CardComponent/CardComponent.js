@@ -30,6 +30,7 @@ function CardComponent({
   linkedin,
   instagram,
   google_reviews,
+  address,
   youtube,
   notes,
   url,
@@ -90,7 +91,7 @@ function CardComponent({
   
       // Complete the transaction
       await tx.complete;
-  
+      
       console.log('Image stored in IndexedDB:', data);
     } catch (error) {
       console.error('Error storing image in IndexedDB:', error);
@@ -193,6 +194,8 @@ function CardComponent({
       const removeDiacritics = (str) => unorm.nfkd(str).replace(/[\u0300-\u036f]/g, '');
       const decodedUsername = removeDiacritics(decodeURIComponent(username));
       const decodedTitle = removeDiacritics(decodeURIComponent(title));
+      const decodedNotes = removeDiacritics(decodeURIComponent(notes))
+      const decodedAddress = removeDiacritics(decodeURIComponent(address))
       // Set structured name with properly encoded values
       card.add('n', [decodedUsername]);
   
@@ -217,7 +220,17 @@ function CardComponent({
       if (linkedin) {
         card.add('x-socialprofile', linkedin, { type: 'Linkedin' });
       }
+      if (youtube) {
+        card.add('x-socialprofile', youtube, { type: 'Youtube' });
+      }
+      if(notes) {
+        card.add('note', [decodedNotes])
+      }
   
+  
+      // Set address
+      card.add('adr', [decodedAddress]);
+
       // Extract the S3 key from the profile_image_url
       const urlObject = new URL(profile_image_url);
       const imageKey = decodeURIComponent(urlObject.pathname.replace(/^\//, ''));
@@ -235,7 +248,7 @@ function CardComponent({
       card.add('photo', encodedImage, { encoding: 'b', type: 'image/jpeg' });
   
       // Generate vCard data as a string
-      const vCardData = card.toString();
+      const vCardData = card.toString('3.0');
       console.log(vCardData);
   
       // Create a Blob from the vCard data with explicit UTF-8 encoding
@@ -249,10 +262,11 @@ function CardComponent({
       downloadLink.download = 'contact.vcf';
   
       // Trigger a click event to simulate a download prompt
-      downloadLink.click();
-  
-      // Release the object URLs
-      URL.revokeObjectURL(downloadLink.href);
+       // Redirect the user to the vCard file
+    window.location.href = URL.createObjectURL(vcard_blob);
+
+    // Release the object URL
+    URL.revokeObjectURL(vcard_blob);
     } catch (error) {
       console.error('Error saving to contacts:', error);
     }
@@ -389,13 +403,13 @@ function CardComponent({
           <button onClick={handleGetInTouch}>Get in touch</button>
         </div>
         <div className="social-icons">
-          <a href={url}><img src={UrlLogo} alt="Url" focusable /></a>
-          <a href={google_reviews}><img src={GoogleReviewsLogo} alt="Instagram" focusable /></a>
+          {url && <a href={url}><img src={UrlLogo} alt="Url" focusable /></a>}
+          {google_reviews && <a href={google_reviews}><img src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
           {instagram && <a href={instagram}><img src={InstagramLogo} alt="Instagram" focusable /></a>}
           {facebook && <a href={facebook}><img src={FacebookLogo} alt="Facebook" focusable /></a>}
           {linkedin && <a href={linkedin}><img src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
-          <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>
-          <a  href={notes}><img style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>
+          {youtube && <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>}
+          {notes && <a  href={notes}><img style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
