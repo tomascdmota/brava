@@ -24,7 +24,7 @@ const Modal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post(`https://${process.env.REACT_APP_HOST}:4001/api/${userId}/message`, formData).then((res)=> {
+    axios.post(`https://${process.env.REACT_APP_HOST}/api/${userId}/message`, formData).then((res)=> {
         if(res.status == 200) {
             alert("Message sent successfuly")
             setFormData({

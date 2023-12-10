@@ -65,7 +65,6 @@
     width: 1000px;
     height: 1000px;
     border-radius: 0%;
-    background: #2274a5;
   }
   
   @media (width >= 500px) {
@@ -175,14 +174,15 @@
   .card-background {
     content: "";
     position: absolute;
-    top: -850px;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 1000px;
-    height: 1000px;
+    width: 95%;
+    top: 7px;
+    height: 17%;
     border-radius: 0%;
     background-size: cover; /* This property will make the background image cover the entire container */
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 20px;
     background-color: rgb(25, 25, 25);
   }
