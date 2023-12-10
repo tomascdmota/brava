@@ -413,6 +413,7 @@ function CardComponent({
       </div>
       <div className="card-body">
         <h3>{company}</h3>
+        <h5>{username}</h5>
         <p>{title}</p>
         <div className="card-buttons">
           <button onClick={saveToContacts}>Save</button>
