@@ -9,10 +9,14 @@ import CreateCard from './pages/Dashboard/CreateCard/CreateCard.js';
 import ProfileCard from './components/ProfileCard.js';
 import Card from './pages/Card/Card.js';
 import Account from './pages/Dashboard/Account/Account.js';
+import { Helmet } from 'react-helmet';
 
 function App() {
   return (
     <div className="App">
+       <Helmet>
+        <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
+      </Helmet>
       <BrowserRouter>
       <Routes>
       <Route
