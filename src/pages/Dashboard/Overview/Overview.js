@@ -118,7 +118,7 @@ const OverviewContent = () => {
 					</button>
 </div> */}
 			</div>
-			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} contact_date={contact.contact_date} message={contact.message} />)}
+			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} company={contact.company} contact_date={contact.contact_date} message={contact.message} />)}
 
 			
 			</section>

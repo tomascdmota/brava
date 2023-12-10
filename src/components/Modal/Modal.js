@@ -9,6 +9,7 @@ import axios from 'axios';
 const Modal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
+    company: '',
     email: '',
     message: '',
   });
@@ -24,19 +25,23 @@ const Modal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post(`https://${process.env.REACT_APP_HOST}/api/${userId}/message`, formData).then((res)=> {
-        if(res.status == 200) {
-            alert("Message sent successfuly")
-            setFormData({
-                name: '',
-                email:'',
-                message: ''
-            })
-        } 
-        
-    }).catch((err) => {
-        console.log(err);
-    })
+  axios.post(`https://${process.env.REACT_APP_HOST}/api/${userId}/message`, formData)
+  .then((res) => {
+    console.log('Response Headers:', res.headers);
+    if (res.status === 200) {
+      alert("Message sent successfully");
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        message: ''
+      });
+    }
+  })
+  .catch((err) => {
+    console.log(err.response.status);
+    console.log(err);
+  });
 
 
     // Add your logic to handle form submission
@@ -61,6 +66,16 @@ const Modal = ({ isOpen, onClose }) => {
                 name="name"
                 placeholder='Name'
                 value={formData.name}
+                onChange={handleChange}
+                required
+              />
+               <label htmlFor="company">Company:</label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                placeholder='Company'
+                value={formData.company}
                 onChange={handleChange}
                 required
               />
