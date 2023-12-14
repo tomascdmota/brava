@@ -18,6 +18,8 @@ import YouTubeLogo from "./Logos/youtube.svg";
 import './CardComponent.css';
 
 function CardComponent({
+  card_id,
+  id,
   email,
   username,
   phone,
@@ -43,6 +45,39 @@ function CardComponent({
   const Region =  process.env.REACT_APP_S3_REGION;
   const Bucket =  process.env.REACT_APP_BUCKET;
 
+
+  useEffect(() => {
+    console.log('CardComponent useEffect triggered');
+  
+    let isMounted = true;
+  
+    const loadImageAndSetState = async () => {
+  
+      const imageBuffer = await loadImageFromIndexedDB();
+  
+      if (isMounted) {
+        if (imageBuffer) {
+          const blob = new Blob([imageBuffer], { type: 'image/jpg' });
+          setImage(blob);
+          setLoading(false);
+        } else {
+          fetchImage();
+        }
+      }
+    };
+  
+    loadImageAndSetState();
+  
+    return () => {
+      isMounted = false;
+  
+      if (image) {
+        URL.revokeObjectURL(image);
+      }
+    };
+  }, []);
+
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -208,7 +243,7 @@ function CardComponent({
   
       // Set additional properties
       card.add('title', [decodedTitle]);
-      card.add('url', url);
+      card.add('url', `https://app.bravanfc.com/${id}/cards/${card_id}`);
   
       // Set social media properties
       if (facebook) {
@@ -390,7 +425,7 @@ function CardComponent({
           <p>Loading...</p>
         ) : (
           <>
-            {profile_image_url && <img className="card-image" src={profile_image_url} alt="Profile" />}
+            {profile_image_url && <img className="card-image" rel='preload'  loading="lazy" src={profile_image_url} alt="Profile" />}
           </>
         )}
       </div>
@@ -403,13 +438,13 @@ function CardComponent({
           <button onClick={handleGetInTouch}>Get in touch</button>
         </div>
         <div className="social-icons">
-          {url && <a href={url}><img src={UrlLogo} alt="Url" focusable /></a>}
-          {google_reviews && <a href={google_reviews}><img src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
-          {instagram && <a href={instagram}><img src={InstagramLogo} alt="Instagram" focusable /></a>}
-          {facebook && <a href={facebook}><img src={FacebookLogo} alt="Facebook" focusable /></a>}
-          {linkedin && <a href={linkedin}><img src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
-          {youtube && <a href={youtube}><img src={YouTubeLogo} alt="YouTube" focusable /></a>}
-          {notes && <a  href={notes}><img style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
+          {url && <a href={url}><img rel='preload' loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
+          {google_reviews && <a href={google_reviews}><img rel='preload' loading="lazy" src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
+          {instagram && <a href={instagram}><img rel='preload' loading="lazy"src={InstagramLogo} alt="Instagram" focusable /></a>}
+          {facebook && <a href={facebook}><img rel='preload' loading="lazy"src={FacebookLogo} alt="Facebook" focusable /></a>}
+          {linkedin && <a href={linkedin}><img rel='preload' loading="lazy"src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
+          {youtube && <a href={youtube}><img rel='preload' loading="lazy"src={YouTubeLogo} alt="YouTube" focusable /></a>}
+          {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
