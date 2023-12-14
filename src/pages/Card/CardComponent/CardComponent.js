@@ -44,7 +44,7 @@ function CardComponent({
   const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
   const Region =  process.env.REACT_APP_S3_REGION;
   const Bucket =  process.env.REACT_APP_BUCKET;
-
+  let mapsUrl;
 
   useEffect(() => {
     console.log('CardComponent useEffect triggered');
@@ -85,7 +85,13 @@ function CardComponent({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const openGoogleMaps = () => {
+    // Construct the Google Maps URL with the address as a query parameter
+     mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
 
+    // Open a new window or tab with the Google Maps URL
+    window.open(mapsUrl, '_blank');
+  };
   const initIndexedDB = async () => {
     try {
       const db = await openDB('brava-db', 1, {
@@ -445,6 +451,7 @@ function CardComponent({
           {linkedin && <a href={linkedin}><img rel='preload' loading="lazy"src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
           {youtube && <a href={youtube}><img rel='preload' loading="lazy"src={YouTubeLogo} alt="YouTube" focusable /></a>}
           {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
+          {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogodownload.org%2Fwp-content%2Fuploads%2F2018%2F01%2Fgoogle-maps-logo-1-1.png&f=1&nofb=1&ipt=6cc06d8c8b7753c7e7b516527a7a10f88401e3b7507e03a665c71775bbc79b4f&ipo=images' alt='Maps' focusable/></a>}
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
