@@ -441,7 +441,9 @@ function CardComponent({
         <p>{title}</p>
         <div className="card-buttons">
           <button onClick={saveToContacts}>Save</button>
-          <button onClick={handleGetInTouch}>Get in touch</button>
+        <button className="fab" onClick={handleGetInTouch}>
+          Get in touch
+        </button>
         </div>
         <div className="social-icons">
           {url && <a href={url}><img rel='preload' loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}

@@ -18,6 +18,11 @@
     }
 
 }
+.card-component {
+  position: relative; /* Add this line to enable absolute positioning for child elements */
+}
+
+
 
 .card-component::before {
     content: "";

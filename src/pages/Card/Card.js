@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
 import './Card.scss';
-import CardComponent from './CardComponent/CardComponent';
+const CardComponent = lazy(() => import('./CardComponent/CardComponent'));
 
 function Cards() {
   const { id: userId } = useParams();
@@ -13,10 +13,21 @@ function Cards() {
 
   useEffect(() => {
     axios
-      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/cards`,{ withCredentials: true })
+      .get(`http://${process.env.REACT_APP_HOST}:4001/api/${userId}/cards`, { withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
+  
+        // Preload LCP image
+        const lcpImageUrls = response.data.cards.map((card) => card.profile_image_url);
+  
+        lcpImageUrls.forEach((imageUrl) => {
+          const preloadLink = document.createElement('link');
+          preloadLink.href = imageUrl;
+          preloadLink.rel = 'preload';
+          preloadLink.as = 'image';
+          document.head.appendChild(preloadLink);
+        });
       })
       .catch((error) => {
         console.error('Error fetching cards:', error);
