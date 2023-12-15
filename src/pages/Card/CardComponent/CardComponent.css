@@ -22,20 +22,16 @@
   position: relative; /* Add this line to enable absolute positioning for child elements */
 }
 
-
-
-.card-component::before {
-    content: "";
-    position: absolute;
-    top: -850px;
-    left: 50%;
-    translate: -50% 0;
-    width: 1000px;
-    height: 1000px;
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
+
 .card-image {
-    margin-top: 25%;
+    margin-top: 55%;
     border-radius: 50%;
     height: 150px;
     width: 150px;
@@ -49,32 +45,26 @@
 .card-body h3 {
     font-size: 20px;
     color: black;
+    margin: 0;
 }
 .card-body p{
     font-size: 20px;
     color: black;
+    margin-bottom: 30px;
 }
 .card-body h5 {
   font-size: 20px;
   color:black;
+  margin-bottom: 0px;
 }
 
 
   
-  .card-component::before {
-    content: "";
-    position: absolute;
-    top: -850px;
-    left: 50%;
-    translate: -50% 0;
-    width: 1000px;
-    height: 1000px;
-    border-radius: 0%;
-  }
+  
   
   @media (width >= 500px) {
     .card-component {
-      margin: 0;
+      margin-top: 100px;
       width: 360px;
     }
   }
@@ -183,7 +173,7 @@
     transform: translate(-50%, 0);
     width: 95%;
     top: 7px;
-    height: 17%;
+    height: 23%;
     border-radius: 0%;
     background-size: cover; /* This property will make the background image cover the entire container */
     background-position: center;

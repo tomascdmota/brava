@@ -80,7 +80,7 @@ function Signup () {
     
 return(
     
-    <div>
+    <div className="signup-container">
         <Link to="/signup"></Link>
         <h1 className="welcome">Bem vindo à Brava</h1>
             <div className="card">

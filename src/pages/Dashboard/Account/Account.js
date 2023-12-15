@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import Cookie from 'js-cookie';
+import './Account.scss'
 
 function Account() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function Account() {
   }, [navigate]);
 
   return (
-    <div>
+    <div className='account-container'>
       <Header />
       <button onClick={handleLogout}>Logout</button>
     </div>

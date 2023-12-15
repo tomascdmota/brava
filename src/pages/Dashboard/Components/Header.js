@@ -58,9 +58,6 @@ function Header(props) {
             <a onClick={() => onTabClick('overview')} href={`/${id}/dashboard/overview`} className={activeTab === 'overview' ? 'active' : ''}>
               Overview
             </a>
-            <a onClick={() => onTabClick('profiles')} href={`/${id}/dashboard/profiles`} className={activeTab === 'profiles' ? 'active' : ''}>
-              Profiles
-            </a>
             <a onClick={() => onTabClick('cards')} href={`/${id}/dashboard/cards`} className={activeTab === 'cards' ? 'active' : ''}>
               Cards
             </a>
