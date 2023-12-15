@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.e6c13ad2.css",
-    "main.js": "/static/js/main.92d53d23.js",
+    "main.js": "/static/js/main.e4a006b8.js",
     "static/css/966.e8b75044.chunk.css": "/static/css/966.e8b75044.chunk.css",
     "static/js/966.41e21a1b.chunk.js": "/static/js/966.41e21a1b.chunk.js",
     "static/css/326.1142f58a.chunk.css": "/static/css/326.1142f58a.chunk.css",
     "static/js/326.b551780f.chunk.js": "/static/js/326.b551780f.chunk.js",
     "static/css/78.380ebaf2.chunk.css": "/static/css/78.380ebaf2.chunk.css",
-    "static/js/78.b1e6410a.chunk.js": "/static/js/78.b1e6410a.chunk.js",
+    "static/js/78.fc4ccf48.chunk.js": "/static/js/78.fc4ccf48.chunk.js",
     "static/css/761.6d22ab4f.chunk.css": "/static/css/761.6d22ab4f.chunk.css",
     "static/js/761.b77decf0.chunk.js": "/static/js/761.b77decf0.chunk.js",
     "static/css/954.aa90e43b.chunk.css": "/static/css/954.aa90e43b.chunk.css",
@@ -36,13 +36,13 @@
     "index.html": "/index.html",
     "static/media/youtube.svg": "/static/media/youtube.0365909a13b3f4a04c8189245b91551b.svg",
     "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
-    "main.92d53d23.js.map": "/static/js/main.92d53d23.js.map",
+    "main.e4a006b8.js.map": "/static/js/main.e4a006b8.js.map",
     "966.e8b75044.chunk.css.map": "/static/css/966.e8b75044.chunk.css.map",
     "966.41e21a1b.chunk.js.map": "/static/js/966.41e21a1b.chunk.js.map",
     "326.1142f58a.chunk.css.map": "/static/css/326.1142f58a.chunk.css.map",
     "326.b551780f.chunk.js.map": "/static/js/326.b551780f.chunk.js.map",
     "78.380ebaf2.chunk.css.map": "/static/css/78.380ebaf2.chunk.css.map",
-    "78.b1e6410a.chunk.js.map": "/static/js/78.b1e6410a.chunk.js.map",
+    "78.fc4ccf48.chunk.js.map": "/static/js/78.fc4ccf48.chunk.js.map",
     "761.6d22ab4f.chunk.css.map": "/static/css/761.6d22ab4f.chunk.css.map",
     "761.b77decf0.chunk.js.map": "/static/js/761.b77decf0.chunk.js.map",
     "954.aa90e43b.chunk.css.map": "/static/css/954.aa90e43b.chunk.css.map",
@@ -65,6 +65,6 @@
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.92d53d23.js"
+    "static/js/main.e4a006b8.js"
   ]
 }
