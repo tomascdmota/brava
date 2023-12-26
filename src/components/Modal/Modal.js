@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-  axios.post(`https://${process.env.REACT_APP_HOST}}/api/${userId}/message`, formData)
+  axios.post(`https://${process.env.REACT_APP_HOST}/api/${userId}/message`, formData)
   .then((res) => {
     console.log('Response Headers:', res.headers);
     if (res.status === 200) {
