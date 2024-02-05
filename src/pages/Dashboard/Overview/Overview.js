@@ -16,7 +16,7 @@ const OverviewContent = () => {
 
 	useEffect(()=>{
 		const fetchContacts = async () => {
-			await axios.get(`http://${host}:4001/api/${userId}/dashboard`,{ withCredentials: true 
+			await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`,{ withCredentials: true 
 			  }).then((res)=> {
 				setContactData(res.data);
 				setContactCounter(res.data.length);
@@ -118,7 +118,7 @@ const OverviewContent = () => {
 					</button>
 </div> */}
 			</div>
-			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} contact_date={contact.contact_date} message={contact.message} />)}
+			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} company={contact.company} contact_date={contact.contact_date} message={contact.message} />)}
 
 			
 			</section>

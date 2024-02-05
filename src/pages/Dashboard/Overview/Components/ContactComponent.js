@@ -3,7 +3,7 @@ import './ContactComponent.scss'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 
- function ContactComponent({user_id, contact_id, name, email, message,contact_date}) {
+ function ContactComponent({user_id, contact_id, name, company, email, message,contact_date}) {
     const isMobile = window.innerWidth <= 1000;
   return (
     <div>
@@ -21,6 +21,10 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
                 <div>
                     <dt>Name</dt>
                     <dd>{name}</dd>
+                </div>
+                 <div>
+                    <dt>Company</dt>
+                    <dd>{company}</dd>
                 </div>
                 <div>
                     <dt>Email</dt>

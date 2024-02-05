@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import './Cards.scss';
 import Header from '../Components/Header';
-import CardComponent from '../../../components/CardComponent/cardcomponent';
+import CardComponent from '../../Card/CardComponent/CardComponent';
 
 function Cards() {
   const { id: userId } = useParams();
@@ -26,7 +26,7 @@ function Cards() {
   
   useEffect(() => {
     axios
-      .get(`http://${process.env.REACT_APP_HOST}:4001/api/${userId}/dashboard/cards`,{ withCredentials: true })
+      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard/cards`,{ withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
@@ -46,7 +46,6 @@ function Cards() {
     return (
       <div className="cards-container">
         <Header />
-        <h1>My Cards</h1>
         {loading && <div className="spinner-container"><div className="spinner"></div></div>}
         <div className="nav-tiles">
         </div>
@@ -57,7 +56,6 @@ function Cards() {
   return (
     <div className="cards-container">
       <Header />
-      <h1 className='title'>My Cards</h1>
       {loading && <div className="spinner-container"><div className="spinner"></div></div>}
       <div className="nav-tiles">
         <div className="tiles">
