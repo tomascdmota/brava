@@ -14,6 +14,10 @@ import GoogleReviewsLogo from './Logos/googlereview.png';
 import UrlLogo from '../../../assets/url.png';
 import MapsLogo from '../../../assets/icons8-google-maps-old.svg';
 import YouTubeLogo from "../../../assets/icons8-youtube.svg";
+import PaypalLogo from '../../../assets/icons8-paypal.svg'
+import TiktokLogo from '../../../assets/icons8-tiktok.svg'
+import TwitterLogo from '../../../assets/icons8-twitterx.svg'
+import SpotifyLogo from '../../../assets/spotify.png'
 
 
 import './CardComponent.css';
@@ -37,6 +41,10 @@ function CardComponent({
   youtube,
   notes,
   url,
+  paypal,
+  tiktok,
+  twitter,
+  spotify
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -268,6 +276,18 @@ function CardComponent({
       if(notes) {
         card.add('note', [decodedNotes])
       }
+      if(twitter){
+        card.add('x-socialprofile', twitter, {type: 'Twitter'});
+      }
+      if(paypal){
+        card.add('x-socialprofile', paypal, {type: "Paypal"});
+      }
+      if(tiktok){
+        card.add('x-socialprofile', tiktok, {type: "TikTok"});
+      }
+      if(spotify){
+        card.add('x-socialprofile', spotify, {type: "Spotify"});
+      }
   
   
       // Set address
@@ -447,12 +467,16 @@ function CardComponent({
         </button>
         </div>
         <div className="social-icons">
-          {url && <a href={url}><img rel='preload' loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
+          {url && <a href={url}><img rel='preload' className="url" loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
           {google_reviews && <a href={google_reviews}><img rel='preload' loading="lazy" src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
           {instagram && <a href={instagram}><img rel='preload' loading="lazy"src={InstagramLogo} alt="Instagram" focusable /></a>}
           {facebook && <a href={facebook}><img rel='preload' loading="lazy"src={FacebookLogo} alt="Facebook" focusable /></a>}
           {linkedin && <a href={linkedin}><img rel='preload' loading="lazy"src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
           {youtube && <a href={youtube}><img rel='preload' loading="lazy"src={YouTubeLogo} alt="YouTube" focusable /></a>}
+          {paypal &&<a href={paypal}><img rel='preload' loading="lazy"src={PaypalLogo} alt="Paypal" focusable /></a>}
+          {twitter &&<a href={twitter}><img rel='preload' loading="lazy"src={TwitterLogo} alt="Twitter" focusable /></a>}
+          {tiktok &&<a href={tiktok}><img rel='preload' loading="lazy"src={TiktokLogo} alt="TikTok" focusable /></a>}
+          {spotify &&<a  href={spotify}><img rel='preload' className='spotify' loading="lazy"src={SpotifyLogo} alt="Spotify" focusable /></a>}
           {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
           {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo} alt='Maps' focusable/></a>}
         </div>

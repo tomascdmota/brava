@@ -29,10 +29,6 @@
   margin: 0 20px;
   font-family: 'akira';
   border-radius: 1.25rem;
-  &:hover{
-      transform: translateY(-5px);
-  cursor: pointer;
-  }
 
 }
 .card-component {
@@ -48,10 +44,10 @@ justify-content: center;
 
 
 .card-image {
-  margin-top: 55%;
+  margin-top: 120px;
   border-radius: 50%;
-  height: 150px;
-  width: 150px;
+  height: 130px;
+  width: 130px;
   border: 4px solid black;
 }
 .card-component-header{
@@ -164,7 +160,7 @@ margin-top: 5px;
 .social-icons {
 display: grid;
 grid-template-columns: repeat(3, 1fr);
-gap: 30px; /* Adjust the gap between icons */
+gap: 50px; /* Adjust the gap between icons */
 margin-top: 10%;
 justify-content: center; /* Align the icons horizontally to the center */
 align-items: center; /* Align the icons vertically to the center */
@@ -175,11 +171,18 @@ align-items: center; /* Align the icons vertically to the center */
 display: flex; /* Ensure the link behaves as a flex container */
 justify-content: center; /* Center the content horizontally within eaheader link */
 align-items: center; /* Center the content vertically within each link */
+max-width: 50px;
+max-height: 50px;
 }
 
 .social-icons img {
 height: 60px;
 width: 60px;
+padding: 0;
+margin: 0;
+}
+ .spotify, .url{
+  height: 50px !important;
 }
 
 .social-icons svg {
@@ -199,10 +202,12 @@ align-content: center;
   width: 90%;
   top: 20px;
   height: 23%;
+  max-height: 180px;
   border-radius: 0%;
   background-size: cover; /* This property will make the background image cover the entire container */
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 20px;
+  border: 1px solid white;
   background-color: rgb(25, 25, 25);
 }
