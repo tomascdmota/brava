@@ -18,6 +18,7 @@ import PaypalLogo from '../../../assets/icons8-paypal.svg'
 import TiktokLogo from '../../../assets/icons8-tiktok.svg'
 import TwitterLogo from '../../../assets/icons8-twitterx.svg'
 import SpotifyLogo from '../../../assets/spotify.png'
+import VintedLogo from '../../../assets/vinted.jpg'
 
 
 import './CardComponent.css';
@@ -44,7 +45,8 @@ function CardComponent({
   paypal,
   tiktok,
   twitter,
-  spotify
+  spotify,
+  vinted
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -288,6 +290,9 @@ function CardComponent({
       if(spotify){
         card.add('x-socialprofile', spotify, {type: "Spotify"});
       }
+      if(vinted){
+        card.add('x-socialprofile', vinted, {type: "Vinted"});
+      }
   
   
       // Set address
@@ -477,6 +482,7 @@ function CardComponent({
           {twitter &&<a href={twitter}><img rel='preload' loading="lazy"src={TwitterLogo} alt="Twitter" focusable /></a>}
           {tiktok &&<a href={tiktok}><img rel='preload' loading="lazy"src={TiktokLogo} alt="TikTok" focusable /></a>}
           {spotify &&<a  href={spotify}><img rel='preload' className='spotify' loading="lazy"src={SpotifyLogo} alt="Spotify" focusable /></a>}
+          {vinted &&<a  href={vinted}><img rel='preload' className='spotify' loading="lazy"src={VintedLogo} alt="Vinted" focusable /></a>}
           {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
           {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo} alt='Maps' focusable/></a>}
         </div>
