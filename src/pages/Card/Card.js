@@ -37,27 +37,26 @@ function Cards() {
       });
   }, [userId]);
 
-  if (userData === null) {
-    // Check for userData to be null instead of !userData
+  // Render loading indicator while data is being fetched
+  if (loading) {
     return (
       <div className="cards-container">
         <h1>My Cards</h1>
-        {loading && <div className="spinner-container"><div className="spinner"></div></div>}
-        <div className="nav-tiles">
-          {/* ... */}
-        </div>
+        <div className="spinner-container"><div className="spinner"></div></div>
       </div>
     );
   }
 
+  // Once data is fetched, render the page with the fetched data
   return (
     <div className="cards-container">
-      {loading && <div className="spinner-container"><div className="spinner"></div></div>}
       <div className="nav-tiles">
         <div className="tiles">
-          {!loading &&
-            cards.map((card) => <CardComponent key={card.card_id} {...card} />)
-          }
+          {cards.map((card) => (
+            <Suspense key={card.card_id} fallback={<div>Loading card...</div>}>
+              <CardComponent {...card} />
+            </Suspense>
+          ))}
         </div>
       </div>
     </div>
