@@ -5,38 +5,26 @@ import ContactComponent from './Components/ContactComponent';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 
-const OverviewContent = () => {
-	const {id:userId} = useParams();
-	const [contactData, setContactData] = useState([]);
-	const [contactCounter, setContactCounter] = useState(0);
+const OverviewContent = ({  contactData}) => {
 	const host = process.env.REACT_APP_HOST;
 	const isMobile = window.innerWidth <= 1000;
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const [userId, setUserId] = useState(0);
+	const contactCounter = contactData ? contactData.length : 0;
 	
-
-	useEffect(()=>{
-		const fetchContacts = async () => {
-			await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`,{ withCredentials: true 
-			  }).then((res)=> {
-				setContactData(res.data);
-				setContactCounter(res.data.length);
-			  }).catch((error)=> {
-				console.log(error)
-			  }); 
+	useEffect(() => {
+		if (contactData && contactData.length > 0) {
+		  setUserId(contactData[0].user_id);
 		}
-		fetchContacts()
-	}, [userId])
+	  }, [contactData]);
+
 
 	useEffect(() => {
-		// Check if the session_token cookie exists
 		const sessionToken = Cookie.get('session_token');
-	
 		if (!sessionToken) {
-		  // Redirect to the login page if the cookie does not exist
 		  navigate('/login');
 		}
 	  }, [navigate]);
-
 	
 
   return (
@@ -107,7 +95,7 @@ const OverviewContent = () => {
               </div>
             )}
 			<div className="contact-section-header">
-				<h2>Últimos Contactos</h2>
+				<h2>Latest Leads</h2>
 				{/*<div className="filter-options">
 					<p>Filter selected: more than 100 $</p>
 					<button className="icon-button">
@@ -118,8 +106,26 @@ const OverviewContent = () => {
 					</button>
 </div> */}
 			</div>
-			{contactData.map((contact) => <ContactComponent key={contact.contact_id} name={contact.name} email={contact.email} company={contact.company} contact_date={contact.contact_date} message={contact.message} />)}
-
+			<div className='contact-description'>
+				<h1>Information</h1>
+				<h1>Email</h1>
+				<h1>Contact Date</h1>
+				<h1>Email</h1>
+			</div>
+			{contactData ? (
+				contactData.map((contact) => (
+				<ContactComponent
+					key={contact.contact_id}
+					name={contact.name}
+					email={contact.email}
+					company={contact.company}
+					contact_date={contact.contact_date}
+					message={contact.message}
+				/>
+				))
+			) : (
+				<p>Loading...</p>
+			)}
 			
 			</section>
 		</div>

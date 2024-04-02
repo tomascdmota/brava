@@ -13,6 +13,17 @@
   src: url('../../../assets//Montserrat-Medium.ttf');
 }
 
+@font-face {
+	font-family: 'SF';
+	src: url('../../../assets/SF.OTF');
+}
+@font-face {
+	font-family: 'SFBOLD';
+	src: url('../../../assets/SFBOLD.OTF');
+}
+
+
+
 
 .card-component {
   display: flex;
@@ -21,15 +32,16 @@
   padding-top: 30px;
   padding-bottom: 50px;
   height: 100%;
+  
   justify-content: start;
   background-color: black;
   overflow: hidden;
   position: relative;
   z-index: 3;
   margin: 0 20px;
-  font-family: 'akira';
+  font-family: 'SF';
   border-radius: 1.25rem;
-
+ border:1px solid white;
 }
 .card-component {
 position: relative; /* Add this line to enable absolute positioning for child elements */
@@ -56,9 +68,9 @@ justify-content: center;
 
 
 .card-body h3 {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: white;
-  font-family: 'akira';
+  font-family: 'SFBOLD';
   font-weight: lighter;
   margin-bottom: 0;
 
@@ -73,21 +85,26 @@ justify-content: center;
 .card-body h5 {
 font-size: .8rem;
 color:white;
-font-family: 'Montserrat';
+font-family: 'SF';
 text-transform: uppercase;
 margin-bottom: 0px;
 margin-top: 5px;
 }
 
 
-
-
+.cards-container {
+  height: 100vh;
+}
 
 @media (width >= 500px) {
   .card-component {
-    margin-top: 100px;
-    width: 360px;
+    margin-top: 0px;
+    width: 400px;
+    height: auto;
+    
   }
+ 
+  
 }
 
 @media (width <= 700px) {

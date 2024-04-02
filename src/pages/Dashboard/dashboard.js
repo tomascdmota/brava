@@ -1,70 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './dashboard.scss';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect } from 'react';
 import Header from './Components/Header';
-import OverviewContent from './Overview/Overview'; // Import your content components
-import ProfilesContent from '../Profile/profile';
-import CardsContent from './Cards/Cards';
-import AccountContent from './Account/Account';
+import OverviewContent from './Overview/Overview';
 import Cookie from 'js-cookie';
 
 export function Dashboard() {
-	const { id: userId } = useParams();
-	const [activeTab, setActiveTab] = useState('overview');
-	const [userData, setUserData] = useState(null);
-	const navigate = useNavigate();
-	const handleTabClick = (tab) => {
-	  setActiveTab(tab);
-	};
+  const { id: userId } = useParams();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+  const isDataFetched = useRef(false); // Ref to track if data fetching is done
+  console.log("Dashboard component rendered"); 
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
 
-	useEffect(() => {
-		// Check if the session_token cookie exists
-		const sessionToken = Cookie.get('session_token');
-	
-		if (!sessionToken) {
-		  // Redirect to the login page if the cookie does not exist
-		  navigate('/login');
-		}
-	  }, [navigate]);
-	
-  
-	useEffect(() => {
-		const fetchUserProfile = async () => {
-		  try {
-			const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
-			setUserData(response.data)
-		  } catch (error) {
-			console.log('Error fetching data:', error);
-		  }
-		};
-	  
-		// Call the fetchUserProfile function when the component mounts
-		fetchUserProfile();
-	  }, [userId, navigate]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sessionToken = Cookie.get('session_token');
+        
+        if (!sessionToken) {
+          navigate('/login');
+          return;
+        }
 
-	
+        const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
+        setUserData(response.data);
+        isDataFetched.current = true; // Set to true after data fetching
+      } catch (error) {
+        console.log('Error fetching data:', error);
+      }
+    };
 
-	  
-	if (!userData) {
-	  return <div>Loading...</div>;
-	}
-  
-	return (
-	  <div>
-		<div className="dashboard">
-		  <Header username={userData.username} activeTab={activeTab} onTabClick={handleTabClick} />
-		  <div className="dashboard-body">
-			{/* Render content based on the active tab */}
-			{activeTab === 'overview' && <OverviewContent userId={userData.id} username={userData.username} />}
-			{activeTab === 'profiles' && <ProfilesContent userId={userData.id} />}
-			{activeTab === 'cards' && <CardsContent />}
-			{activeTab === 'account' && <AccountContent userId={userData.id} />}
-		  </div>
-		</div>
-	  </div>
-	);
-  }
-  
-  export default Dashboard;
+    // Fetch data only if userId is available and data fetching is not done yet
+    if (userId && !isDataFetched.current) {
+      console.log('making request');
+      fetchData();
+    }
+  }, [userId, navigate]);
+
+  return (
+    <div>
+      {/* Render the header and tabs */}
+      <Header username={userData ? userData.username : ''} activeTab={activeTab} onTabClick={handleTabClick} />
+      <div className="dashboard-body">
+        {/* Render content based on the active tab */}
+        {activeTab === 'overview' && <OverviewContent contactData={userData} />}
+        {/* Add other tab content here */}
+      </div>
+    </div>
+  );
+}
+
+export default Dashboard;

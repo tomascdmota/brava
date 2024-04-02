@@ -1,5 +1,15 @@
+@font-face {
+	font-family: 'SF';
+	src: url("../../../assets/SF.OTF");
+  }
+  @font-face {
+	font-family: 'SFBOLD';
+	src: url("../../../assets/SFBOLD.OTF");
+  }
+
 .header-container {
     min-width: auto;
+	font-family: 'SF';
 
 }
 
@@ -23,6 +33,7 @@
 }
 
 .dashboard-header-navigation {
+	margin-top:20px;
 	@media (max-width: 1200px) {
 		display: none;
 	}
@@ -57,7 +68,7 @@
 .tabs {
 	display: flex;
 	justify-content: space-between;
-	color: var(--c-text-tertiary);
+	color: #3e7461;
 	border-bottom: 1px solid var(--c-gray-600);
 	a {
 		padding-top: 1rem;
@@ -71,7 +82,7 @@
 		&.active,
 		&:hover,
 		&:focus {
-			color: #038c93;
+			color: #3e7461;
 			border-color: var(--c-text-primary);
 		}
 	}
@@ -97,7 +108,6 @@
 .dashboard-logo {
 	display: flex;
 	align-items: center;
-	padding-bottom: 1rem;
 	border-bottom: 1px solid var(--c-gray-600);
 	@media (max-width: 1200px) {
 		border-bottom: 0;
@@ -110,6 +120,7 @@
 	justify-content: center;
 	width: 110px;
 	height: 75px;
+	margin-top:20px;
 	@media (max-width:1000px){
 	justify-content: start;
 		margin-top: 20px;
@@ -123,7 +134,24 @@
 	flex-direction: row;
 	align-items: center;
 	margin-top: 35px;
-	
+	background-image: linear-gradient(to right, #3e7461, #96c9b7);
+    background-clip: text;
+    /* Fallback: Set a background color. */
+    background-color: white;
+    font-weight: bolder;
+    /* Create the gradient. */
+    font-family: 'SFBOLD';
+    
+    /* Set the background size and repeat properties. */
+    background-size: 100%;
+    background-repeat: repeat;
+  
+    /* Use the text as a mask for the background. */
+    /* This will show the gradient as a text color rather than element bg. */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
 }
 
 

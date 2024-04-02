@@ -5,6 +5,15 @@
     src: url("../../../assets/Chivo-Italic-VariableFont_wght.ttf");
 }
 
+@font-face {
+	font-family: 'SF';
+	src: url('../../../assets/SF.OTF');
+}
+@font-face {
+	font-family: 'SFBOLD';
+	src: url('../../../assets/SFBOLD.OTF');
+}
+
 
 :root {
 	--c-gray-900: #000000;
@@ -25,7 +34,7 @@
 }
 
 body {
-	font-family: "chivo", sans-serif;
+	font-family: "SF", sans-serif;
 	color: var(--c-text-primary);
 	background-color: var(--c-gray-800);
 	display: flex;
@@ -513,7 +522,7 @@ a {
 	border-radius: 10px;
 	border: 2px solid white;
 	color: white;
-	background-color: #00544F;
+	background-color: #1A3930;
 	flex-shrink: 0;
 	display: flex;
 	justify-content: flex-end;
@@ -564,7 +573,7 @@ a {
 	transition: 0.25s ease;
 	border-radius: 4px;
 	border: 2px solid var(--c-gray-600);
-	color: var(--c-text-primary);
+	color: #1A3930;
 	cursor: pointer;
 	&.mastercard svg {
 		max-height: 15px;
@@ -579,6 +588,9 @@ a {
 	}
 }
 
+.gen-leads{
+	background-color: #1A3930;
+}
 .faq {
 	margin-top: 1.5rem;
 	display: flex;

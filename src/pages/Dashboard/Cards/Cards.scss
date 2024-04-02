@@ -1,3 +1,13 @@
+@font-face {
+	font-family: 'SF';
+	src: url('../../../assets/SF.OTF');
+}
+@font-face {
+	font-family: 'SFBOLD';
+	src: url('../../../assets/SFBOLD.OTF');
+}
+
+
 .cards-container {
 	height: 100%;
 	width: auto;
@@ -8,6 +18,7 @@
 	background-color: #1f1f1f;
 	top:0;
 	margin-top: 0;
+	overflow: hidden;
 }
 img {
 	

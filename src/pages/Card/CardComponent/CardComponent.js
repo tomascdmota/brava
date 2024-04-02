@@ -56,6 +56,7 @@ function CardComponent({
   const Region =  process.env.REACT_APP_S3_REGION;
   const Bucket =  process.env.REACT_APP_BUCKET;
   let mapsUrl;
+  console.log(id)
 
   useEffect(() => {
     console.log('CardComponent useEffect triggered');

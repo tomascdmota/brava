@@ -1,16 +1,18 @@
 import React from 'react'
 import './ContactComponent.scss'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+
 
 
  function ContactComponent({user_id, contact_id, name, company, email, message,contact_date}) {
     const isMobile = window.innerWidth <= 1000;
+
+   
   return (
     <div>
         
     <div className="contacts">
         <div className="contact">
-        {!isMobile && <PersonOutlineIcon />  }
+        {!isMobile && <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/profile_2.png?v=1712073839"/>  }
         {isMobile && (
               <div>
                 <dt>Contact Date</dt>
@@ -19,31 +21,25 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
             )}
             <dl className="contact-details">
                 <div>
-                    <dt>Name</dt>
-                    <dd>{name}</dd>
+                    <dt>{name}, {company}</dt>
                 </div>
-                 <div>
-                    <dt>Company</dt>
-                    <dd>{company}</dd>
-                </div>
+                
                 <div>
-                    <dt>Email</dt>
+                    
                     <dd>{email}</dd>
                 </div>
                 {!isMobile && (
               <div>
-                <dt>Contact Date</dt>
                 <dd>{contact_date}</dd>
               </div>
             )}
                  <div className={`contact-message ${isMobile ? 'full-width-message' : ''}`}>
-                  <dt>Message</dt>
-                  <dd>{message}</dd>
+                  <dt>{message}</dt>
                 </div>
             </dl>
-            <div className="reply">
+           {/*<div className="reply">
                 <button>Responder</button> 
-            </div>
+                </div>*/}
         </div>
        
        
