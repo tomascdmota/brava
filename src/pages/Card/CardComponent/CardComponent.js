@@ -6,22 +6,25 @@ import vcf from 'vcf';
 import { openDB } from 'idb';
 import unorm from 'unorm';
 import Modal from '../../../components/Modal/Modal';
-import FacebookLogo from '../../../assets/icons8-facebook.svg';
-import InstagramLogo from '../../../assets/icons8-instagram.svg';
-import LinkedInLogo from '../../../assets/icons8-linkedin.svg';
 import NotesLogo from './Logos/notes.png';
 import GoogleReviewsLogo from './Logos/googlereview.png';
-import UrlLogo from '../../../assets/url.png';
-import MapsLogo from '../../../assets/icons8-google-maps-old.svg';
-import YouTubeLogo from "../../../assets/icons8-youtube.svg";
-import PaypalLogo from '../../../assets/icons8-paypal.svg'
-import TiktokLogo from '../../../assets/icons8-tiktok.svg'
-import TwitterLogo from '../../../assets/icons8-twitterx.svg'
-import SpotifyLogo from '../../../assets/spotify.png'
-import VintedLogo from '../../../assets/vinted.jpg'
-
-
 import './CardComponent.css';
+
+
+const  FacebookLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-facebook.svg?v=1712083465';
+const InstagramLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-instagram.svg?v=1712083465';
+const LinkedInLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-linkedin.svg?v=1712083465';
+const UrlLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/url.png?v=1712083467';
+const MapsLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-google-maps-old.svg?v=1712083465';
+const YouTubeLogo = "https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-youtube.svg?v=1712083465";
+const PaypalLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-paypal.svg?v=1712083465'
+const TiktokLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-tiktok.svg?v=1712083465'
+const TwitterLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-twitterx.svg?v=1712083465'
+const SpotifyLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/spotify.png?v=1712083467'
+const VintedLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/vinted.jpg?v=1712083466'
+
+
+
 
 function CardComponent({
   card_id,

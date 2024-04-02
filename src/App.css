@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/Montserrat-Medium.ttf?v=1712083466') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF';
+  src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SF.OTF?v=1712083466') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SFBOLD';
+  src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SFBOLD.OTF?v=1712083466') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 .App {
   text-align: center;
   top: 0;
