@@ -63,8 +63,8 @@
     "build:prod": "react-scripts build && npm run minify"
   },
   "minify": "npm run minify:js && npm run minify:css",
-  "minify:js": "terser --compress --mangle --output build/static/js",
-  "minify:css": "csso-cli --input build/static/css/*.css --output build/static/css",
+  "minify:js": "terser --compress --mangle --output build/static/js/bundle.min.js build/static/js/*.js",
+  "minify:css": "csso-cli --input build/static/css/*.css --output build/static/css/bundle.min.css",
   "eslintConfig": {
     "extends": [
       "react-app",

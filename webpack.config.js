@@ -8,6 +8,16 @@ module.exports = {
   // ... other webpack configuration...
 
   optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
     minimizer: [
       new OptimizeCSSAssetsPlugin({}),
       new TerserPlugin({}),
