@@ -466,13 +466,13 @@ function CardComponent({
         )}
       </div>
       <div className="card-body">
-        <h3>{company}</h3>
-        <h5>{username}</h5>
-        <p>{title}</p>
+        <h3>{username}, <span>{title}</span></h3>
+        <h5>{company}</h5>
+        <p></p>
         <div className="card-buttons">
-          <button onClick={saveToContacts}>Save</button>
+          <button onClick={saveToContacts}>SAVE CONTACT</button>
         <button className="fab" onClick={handleGetInTouch}>
-          Get in touch
+          EXCHANGE CONTACT
         </button>
         </div>
         <div className="social-icons">
