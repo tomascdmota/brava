@@ -38,7 +38,6 @@ export function Dashboard(event) {
         console.log('Error fetching data:', error);
       }
     };
-
     // Fetch data only if userId is available and data fetching is not done yet
     if (userId && !isDataFetched.current) {
       console.log('making request');
@@ -56,7 +55,6 @@ export function Dashboard(event) {
         {/* Render content based on the active tab */}
         {activeTab === 'overview' && <OverviewContent contactData={userData} />}
         {activeTab === 'cards' && <Cards contactData={userData} />}
-        {activeTab === 'overview' && <OverviewContent contactData={userData} />}
         {/* Add other tab content here */}
       </div>
     </div>
