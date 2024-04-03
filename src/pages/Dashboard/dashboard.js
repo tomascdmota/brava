@@ -28,7 +28,7 @@ export function Dashboard(event) {
           return;
         }
 
-        const response = await axios.get(`http://localhost:4001/api/${userId}/dashboard`, { withCredentials: true });
+        const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
         setUserData(response.data);
         localStorage.setItem('profile_image_url', userData[0]?.profile_image_url);
         localStorage.setItem('username', userData[0]?.username);
