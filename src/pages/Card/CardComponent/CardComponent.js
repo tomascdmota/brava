@@ -6,7 +6,6 @@ import vcf from 'vcf';
 import { openDB } from 'idb';
 import unorm from 'unorm';
 import Modal from '../../../components/Modal/Modal';
-import NotesLogo from './Logos/notes.png';
 import GoogleReviewsLogo from './Logos/googlereview.png';
 import './CardComponent.css';
 
@@ -18,11 +17,15 @@ const UrlLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/url.png?
 const MapsLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-google-maps-old.svg?v=1712083465';
 const YouTubeLogo = "https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-youtube.svg?v=1712083465";
 const PaypalLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-paypal.svg?v=1712083465'
-const TiktokLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-tiktok.svg?v=1712083465'
+const TiktokLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/tiktok.png?v=1713213933'
 const TwitterLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-twitterx.svg?v=1712083465'
 const SpotifyLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/spotify.png?v=1712083467'
 const VintedLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/vinted.jpg?v=1712083466'
-
+const NotesLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/notes.png?v=1713213932'
+const StandvirtualLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/standvirtual.png?v=1713213933'
+const OlxLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/olx.png?v=1713213932'
+const PiscapiscaLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/piscapisca.png?v=1713213932'
+const CustojustoLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/custojusto.png?v=1713213932'
 
 
 
@@ -49,7 +52,11 @@ function CardComponent({
   tiktok,
   twitter,
   spotify,
-  vinted
+  vinted,
+  standvirtual,
+  olx,
+  piscapisca,
+  custojusto
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,10 +66,8 @@ function CardComponent({
   const Region =  process.env.REACT_APP_S3_REGION;
   const Bucket =  process.env.REACT_APP_BUCKET;
   let mapsUrl;
-  console.log(id)
 
   useEffect(() => {
-    console.log('CardComponent useEffect triggered');
   
     let isMounted = true;
   
@@ -297,6 +302,18 @@ function CardComponent({
       if(vinted){
         card.add('x-socialprofile', vinted, {type: "Vinted"});
       }
+      if(olx){
+        card.add('x-social-profile', olx ,{type:"Olx"});
+      }
+      if(standvirtual){
+        card.add('x-social-profile', standvirtual ,{type:"standvirtual"});
+      }
+      if(piscapisca){
+        card.add('x-social-profile', piscapisca ,{type:"piscapisca"});
+      }
+      if(custojusto){
+        card.add('x-social-profile', custojusto ,{type:"custojusto"});
+      }
   
   
       // Set address
@@ -455,13 +472,13 @@ function CardComponent({
   };
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
-      <div className="card-background" style={{ backgroundImage: `url(${background_image_url})` }}></div>
+      <div className="card-background" style={{ backgroundImage: `url(${background_image_url|| 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
       <div className="card-component-header">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-            {profile_image_url && <img className="card-image" rel='preload'  loading="lazy" src={profile_image_url} alt="Profile" />}
+           <img className="card-image" rel='preload' loading="lazy" src={profile_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava.jpg?v=1713204195'} alt="Profile" />
           </>
         )}
       </div>
@@ -489,6 +506,10 @@ function CardComponent({
           {vinted &&<a  href={vinted}><img rel='preload' className='spotify' loading="lazy"src={VintedLogo} alt="Vinted" focusable /></a>}
           {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
           {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo} alt='Maps' focusable/></a>}
+          {standvirtual && <a href={standvirtual} ><img rel='preload' loading='lazy' src={StandvirtualLogo} alt='standvirtual' focusable/></a>}
+          {olx && <a href={olx} ><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable/></a>}
+          {piscapisca && <a href={piscapisca} ><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable/></a>}
+          {custojusto && <a href={custojusto} ><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable/></a>}
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />

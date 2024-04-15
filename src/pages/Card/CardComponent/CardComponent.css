@@ -34,7 +34,6 @@
   height: 100%;
   width: 100%;
   justify-content: start;
-  background-color: black;
   overflow: hidden;
   position: relative;
   z-index: 3;
@@ -56,14 +55,17 @@ justify-content: center;
 
 
 .card-image {
-  margin-top: 120px;
+  margin-top: 100px;
   border-radius: 50%;
-  height: 130px;
-  width: 130px;
+  min-height: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  max-height: 130px;
   border: 2px solid #fff;
 }
 .card-component-header{
   z-index: 999;
+  min-height: 150px;
 }
 
 
@@ -208,6 +210,8 @@ justify-content: center; /* Center the content horizontally within eaheader link
 align-items: center; /* Center the content vertically within each link */
 max-width: 50px;
 max-height: 50px;
+min-height: 50px;
+min-width: 50px;
 }
 
 .social-icons img {
@@ -236,7 +240,7 @@ align-content: center;
   transform: translate(-50%, 0);
   width: 90%;
   top: 20px;
-  height: 23%;
+  min-height: 150px;
   max-height: 180px;
   border-radius: 0%;
   background-size: cover; /* This property will make the background image cover the entire container */
