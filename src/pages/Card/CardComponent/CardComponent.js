@@ -5,6 +5,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import vcf from 'vcf';
 import { openDB } from 'idb';
 import unorm from 'unorm';
+import NoteModal from './NotesModal/NoteModal';
 import Modal from '../../../components/Modal/Modal';
 import GoogleReviewsLogo from './Logos/googlereview.png';
 import './CardComponent.css';
@@ -61,6 +62,9 @@ function CardComponent({
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+  console.log(isNotesOpen)
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
   const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
   const Region =  process.env.REACT_APP_S3_REGION;
@@ -98,13 +102,19 @@ function CardComponent({
   }, []);
 
   
+ 
   const openModal = () => {
     setIsModalOpen(true);
+    
   };
-
+ const handleOpenNotes = () => {
+  setIsNotesOpen(true);
+ }
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+
   const openGoogleMaps = () => {
     // Construct the Google Maps URL with the address as a query parameter
      mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
@@ -459,7 +469,9 @@ function CardComponent({
       throw error;
     }
   };
-
+  const handleCloseNotes = () => {
+    setIsNotesOpen(false); // Set the state to close the modal
+  };
 
 
   const handleGetInTouch = () => {
@@ -504,7 +516,7 @@ function CardComponent({
           {tiktok &&<a href={tiktok}><img rel='preload' loading="lazy"src={TiktokLogo} alt="TikTok" focusable /></a>}
           {spotify &&<a  href={spotify}><img rel='preload' className='spotify' loading="lazy"src={SpotifyLogo} alt="Spotify" focusable /></a>}
           {vinted &&<a  href={vinted}><img rel='preload' className='spotify' loading="lazy"src={VintedLogo} alt="Vinted" focusable /></a>}
-          {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
+          {notes && <a onClick={handleOpenNotes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
           {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo} alt='Maps' focusable/></a>}
           {standvirtual && <a href={standvirtual} ><img rel='preload' loading='lazy' src={StandvirtualLogo} alt='standvirtual' focusable/></a>}
           {olx && <a href={olx} ><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable/></a>}
@@ -513,6 +525,8 @@ function CardComponent({
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
+      <NoteModal isOpen={isNotesOpen} background_image={background_image_url} profile_image_url={profile_image_url} closeModal={handleCloseNotes} notes={notes} />
+
     </div>
   );
 }
