@@ -30,14 +30,15 @@
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
-  padding-bottom: 50px;
   height: 100%;
   width: 100%;
   justify-content: start;
   overflow: hidden;
   position: relative;
+  overflow-y: hidden;
   z-index: 3;
-  margin: 0 20px;
+  margin-bottom: 0;
+  padding-bottom: 0;
   font-family: 'SF';
   border-radius: 1.25rem;
  border:1px solid white;
@@ -112,13 +113,17 @@ color: white;
 
 
 .cards-container {
-  height: 100vh;
+  height: 100%;
+  margin: 0 !important;
+  padding: 0;
   width: 100vw;
+  overflow: hidden;
 }
 
 @media (width >= 500px) {
   .card-component {
     margin-top: 0px;
+    margin-bottom: 0;
     width: 400px;
     height: auto;
     background: black;
@@ -131,13 +136,25 @@ color: white;
 
 
 @media (width <= 700px) {
+  .social-icons-container{
+    height: 100%;
+    width: 100vw;
+    background-color: #1F1F1F;
+  }
+  .social-icons{
+    width: 90%;
+    margin-left: 7%;
+  
+  }
   .card-component{
-    height: 100vh;
+    height: 100%;
     margin: 0;
     width: 100vw;
     margin-top: 0;
+    margin-bottom: 0;
     border: none;
     border-radius: 0px;
+    overflow: hidden;
   }
   .card-component::before {
     content: "";
@@ -195,7 +212,8 @@ color: white;
 .social-icons-container {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100% - 200px); /* Adjust the max-height to leave space for other elements */
+  height: auto;
+   /* Adjust the max-height to leave space for other elements */
 }
 
 .social-icons {
