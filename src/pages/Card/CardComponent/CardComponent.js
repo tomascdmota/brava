@@ -513,6 +513,7 @@ function CardComponent({
           EXCHANGE CONTACT
         </button>
         </div>
+        <div className="social-icons-container"> 
         <div className="social-icons">
      
         
@@ -540,6 +541,7 @@ function CardComponent({
           {piscapisca && <a href={piscapisca} ><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable/></a>}
           {custojusto && <a href={custojusto} ><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable/></a>}
         </div>
+      </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
       <NoteModal isOpen={isNotesOpen} background_image={background_image_url} profile_image_url={profile_image_url} closeModal={handleCloseNotes} notes={notes} />
