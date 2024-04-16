@@ -54,11 +54,10 @@ const Modal = ({ isOpen, onClose }) => {
       {isOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-button" onClick={onClose}>
-              X
-            </button>
-            <h2>GET IN TOUCH</h2>
+            
+            <h2 className='modal-title'>Exchange Contact</h2>
             <form onSubmit={handleSubmit}>
+            
               <label htmlFor="name">Name:</label>
               <input
                 type="text"
@@ -102,6 +101,9 @@ const Modal = ({ isOpen, onClose }) => {
               />
 
               <button type="submit">Submit</button>
+              <button className="close-button" onClick={onClose}>
+              X
+            </button>
             </form>
           </div>
         </div>

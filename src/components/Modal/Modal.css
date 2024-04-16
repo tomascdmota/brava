@@ -1,21 +1,32 @@
+@font-face {
+	font-family: 'SF';
+	src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SF.OTF?v=1712083466');
+}
+@font-face {
+	font-family: 'SFBOLD';
+	src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SFBOLD.OTF?v=1712083466');
+}
+
+
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     height:100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
+    font-family: 'SF';
   }
   
   .modal-content {
     width: 80vw;
     height: auto;
     margin-top: 20%;
-    background: #1f1f1f;
+    background: #ffffff;
     padding: 20px;
     border-radius: 8px;
   }
@@ -24,7 +35,9 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    padding: 15px;
+    padding: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
     border-radius: 100%;
     cursor: pointer;
   }
@@ -36,9 +49,26 @@
 
 
   
+  .modal-title{
+    background:linear-gradient(45deg, #19362c, #75c5aa);
+    background-clip: text;
+    margin-left: 5px;
+    font-size: 2rem;
+    bottom: 0;
+    margin-top:0;
+    background-color: white;
+    font-weight: bolder;
+    font-family: 'SFBOLD';
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+  }
   .modal-overlay label {
     margin-bottom: 8px;
-    color: white;
+    color: black;
     align-self: flex-start; 
   }
   
@@ -47,10 +77,10 @@
   textarea {
     margin-bottom: 16px;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: .5px solid #1f1f1f;
     border-radius: 4px;
-    background-color: #1f1f1f;
-    color: white;
+    background-color: #ffff;
+    color: #1f1f1f;
   }
   
 textarea {
@@ -59,7 +89,7 @@ textarea {
 
   button {
     padding: 10px;
-    background-color: #2274a5;
+    background:linear-gradient(45deg, #19362c, #497c6b);
     color: white;
     border: none;
     border-radius: 4px;
