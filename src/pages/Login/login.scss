@@ -22,7 +22,7 @@
 .existing-users-text {
   color: rgb(175, 175, 175);
   font-size: 18px;
-  margin-top: 20vh;
+  margin-top: 10px;
 }
 .signup {
   color: #2d6451;
@@ -212,4 +212,39 @@ main >.box {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+.form-container h1{
+  margin-top: -100px;
+}
+
+@media (max-width: 800px){
+  .box{
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .image-container{
+    display: none;
+  }
+  .login-title{
+    display: none;
+  }
+  .form-container{
+    align-items: start;
+    justify-content: start;
+    height:100vh;
+  }
+
+  
+
+  .box{
+    border:none;
+    background-color:transparent;
+  }
+  .login-container{
+    background: radial-gradient(66.22% 66.22% at 70.23% 33.78%, #292929 0%, #101010 100%);
+  }
+   .card{
+    height: 100vh;
+   }
 }

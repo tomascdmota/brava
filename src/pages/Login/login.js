@@ -8,6 +8,7 @@ import './login.scss';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const[passwordStatus, setPasswordStatus] = useState('Password');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,6 +54,10 @@ const Login = () => {
         } else {
           console.log('Erro de servidor. Tente novamente mais tarde.');
         }
+        if(error.response.status = 400){
+          alert('Wrong password. Please try again.');
+          setPasswordStatus('Wrong password');
+        }
       } else if (error.request) {
         console.log('Sem resposta do servidor. Tente novamente mais tarde.');
       } else {
@@ -90,7 +95,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                 />
-                <label>Password</label>
+                <label>{passwordStatus}</label>
                 <input
                   type="password"
                   placeholder='*******'

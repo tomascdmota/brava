@@ -98,7 +98,8 @@ justify-content: center;
  
 }
 .card-body h5 {
-font-size: 1.8rem;
+font-size: 1.5rem;
+max-width: 80vw;
 color:rgb(66, 66, 66);
 font-family: 'SF';
 text-transform: uppercase;
@@ -120,7 +121,6 @@ color: white;
     height: auto;
     background: black;
   }
- 
   
 }
 

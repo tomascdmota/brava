@@ -64,7 +64,7 @@ const Modal = ({ isOpen, onClose }) => {
                 type="text"
                 id="name"
                 name="name"
-                placeholder='Name'
+                placeholder=''
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -74,7 +74,7 @@ const Modal = ({ isOpen, onClose }) => {
                 type="text"
                 id="company"
                 name="company"
-                placeholder='Company'
+                placeholder=''
                 value={formData.company}
                 onChange={handleChange}
                 required
@@ -85,7 +85,7 @@ const Modal = ({ isOpen, onClose }) => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder='Email'
+                placeholder=''
                 value={formData.email}
                 onChange={handleChange}
                 required
