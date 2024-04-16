@@ -127,6 +127,9 @@ color: white;
   
 }
 
+
+
+
 @media (width <= 700px) {
   .card-component{
     height: 100vh;

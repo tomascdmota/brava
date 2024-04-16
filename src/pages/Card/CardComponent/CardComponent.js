@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import QRCode from 'qrcode.react'; 
+import QRCodeModal from './QRCodeModal/QRCodeModal';
 import vcf from 'vcf';
 import { openDB } from 'idb';
 import unorm from 'unorm';
@@ -62,9 +64,9 @@ function CardComponent({
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [showQRCode, setShowQRCode] = useState(false)
+
   const [isNotesOpen, setIsNotesOpen] = useState(false);
-  console.log(isNotesOpen)
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
   const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
   const Region =  process.env.REACT_APP_S3_REGION;
@@ -101,6 +103,13 @@ function CardComponent({
     };
   }, []);
 
+
+  const openQRCodeModal = () => {
+    setShowQRCode(true)
+  }
+  const closeQRCodeModal = () => {
+    setShowQRCode(false)
+  }
   
  
   const openModal = () => {
@@ -505,6 +514,14 @@ function CardComponent({
         </button>
         </div>
         <div className="social-icons">
+     
+        
+        <div className="qr-code-container" onClick={openQRCodeModal}>
+        <QRCode
+          value={`https://app.bravanfc.com/${id}/cards/${card_id}`}
+          style={{ height: "60px", width: "60px" }}
+        />
+         </div>
           {url && <a href={url}><img rel='preload' className="url" loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
           {google_reviews && <a href={google_reviews}><img rel='preload' loading="lazy" src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
           {instagram && <a href={instagram}><img rel='preload' loading="lazy"src={InstagramLogo} alt="Instagram" focusable /></a>}
@@ -526,6 +543,12 @@ function CardComponent({
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
       <NoteModal isOpen={isNotesOpen} background_image={background_image_url} profile_image_url={profile_image_url} closeModal={handleCloseNotes} notes={notes} />
+      <QRCodeModal
+        isOpen={showQRCode}
+        onClose={closeQRCodeModal}
+        id={id}
+        card_id={card_id}
+      />
 
     </div>
   );
