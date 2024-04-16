@@ -150,27 +150,7 @@ color: white;
     border-radius: 0%;
    
   }
-  .card-component {
-    /* Existing styles... */
-    display: flex;
-    flex-direction: column;
-    /* Remove overflow: hidden; */
-  }
   
-  .social-icons-container {
-    flex: 1; /* Take up remaining vertical space */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-  }
-  
-  .social-icons {
-    /* Existing styles... */
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Adjust as needed */
-    gap: 20px; /* Adjust the gap between icons */
-    margin-top: 10%;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 .card-component .logo {
@@ -211,7 +191,6 @@ color: white;
    letter-spacing: 1px;
    font-size: .6rem;
 }
-
 
 
 @media (max-width: 1000px){
