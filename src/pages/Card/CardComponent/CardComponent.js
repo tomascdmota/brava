@@ -504,9 +504,9 @@ function CardComponent({
         )}
       </div>
       <div className="card-body">
-        <h5>{title}</h5>
-        <h3><span>{company}</span></h3>
-        <p>{username}</p>
+        <h5>{username}</h5>
+          <h3><span>{company}</span></h3>
+          <p>{title}</p>
         <div className="card-buttons">
           <button onClick={saveToContacts}>SAVE CONTACT</button>
         <button className="fab" onClick={handleGetInTouch}>
