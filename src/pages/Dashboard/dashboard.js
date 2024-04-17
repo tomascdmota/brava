@@ -27,22 +27,27 @@ export function Dashboard(event) {
           navigate('/login');
           return;
         }
-
+  
         const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
         setUserData(response.data);
-        localStorage.setItem('profile_image_url', userData[0]?.profile_image_url);
-        localStorage.setItem('username', userData[0]?.username);
+        console.log('Response data:', response.data);
+  
+        // Set local storage items after setting userData
+        if (response.data && response.data.length > 0) {
+          localStorage.setItem('profile_image_url', response.data[0]?.profile_image_url);
+          localStorage.setItem('username', response.data[0]?.username);
+        }
         
         isDataFetched.current = true; // Set to true after data fetching
       } catch (error) {
         console.log('Error fetching data:', error);
       }
     };
+  
     // Fetch data only if userId is available and data fetching is not done yet
     if (userId && !isDataFetched.current) {
       console.log('making request');
       fetchData();
-   
     }
   }, [userId, navigate]);
 

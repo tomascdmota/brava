@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import QRCode from 'qrcode.react'; 
+import QRCodeModal from './QRCodeModal/QRCodeModal';
 import vcf from 'vcf';
 import { openDB } from 'idb';
 import unorm from 'unorm';
+import NoteModal from './NotesModal/NoteModal';
 import Modal from '../../../components/Modal/Modal';
-import NotesLogo from './Logos/notes.png';
 import GoogleReviewsLogo from './Logos/googlereview.png';
 import './CardComponent.css';
 
@@ -18,11 +20,15 @@ const UrlLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/url.png?
 const MapsLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-google-maps-old.svg?v=1712083465';
 const YouTubeLogo = "https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-youtube.svg?v=1712083465";
 const PaypalLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-paypal.svg?v=1712083465'
-const TiktokLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-tiktok.svg?v=1712083465'
+const TiktokLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/tiktok.png?v=1713213933'
 const TwitterLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-twitterx.svg?v=1712083465'
 const SpotifyLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/spotify.png?v=1712083467'
 const VintedLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/vinted.jpg?v=1712083466'
-
+const NotesLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/notes.png?v=1713213932'
+const StandvirtualLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/standvirtual.png?v=1713213933'
+const OlxLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/olx.png?v=1713213932'
+const PiscapiscaLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/piscapisca.png?v=1713213932'
+const CustojustoLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/custojusto.png?v=1713213932'
 
 
 
@@ -49,20 +55,25 @@ function CardComponent({
   tiktok,
   twitter,
   spotify,
-  vinted
+  vinted,
+  standvirtual,
+  olx,
+  piscapisca,
+  custojusto
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false)
+
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
   const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
   const Region =  process.env.REACT_APP_S3_REGION;
   const Bucket =  process.env.REACT_APP_BUCKET;
   let mapsUrl;
-  console.log(id)
 
   useEffect(() => {
-    console.log('CardComponent useEffect triggered');
   
     let isMounted = true;
   
@@ -92,14 +103,27 @@ function CardComponent({
     };
   }, []);
 
+
+  const openQRCodeModal = () => {
+    setShowQRCode(true)
+  }
+  const closeQRCodeModal = () => {
+    setShowQRCode(false)
+  }
   
+ 
   const openModal = () => {
     setIsModalOpen(true);
+    
   };
-
+ const handleOpenNotes = () => {
+  setIsNotesOpen(true);
+ }
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+
   const openGoogleMaps = () => {
     // Construct the Google Maps URL with the address as a query parameter
      mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
@@ -297,6 +321,18 @@ function CardComponent({
       if(vinted){
         card.add('x-socialprofile', vinted, {type: "Vinted"});
       }
+      if(olx){
+        card.add('x-social-profile', olx ,{type:"Olx"});
+      }
+      if(standvirtual){
+        card.add('x-social-profile', standvirtual ,{type:"standvirtual"});
+      }
+      if(piscapisca){
+        card.add('x-social-profile', piscapisca ,{type:"piscapisca"});
+      }
+      if(custojusto){
+        card.add('x-social-profile', custojusto ,{type:"custojusto"});
+      }
   
   
       // Set address
@@ -442,7 +478,9 @@ function CardComponent({
       throw error;
     }
   };
-
+  const handleCloseNotes = () => {
+    setIsNotesOpen(false); // Set the state to close the modal
+  };
 
 
   const handleGetInTouch = () => {
@@ -455,13 +493,13 @@ function CardComponent({
   };
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
-      <div className="card-background" style={{ backgroundImage: `url(${background_image_url})` }}></div>
+      <div className="card-background" style={{ backgroundImage: `url(${background_image_url|| 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
       <div className="card-component-header">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-            {profile_image_url && <img className="card-image" rel='preload'  loading="lazy" src={profile_image_url} alt="Profile" />}
+           <img className="card-image" rel='preload' loading="lazy" src={profile_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava.jpg?v=1713204195'} alt="Profile" />
           </>
         )}
       </div>
@@ -475,7 +513,16 @@ function CardComponent({
           EXCHANGE CONTACT
         </button>
         </div>
+        <div className="social-icons-container"> 
         <div className="social-icons">
+     
+        
+        <div className="qr-code-container" onClick={openQRCodeModal}>
+        <QRCode
+          value={`https://app.bravanfc.com/${id}/cards/${card_id}`}
+          style={{ height: "55px", width: "55px", borderRadius:"10px" }}
+        />
+         </div>
           {url && <a href={url}><img rel='preload' className="url" loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
           {google_reviews && <a href={google_reviews}><img rel='preload' loading="lazy" src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
           {instagram && <a href={instagram}><img rel='preload' loading="lazy"src={InstagramLogo} alt="Instagram" focusable /></a>}
@@ -484,14 +531,27 @@ function CardComponent({
           {youtube && <a href={youtube}><img rel='preload' loading="lazy"src={YouTubeLogo} alt="YouTube" focusable /></a>}
           {paypal &&<a href={paypal}><img rel='preload' loading="lazy"src={PaypalLogo} alt="Paypal" focusable /></a>}
           {twitter &&<a href={twitter}><img rel='preload' loading="lazy"src={TwitterLogo} alt="Twitter" focusable /></a>}
-          {tiktok &&<a href={tiktok}><img rel='preload' loading="lazy"src={TiktokLogo} alt="TikTok" focusable /></a>}
+          {tiktok &&<a href={tiktok}><img rel='preload' loading="lazy"src={TiktokLogo} alt="TikTok" focusable  style={{ height: "80px", width: "80px"}} /></a>}
           {spotify &&<a  href={spotify}><img rel='preload' className='spotify' loading="lazy"src={SpotifyLogo} alt="Spotify" focusable /></a>}
-          {vinted &&<a  href={vinted}><img rel='preload' className='spotify' loading="lazy"src={VintedLogo} alt="Vinted" focusable /></a>}
-          {notes && <a  href={notes}><img rel='preload' loading="lazy"style={{marginBottom: "10px"}} src={NotesLogo} alt="Notes" focusable /></a>}
-          {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo} alt='Maps' focusable/></a>}
+          {vinted &&<a  href={vinted}><img rel='preload' className='spotify' loading="lazy"src={VintedLogo} alt="Vinted" focusable style={{ borderRadius:"20px"}} /></a>}
+          {notes && <a onClick={handleOpenNotes}><img rel='preload' loading="lazy"style={{ height:"60px"}} src={NotesLogo} alt="Notes" focusable /></a>}
+          {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo}  alt='Maps' focusable/></a>}
+          {standvirtual && <a href={standvirtual} ><img rel='preload' loading='lazy' src={StandvirtualLogo} style={{height:"60px", borderRadius:"10px"}} alt='standvirtual' focusable/></a>}
+          {olx && <a href={olx} ><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
+          {piscapisca && <a href={piscapisca} ><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
+          {custojusto && <a href={custojusto} ><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
         </div>
       </div>
+      </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
+      <NoteModal isOpen={isNotesOpen} background_image={background_image_url} profile_image_url={profile_image_url} closeModal={handleCloseNotes} notes={notes} />
+      <QRCodeModal
+        isOpen={showQRCode}
+        onClose={closeQRCodeModal}
+        id={id}
+        card_id={card_id}
+      />
+
     </div>
   );
 }

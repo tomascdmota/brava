@@ -1,56 +1,85 @@
+@font-face {
+	font-family: 'SF';
+	src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SF.OTF?v=1712083466');
+}
+@font-face {
+	font-family: 'SFBOLD';
+	src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SFBOLD.OTF?v=1712083466');
+}
+
+
 
 .msform {
-  width: 800px;
+  width: 70vw;
   margin: 50px auto;
-  display: flex;
-  flex-direction: column;
-  font-family: 'chivo';
-  justify-content: center;
-  align-items: center;
+  font-family: 'SF';
   text-align: center;
   position: relative;
-  margin-top:0;
-  font-family: 'SF';
 
   fieldset {
     width: 100%;
-    background:rgb(255, 255, 255);
+    height: 100%;
     border: 0 none;
     border-radius: 10px;
-    font-family: 'chivo';
-    box-shadow: 0 0 15px 1px rgba(37, 37, 37, 0.9);
     padding: 20px 30px;
     box-sizing: border-box;
-    position: relative;
+    display: flex;
+    flex-direction: column;
     &:not(:first-of-type) {
       display: none;
     }
   }
 
-  // Inputs
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .col {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  label {
+    display: block; /* Ensure labels occupy full width */
+    margin-bottom: 5px;
+    font-weight: 400;
+    float: left;
+    margin-left: 40px;
+    color: rgb(117, 117, 117);
+  }
+
+  input[type="text"],
+  input[type="tel"] {
+    width: calc(100% - 10px);
+    background-color: white;
+    color: black; /* Adjust for label's margin */
+  }
+
   input,
   textarea {
     font-family: 'SF';
     padding: 15px;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-left: 30px;
     margin-right: 30px;
     margin-bottom: 10px;
     width: 70%;
     box-sizing: border-box;
-    color: white;
-    background: linear-gradient(to right, #26473c, #41675a);
+    color: black;
+   
     font-size: 13px;
-  }
-  input::placeholder{
-    color: white;
+    &::placeholder {
+      color: white;
+    }
   }
 
-  // Buttons
   .action-button {
     width: 170px;
-    background: #393737;
+    background: #26473c;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -68,35 +97,109 @@
     }
   }
 
-  // Headings
+  .createcard-container {
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 0 15px 1px rgba(37, 37, 37, 0.9);
+  }
+  
+  .card-content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .side-navigation {
+    width: 20vw;
+    height: 100%;
+    background-color: #f0f0f0;
+    border-right: 2px solid #ccc;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .side-navigation ul {
+    list-style-type: none;
+    padding: 0;
+    flex-grow: 1;
+  }
+  
+  .side-navigation li {
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .side-navigation li.active {
+    background-color: #26473c;
+    color: white;
+  }
+  
+  .form-content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex; /* Add this */
+    justify-content: center; /* Add this */
+  }
+  
+  .msform {
+    width: 70%; /* Adjust the width of the form */
+    margin: 50px auto;
+    font-family: 'SF';
+    text-align: center;
+    position: relative;
+  }
+  
+  .createcard-component {
+    border: 1px solid black;
+    width: 30%;
+    background-color: rgb(15, 15, 15);
+    height: auto; /* Adjust the width of the card component */
+    display: flex; /* Add this to make the card take up the full width */
+    justify-content: center; /* Add this to horizontally center the card */
+  }
+
+  .createcard-component > * {
+    width: 100%;
+    border: none;
+    background: transparent;
+  }
+  
+
+
   .fs-title {
     font-size: 30px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     color: black;
-    top: 0;
     margin-bottom: 10px;
     font-family: 'SFBOLD';
+    text-align:left;
+    margin-left: 5%;
   }
 
   .fs-subtitle {
     font-weight: normal;
-    font-size: 13px;
+    font-size: 15px;
     color: #9c9c9c;
     margin-bottom: 20px;
+    text-align:left;
+    margin-left: 5%;
   }
 
-
-  // Progressbar
   #progressbar {
     padding-left: 0;
     width: 100%;
-    left: 0;
     margin-bottom: 30px;
     overflow: hidden;
     display: flex;
     justify-content: center;
     font-family: 'SFBOLD';
-    /* CSS counters to number the steps */
     counter-reset: step;
 
     li {
@@ -110,7 +213,7 @@
       position: relative;
       display: flex;
       align-items: center;
-      justify-content: center; /* Center the content horizontally */
+      justify-content: center;
 
       &:before {
         content: counter(step);
@@ -123,11 +226,10 @@
         color: black;
         background: white;
         border-radius: 3px;
-        margin: 0 10px; /* Add margin to separate the numbers */
-        position: relative; /* Add position relative to create stacking context */
+        margin: 0 10px;
+        position: relative;
       }
 
-      // Progressbar connectors
       &:after {
         content: '';
         width: 100%;
@@ -137,16 +239,13 @@
         position: absolute;
         left: -65%;
         top: 15px;
-        z-index: -1; /* Put it behind the numbers */
+        z-index: -1;
       }
 
       &:first-child:after {
-        // Connector not needed before the first step
         content: none;
       }
 
-      // Marking active/completed steps green
-      // The number of the step and the connector before it = green
       &.active {
         &:before,
         &:after {
@@ -157,10 +256,8 @@
     }
   }
 
-  // File input
   .file-input {
-    display: none; /* Hide the default file input */
-    
+    display: none;
   }
 
   .file-label {
@@ -174,67 +271,85 @@
     cursor: pointer;
     border-radius: 5px;
     &:focus {
-      outline: 1px dotted #000; /* Add focus styling if needed */
+      outline: 1px dotted #000;
     }
   }
 }
 
-
-.profile-picture-container{
-  margin:20px;
-
-}
-
-
 .createcard-container {
   display: flex;
   flex-direction: column;
-  margin-top: 0 ;
+  margin-top: 0;
+  
 }
 
-
-@media (max-width: 800px){
-  .createcard-container{
+@media (max-width: 800px) {
+  .createcard-container {
     width: 100vw;
   }
-  
+
   .msform {
     width: 90vw;
   }
 
-  .msform input{
+  .msform input {
     background: white;
     border: 1px solid #26473c;
   }
+
   .msform .fs-title {
     color: #26473c;
   }
-  .msform input::placeholder{
+
+  .msform input::placeholder {
     color: #26473c;
   }
 
- .msform .action-button{
+  .msform .action-button {
     background-color: #26473c;
   }
+ 
+}
 
-  .msform .previous{
-    
-  }
+.msform .next.action-button  {
+  background-color: #1a1a1a;
 }
 
 .social-input-container {
   display: flex;
-  flex-direction: column; /* Aligns the social inputs vertically */
+  flex-direction: column;
 }
 
 .social-input {
   display: flex;
-  align-items: center; /* Aligns the icon and input field horizontally */
-  margin-bottom: 10px; /* Adds space between each social input */
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .social-input img {
   width: 45px;
   height: 45px;
-  padding-bottom: 15px; /* Adjust the size of the social icons */
+  padding-bottom: 15px;
+}
+
+
+.profile-picture-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+}
+
+.upload-icon {
+  width: 24px; /* Adjust size as needed */
+  height: 24px; /* Adjust size as needed */
+  margin-right: 0;
+}
+.profile-picture-container label{
+  margin-left: 10px;
+}
+
+.social-input-container-wrapper {
+  height: 400px; /* Adjust height as needed */
+  overflow: auto;
 }

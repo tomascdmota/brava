@@ -1,0 +1,106 @@
+@font-face {
+	font-family: 'SF';
+	src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SF.OTF?v=1712083466');
+}
+@font-face {
+	font-family: 'SFBOLD';
+	src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SFBOLD.OTF?v=1712083466');
+}
+
+
+.note-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 999;
+  font-family: 'SF';
+
+  .note-modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .note-modal-content {
+    width: 600px;
+    height: 400px;
+    background-color: #1C1C1E;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .note-card-component-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      img {
+        margin-top: 0;
+        border-radius: 50%;
+        min-height: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        max-height: 130px;
+        border: 2px solid #fff;
+        margin-top:-150px;
+        z-index: 9999;
+      }
+    }
+
+   
+    .note-box {
+      width: 100%;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 150px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        margin-top:-250px;
+        padding: 0;
+       
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+        color: #fff;
+      }
+
+      p {
+        text-align: center;
+        color: #fafafa;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: #ff6347;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .modal-close:hover {
+    color: #ff6347;
+  }
+}

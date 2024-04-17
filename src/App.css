@@ -22,15 +22,20 @@
 .App {
   text-align: center;
   top: 0;
+  background-color: #1f1f1f;
+  overflow-y: hidden;
 }
 :root {
   top: 0;
+  background-color: #1f1f1f;
+  overflow-y: hidden;
 }
 body{
   border: 0;
   top: 0;
   background-color: rgb(24, 24, 24);
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {
