@@ -32,29 +32,34 @@ const OverviewContent = ({  contactData}) => {
 		<div className="overview">
 	<div className="overview-body">
 		<div className="overview-body-navigation">
-		{/*	<nav className="navigation">
+		<nav className="navigation">
 				<a href="#">
 					<i className="ph-browsers"></i>
-					<span>Analytics </span>
+					<span>Overview </span>
 				</a>
 				<a href="#">
 					<i className="ph-check-square"></i>
 					<span>Cards</span>
 				</a>
+				<ul>
+					<li>My card</li>
+					<li>Edit card</li>
+				</ul>
 				<a href="#">
 					<i className="ph-swap"></i>
-					<span>Profile</span>
+					<span>Account</span>
 				</a>
+				
 				<a href="#">
 					<i className="ph-file-text"></i>
 					<span>Help Center</span>
 				</a>
 				<a href="#">
 					<i className="ph-globe"></i>
-					<span>Sharing</span>
+					<span>Settings</span>
 				</a>
 				
-  </nav> */	}
+  </nav> 
    			
 			
 		</div>

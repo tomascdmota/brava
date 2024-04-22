@@ -6,7 +6,7 @@ import { decodeToken } from 'react-jwt';
 import './login.scss';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -22,17 +22,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const email = e.target.elements.email ? e.target.email.value : '';
+    const username = e.target.elements.username ? e.target.username.value : '';
     const password = e.target.elements.password ? e.target.password.value : '';
 
-    if (email.trim() === '' || password.trim() === '') {
+    if (username.trim() === '' || password.trim() === '') {
       alert('Preencha todos os campos por favor');
       return;
     }
 
     try {
       const response = await axios.post(`https://${process.env.REACT_APP_HOST}/api/login`, {
-        email: email,
+        username: username,
         password: password,
       });
 
@@ -81,14 +81,14 @@ const Login = () => {
           <div className="card">
             <h1>Sign into your <span>BRAVA</span> account</h1>
               <form className="form" onSubmit={handleSubmit}>
-                <label>Email Address</label>
+                <label>Username</label>
                 <input
-                  type="email"
-                  placeholder="example@bravanfc.com"
-                  name="email"
-                  id="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                  type="name"
+                  placeholder="Username"
+                  name="username"
+                  id="username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
                 />
                 <label>Password</label>
                 <input

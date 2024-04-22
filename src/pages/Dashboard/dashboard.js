@@ -53,7 +53,7 @@ export function Dashboard(event) {
 
 
   return (
-    <div>
+    <div className='dashboard-container'>
       {/* Render the header and tabs */}
       <Header header_username={userData ? userData[0]?.username : ''} profile_picture={userData ? userData[0]?.profile_image_url:''} activeTab={activeTab} onTabClick={handleTabClick} />
       <div className="dashboard-body">

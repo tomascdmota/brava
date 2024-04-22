@@ -58,9 +58,10 @@ a {
 }
 
 .overview {
+	overflow-x:hidden;
 	min-height: 100vh;
 	width: 100%;
-	max-width: 1600px;
+	max-width: 100%;
 	background-color: var(--c-gray-800);
 	padding: 1vw 4vw 0vw;
 	display: flex;
@@ -68,6 +69,7 @@ a {
 }
 
 .overview-body {
+	overflow-x:hidden;
 	height: 100%;
 	display: grid;
 	grid-template-columns: minmax(min-content, 175px) minmax(max-content, 1fr) minmax(
@@ -95,7 +97,13 @@ a {
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 50%;
+	width: 15vw;
+	margin-left: 0;
+	height: 100%;
+	padding: 10px;
+	background:#1F1F1F;
+	border-top-right-radius: 10px;
+	border: 1px solid white;
 	@media (max-width: 1200px) {
 		display: none;
 	}
