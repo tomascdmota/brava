@@ -71,7 +71,15 @@
     color: black;
     align-self: flex-start; 
   }
+
+  input::placeholder{
+    color:white;
+  }
   
+  textarea::placeholder{
+    color: white;
+   
+  }
   
   input,
   textarea {
@@ -85,6 +93,8 @@
   
 textarea {
     height: 20vh;
+    color: white;
+    border: .5px solid #1a1a1a;
 }
 
   button {
@@ -98,7 +108,7 @@ textarea {
 
 
   .modal-overlay h2 {
-    color: #2274a5;
+    color:  #4d8270;
     font-family: 'chivo';
   }
 
