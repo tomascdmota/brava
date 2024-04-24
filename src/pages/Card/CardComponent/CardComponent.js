@@ -549,7 +549,7 @@ function CardComponent({
         isOpen={showQRCode}
         onClose={closeQRCodeModal}
         id={id}
-        card_id={card_id}
+        card_id={String(card_id)}
       />
 
     </div>
