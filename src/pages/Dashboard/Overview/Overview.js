@@ -46,7 +46,8 @@ const OverviewContent = ({ contactData }) => {
 
   const handleTabClick = (tab) => {
     navigate(`/${userId}/dashboard/${tab}`);
-	setSelectedTab(tab)
+    setSelectedTab(tab)
+    setMenuOpen(false);
   };
 
   const handleMenuClick = () => {
@@ -79,7 +80,7 @@ const OverviewContent = ({ contactData }) => {
              Analytics
             </section>
           )}
-		  {selectedTab === 'my-card' && <Card/>}
+		  {selectedTab === 'my-card' && <Card/>}  
 		  {selectedTab === 'edit-card' && <EditCard/>}
           {selectedTab === 'leads' && <Leads contactData={contactData} />}
 		  {selectedTab === 'account' && <Account/>}

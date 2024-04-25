@@ -45,12 +45,12 @@ export function Dashboard() {
 
   return (
     <div>
-      {userData && (
+     {userData && (
         <Header header_username={userData[0]?.username} profile_picture={userData[0]?.profile_image_url} />
       )}
       <div className="dashboard-body">
         {/* Pass the selected tab to the OverviewContent component */}
-        <OverviewContent selectedTab={tab} contactData={userData} />
+        <OverviewContent selectedTab={tab}  contactData={userData} />
         {/* Render Cards component */}
         {tab === 'cards' && <Cards contactData={userData} />}
         {/* Add other tab content here */}

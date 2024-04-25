@@ -3,15 +3,29 @@ import './SideNavigation.scss';
 
 const SideNavigation = ({ handleTabClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const [showMenu, setShowMenu] = useState(false);
+  
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const handleNavItemClick = (tab) => {
+    handleTabClick(tab); // Call the handleTabClick function with the selected tab
+    setShowMenu(false); // Close the mobile menu after a navigation item is clicked
+  };
+
   return (
     <div className="overview-body-navigation">
-      <nav className="side-navigation">
-        <a onClick={(event) => handleTabClick('overview', event)} href="#" className="nav-link">
+      {/* Mobile Menu Button */}
+      <div className="mobile-menu-button" onClick={toggleMenu}>
+        <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-menu.svg?v=1714064137" alt="Menu" className="menu-icon" />
+      </div>
+      <nav className={`side-navigation ${showMenu ? 'show' : ''}`}>
+        <a onClick={() => handleNavItemClick('overview')} href="#" className="nav-link">
           <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/dashboard.svg?v=1713982497" alt="Dashboard" className="nav-icon" />
           <span>Dashboard</span>
         </a>
@@ -22,12 +36,12 @@ const SideNavigation = ({ handleTabClick }) => {
           </div>
           {showDropdown && (
             <ul className="dropdown-content">
-              <li onClick={(event) => handleTabClick('my-card', event)}>My Card</li>
-              <li onClick={(event) => handleTabClick('edit-card', event)}>Edit Card</li>
+              <li onClick={() => handleNavItemClick('my-card')}>My Card</li>
+              <li onClick={() => handleNavItemClick('edit-card')}>Edit Card</li>
             </ul>
           )}
         </div>
-        <a onClick={(event) => handleTabClick('leads', event)} href="#" className="nav-link">
+        <a onClick={() => handleNavItemClick('leads')} href="#" className="nav-link">
           <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/mail.svg?v=1713983246" alt="Leads" className="nav-icon" />
           <span>Leads</span>
         </a>
@@ -35,7 +49,7 @@ const SideNavigation = ({ handleTabClick }) => {
           <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/calendar-today.svg?v=1713983141" alt="Calendar" className="nav-icon" />
           <span>Calendar</span>
         </a>
-        <a onClick={(event) => handleTabClick('account', event)} href="#" className="nav-link">
+        <a onClick={() => handleNavItemClick('account')} href="#" className="nav-link">
           <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/settings.svg?v=1713983432" alt="Settings" className="nav-icon" />
           <span>Settings</span>
         </a>

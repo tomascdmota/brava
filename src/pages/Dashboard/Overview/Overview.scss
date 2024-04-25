@@ -63,7 +63,7 @@ a {
 	justify-content: space-between; // Align content to the start (left) of the screen
 	width: 100vw; // Full width of the viewport
 	overflow-x: hidden;
-  
+	height: 100vh;
 	.overview-body {
 	  display: flex;
 	  justify-content: space-between; // Space between main content and sidebar

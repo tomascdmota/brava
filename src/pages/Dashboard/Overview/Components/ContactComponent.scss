@@ -57,6 +57,7 @@
 	flex-direction: column;
 	@media(max-width: 800px){
 		align-items: center;
+		width: 100%;
 	}
 }
 
@@ -181,7 +182,7 @@
 	}
 }
 .gen-leads{
-	@media(max-width: 1000px) {
+	@media(max-width: 800px) {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -189,3 +190,24 @@
 	}
 }
 
+
+@media (min-width: 1001px) {
+	.contact {
+	  flex-direction: row;
+	}
+  
+	.contact-details {
+	  flex-direction: row;
+	}
+  
+	.contact-message {
+	  margin-top: 0;
+	  margin-left: 2rem;
+	}
+  }
+  
+  @media (max-width: 1000px) {
+	.contact .contact-date {
+	  display: none; /* Hide the contact date on mobile */
+	}
+  }

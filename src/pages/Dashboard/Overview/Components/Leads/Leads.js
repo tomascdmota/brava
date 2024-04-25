@@ -12,13 +12,9 @@ const Leads = ({ contactData }) => {
   // Get contacts for the current page
   const indexOfLastContact = currentPage * contactsPerPage;
   const indexOfFirstContact = indexOfLastContact - contactsPerPage;
-  var currentContacts = 0;
-  if(contactData){
-   currentContacts = contactData.slice(indexOfFirstContact, indexOfLastContact);
-}
+  const currentContacts = contactData ? contactData.slice(indexOfFirstContact, indexOfLastContact) : [];
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
 
   const downloadCSV = () => {
     if (contactData && contactData.length > 0) {
@@ -44,31 +40,31 @@ const Leads = ({ contactData }) => {
 
   return (
     <div className='lead-container'>
-    <div className="lead-wrapper">
-      <div className="contact-description">
-        <h1>Name, Company</h1>
-        <h1>Email</h1>
-        <h1>Contact Date</h1>
-        <h1>Message</h1>
+      <div className="lead-wrapper">
+        <div className="contact-description">
+          <h1>Name, Company</h1>
+          <h1>Email</h1>
+          <h1>Contact Date</h1>
+          <h1>Message</h1>
+        </div>
+        {currentContacts.length > 0 ? (
+          currentContacts.map(contact => (
+            <ContactComponent
+              key={contact.contact_id}
+              name={contact.name}
+              email={contact.email}
+              company={contact.company}
+              contact_date={contact.contact_date}
+              message={contact.message}
+            />
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
+        <button className="download-csv-button" onClick={downloadCSV}>Export Leads</button>
       </div>
-      {currentContacts ? (
-                currentContacts.map(contact => (
-                  <ContactComponent
-                    key={contact.contact_id}
-                    name={contact.name}
-                    email={contact.email}
-                    company={contact.company}
-                    contact_date={contact.contact_date}
-                    message={contact.message}
-                  />
-                ))
-              ) : (
-                <p>Loading...</p>
-              )}
-      <button className="download-csv-button" onClick={downloadCSV}>Export Leads</button>
-    </div>
-    {/* Pagination */}
-    {contactData.length > contactsPerPage && (
+      {/* Pagination */}
+      {contactData && contactData.length > contactsPerPage && (
         <div className="pagination-container">
           <ul className="pagination">
             {Array.from({ length: Math.ceil(contactData.length / contactsPerPage) }, (_, i) => (
@@ -84,16 +80,18 @@ const Leads = ({ contactData }) => {
         </div>
       )}
        
-    <div className="overview-body-sidebar">
-          <section className="payment-section">
-            {!isMobile && (<div><h2>GENERATED LEADS: </h2>
-              <div className='contact-counter'>{contactCounter}</div></div>)}
-            <div className="payment-section-header">
-
+      <div className="overview-body-sidebar">
+        <section className="payment-section">
+          {!isMobile && (
+            <div>
+              <h2>GENERATED LEADS: </h2>
+              <div className='contact-counter'>{contactCounter}</div>
             </div>
-          
-          </section>
-        </div>
+          )}
+          <div className="payment-section-header">
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
