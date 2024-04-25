@@ -44,11 +44,11 @@ position: relative; /* Add this line to enable absolute positioning for child el
 }
 
 .card-body {
-display: flex;
+display: flex;  
 flex-direction: column;
 align-items: center;
 justify-content: center;
-margin-top: 10px;
+margin-top: 50px;
 }
 
 

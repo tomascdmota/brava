@@ -19,7 +19,6 @@ const EditCard = () => {
         }
         const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard/cards`); // Adjust the API endpoint
         setCardData(response.data);
-        console.log(response.data); // Log the updated data directly
       } catch (error) {
         console.error('Error fetching card data:', error);
       }
@@ -30,7 +29,7 @@ const EditCard = () => {
 
   const handleSubmit = async (formData) => {
     try {
-      const response = await axios.put(`http://localhost:4001/api/updatecard/${userId}`, formData, {
+      const response = await axios.put(`https://${process.env.REACT_APP_HOST}/api/updatecard`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -44,7 +43,8 @@ const EditCard = () => {
 
   return (
     <div>
-      {cardData && <CreateCard initialValues={cardData} onSubmit={handleSubmit} />} {/* Pass card data as initialValues */}
+      {cardData && <CreateCard initialValues={cardData} onSubmit={handleSubmit} isEditing={true} />}
+ {/* Pass card data as initialValues */}
     </div>
   );
 };

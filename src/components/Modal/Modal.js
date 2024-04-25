@@ -124,7 +124,7 @@ const Modal = ({ isOpen, onClose }) => {
              required
            />
           
-           <div>
+           <div className='terms-container'>
              <input
                type="checkbox"
                id="terms"
