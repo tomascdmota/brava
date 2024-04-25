@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import {  useNavigate } from 'react-router';
+import {  useNavigate, useParams } from 'react-router';
 import "./Overview.scss"
 import Leads from './Components/Leads/Leads';
 import Card from '../Cards/Cards'
 import CreateCard from '../CreateCard/CreateCard';
+import EditCard from '../Components/EditCard/EditCard';
 
 import Cookie from 'js-cookie';
 import SideNavigation
  from '../Components/SideNavigation/SideNavigation';
 import Account from '../Account/Account'
+import { Edit } from 'react-feather';
 
 
 
@@ -19,8 +21,9 @@ const OverviewContent = ({ contactData }) => {
   const [userId, setUserId] = useState(0);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const contactCounter = contactData ? contactData.length : 0;
+  const {tab} = useParams()
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTab, setSelectedTab] = useState('overview');
+  const [selectedTab, setSelectedTab] = useState(tab || 'overview');
 
   const contactsPerPage = 5;
 
@@ -73,11 +76,11 @@ const OverviewContent = ({ contactData }) => {
 		<div className="overview-body-main-content">
           {selectedTab === 'overview' && (
             <section className="service-section">
-              {/* Your Overview content goes here */}
+             Analytics
             </section>
           )}
 		  {selectedTab === 'my-card' && <Card/>}
-		  {selectedTab === 'edit-card' && <CreateCard/>}
+		  {selectedTab === 'edit-card' && <EditCard/>}
           {selectedTab === 'leads' && <Leads contactData={contactData} />}
 		  {selectedTab === 'account' && <Account/>}
           {/* Add more conditions for other tabs */}

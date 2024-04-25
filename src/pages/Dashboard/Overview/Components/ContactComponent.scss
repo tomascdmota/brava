@@ -55,7 +55,6 @@
 .contacts {
 	display: flex;
 	flex-direction: column;
-	margin-top: 1.5rem;
 	@media(max-width: 800px){
 		align-items: center;
 	}
@@ -144,11 +143,12 @@
 	}
 
 	dd {
-		color: white;
+		color: rgb(63, 63, 63);
 		margin-top: 2px;
 	}
 	dt{
 		padding: 2px;
+		color: rgb(63, 63, 63);
 	}
 	.contact-message {
     margin-left: 4rem;
@@ -174,7 +174,7 @@
 	padding: 10px;
 	justify-content: center;
 	text-align: center;
-	width: 85%;
+	width: 100%;
 	background: linear-gradient(to right, #234a3c, #406c5e);
 	@media (max-width: 1000px){
 		width: 50%;

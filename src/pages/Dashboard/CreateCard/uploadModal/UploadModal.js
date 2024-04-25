@@ -1,60 +1,31 @@
 import React, { useState } from 'react';
 import "./UploadModal.scss";
 
-const UploadModal = ({ handleCloseModal }) => {
-  const [profilePictureLabel, setProfilePictureLabel] = useState('Upload Profile Picture');
-  const [backgroundImageLabel, setBackgroundImageLabel] = useState('Upload Background Image');
+const UploadModal = ({ handleCloseModal, handleImagesUpload }) => {
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [backgroundImage, setBackgroundImage] = useState(null);
 
-  const handleImageChangeAndSave = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePictureLabel(file.name);
-      saveImageToLocalStorage(file, 'profileImageURL');
+  const handleProfilePictureChange = (e) => {
+    setProfilePicture(e.target.files[0]);
+  };
+
+  const handleBackgroundImageChange = (e) => {
+    if (e && e.target && e.target.files && e.target.files.length > 0) {
+      setBackgroundImage(e.target.files[0]);
+    } else {
+      console.error('Event object or its properties are undefined.');
     }
   };
   
-  const saveImageToLocalStorage = (file, localStorageKey) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      localStorage.setItem(localStorageKey, event.target.result);
-    };
-    reader.readAsDataURL(file);
-  };
   
-  
-  const handleImageChangesAndSave = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setBackgroundImageLabel(file.name);
-      saveImageToLocalStorage(file, 'backgroundImageURL');
-    }
-  };
-
   const handleSubmit = () => {
-    // Reset old items in localStorage
-    localStorage.removeItem('profileImageUrl');
-    localStorage.removeItem('backgroundImageUrl');
-  
-    // Save new items to localStorage
-    const profilePictureFileInput = document.getElementById('profilePictureInput');
-    const backgroundImageFileInput = document.getElementById('backgroundImageInput');
-  
-    if (profilePictureFileInput && profilePictureFileInput.files.length > 0) {
-      const profilePictureFile = profilePictureFileInput.files[0];
-      localStorage.setItem('profileImageUrl', profilePictureFile.name); // Changed from 'profilePicture' to 'profileImageUrl'
-      console.log('Profile Picture saved to localStorage:', profilePictureFile.name);
-    }
-  
-    if (backgroundImageFileInput && backgroundImageFileInput.files.length > 0) {
-      const backgroundImageFile = backgroundImageFileInput.files[0];
-      localStorage.setItem('backgroundImageUrl', backgroundImageFile.name); // Changed from 'backgroundImage' to 'backgroundImageUrl'
-      console.log('Background Image saved to localStorage:', backgroundImageFile.name);
-    }
-  
+    // Pass the selected images to the parent component
+    handleProfilePictureChange(profilePicture);
+    handleBackgroundImageChange(backgroundImage);
+    
+    // Close the modal
     handleCloseModal();
   };
-  
-  
 
   return (
     <div className="upload-modal">
@@ -65,30 +36,28 @@ const UploadModal = ({ handleCloseModal }) => {
       <h3 className="subtitle">Upload your profile picture</h3>
       <div className="profile-picture-container">
         <input
-          type="file"
           name="profilePicture"
           id="profilePictureInput"
-          accept="image/*"
-          onChange={handleImageChangeAndSave}
+          type="file" // Change input type to "file"
+          onChange={handleProfilePictureChange} // Use handleProfilePictureChange
           className="file-input"
         />
         <label htmlFor="profilePictureInput" className="file-label">
-          {profilePictureLabel}
+          Profile Picture
         </label>
       </div>
       <h2 className="title">Background Image</h2>
       <h3 className="subtitle">Upload your background image</h3>
-      <div className="profile-picture-container">
+      <div className="background-image-container">
         <input
-          type="file"
-          name="backgroundImage"
+          name="background_image"
           id="backgroundImageInput"
-          accept="image/*"
-          onChange={handleImageChangesAndSave}
+          type="file" // Change input type to "file"
+          onChange={handleBackgroundImageChange} // Use handleBackgroundImageChange
           className="file-input"
         />
         <label htmlFor="backgroundImageInput" className="file-label">
-          {backgroundImageLabel}
+          Background Image
         </label>
       </div>
       <input

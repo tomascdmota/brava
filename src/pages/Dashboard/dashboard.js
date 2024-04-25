@@ -7,59 +7,52 @@ import OverviewContent from './Overview/Overview';
 import Cards from './Cards/Cards';
 import Cookie from 'js-cookie';
 
-export function Dashboard(event) {
- 
-  const { id: userId } = useParams();
-  const [activeTab, setActiveTab] = useState('overview');
-  const [userData, setUserData] = useState(null);
+export function Dashboard() {
+  const { id: userId, tab } = useParams();
   const navigate = useNavigate();
-  const isDataFetched = useRef(false); 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
+  const [userData, setUserData] = useState(null);
+  const isDataFetched = useRef(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const sessionToken = Cookie.get('session_token');
-        
         if (!sessionToken) {
           navigate('/login');
           return;
         }
-  
+
         const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
         setUserData(response.data);
         console.log('Response data:', response.data);
-  
-        // Set local storage items after setting userData
+
         if (response.data && response.data.length > 0) {
           localStorage.setItem('profile_image_url', response.data[0]?.profile_image_url);
           localStorage.setItem('username', response.data[0]?.username);
         }
-        
-        isDataFetched.current = true; // Set to true after data fetching
+
+        isDataFetched.current = true;
       } catch (error) {
         console.log('Error fetching data:', error);
       }
     };
-  
-    // Fetch data only if userId is available and data fetching is not done yet
+
     if (userId && !isDataFetched.current) {
       console.log('making request');
       fetchData();
     }
   }, [userId, navigate]);
 
-
   return (
     <div>
-      {/* Render the header and tabs */}
-      <Header header_username={userData ? userData[0]?.username : ''} profile_picture={userData ? userData[0]?.profile_image_url:''} activeTab={activeTab} onTabClick={handleTabClick} />
+      {userData && (
+        <Header header_username={userData[0]?.username} profile_picture={userData[0]?.profile_image_url} />
+      )}
       <div className="dashboard-body">
-        {/* Render content based on the active tab */}
-        {activeTab === 'overview' && <OverviewContent contactData={userData} />}
-        {activeTab === 'cards' && <Cards contactData={userData} />}
+        {/* Pass the selected tab to the OverviewContent component */}
+        <OverviewContent selectedTab={tab} contactData={userData} />
+        {/* Render Cards component */}
+        {tab === 'cards' && <Cards contactData={userData} />}
         {/* Add other tab content here */}
       </div>
     </div>

@@ -5,10 +5,23 @@
 
 .overview-body-main-content{
     width: 90vw;
+    margin-right: 50px;
 }
 
 .overview-body-sidebar {
     padding: 10px; // Add padding as needed
     box-sizing: border-box; // Include padding and border in the element's total width and height
     padding-left: 5%;
+  }
+
+
+
+  .side-navigation{
+    width: 180px;
+  }
+
+  .side-navigation .nav-link:last-child {
+    position: absolute;
+    bottom: 20px;
+    width: 180px;
   }

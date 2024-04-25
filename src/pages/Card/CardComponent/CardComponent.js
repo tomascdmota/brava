@@ -493,13 +493,13 @@ function CardComponent({
   };
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
-      <div className="card-background" style={{ backgroundImage: `url(${background_image_url|| 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
+      <div className="card-background" style={{ backgroundImage: `url(${background_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
       <div className="card-component-header">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-           <img className="card-image" rel='preload' loading="lazy" src={profile_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava.jpg?v=1713204195'} alt="Profile" />
+            <img className="card-image" rel='preload' loading="lazy" src={profile_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava.jpg?v=1713204195'} alt="Profile" />
           </>
         )}
       </div>

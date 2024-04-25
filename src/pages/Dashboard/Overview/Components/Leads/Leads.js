@@ -5,7 +5,7 @@ import ContactComponent from '../ContactComponent';
 import { saveAs } from 'file-saver';
 
 const Leads = ({ contactData }) => {
-  const contactsPerPage = 5; // Number of contacts per page
+  const contactsPerPage = 7; // Number of contacts per page
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const contactCounter = contactData ? contactData.length : 0;
   const isMobile = window.innerWidth <= 1000;
