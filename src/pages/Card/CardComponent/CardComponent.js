@@ -540,9 +540,11 @@ function CardComponent({
           {olx && <a href={olx} ><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
           {piscapisca && <a href={piscapisca} ><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
           {custojusto && <a href={custojusto} ><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
+          
         </div>
       </div>
       </div>
+      <p style={{color:'white'}}>Powered by <a style={{color:'white'}} href="https://bravanfc.com" target='_blank'>BRAVA</a></p>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
       <NoteModal isOpen={isNotesOpen} background_image={background_image_url} profile_image_url={profile_image_url} closeModal={handleCloseNotes} notes={notes} />
       <QRCodeModal

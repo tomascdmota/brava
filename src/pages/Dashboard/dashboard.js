@@ -13,7 +13,7 @@ export function Dashboard(event) {
   const [activeTab, setActiveTab] = useState('overview');
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-  const isDataFetched = useRef(false); // Ref to track if data fetching is done
+  const isDataFetched = useRef(false); 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };

@@ -1,0 +1,62 @@
+.lead-container{
+    display: flex;
+    flex-direction: row;
+    max-width: 1600px;
+    justify-content: center;
+    align-items: start;
+    height: 100%;
+}
+
+.lead-wrapper {
+    background-color: #34353C;
+    padding: 20px;
+    height: 70vh;
+    width: 65vw;
+    border-radius: 30px;
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .contact-description {
+    display: flex;
+    justify-content: space-between;
+  }
+  .pagination-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; /* Take full width */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .pagination {
+    list-style-type: none;
+    padding-top: 50px;
+    margin: 0;
+  }
+  
+  .pagination li {
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .active {
+    background-color: black;
+  }
+  
+  .download-csv-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 5px;
+    color: white;
+    background-color: white !important;
+  }
+  
+  .lead-wrapper + .overview-body-sidebar {
+    margin-top: 20px;
+  }

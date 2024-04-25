@@ -23,11 +23,10 @@
 	align-items: center;
 	width: 100%;
 	padding-bottom: 0.75rem;
-	border-bottom: 1px solid var(--c-gray-600);
 	
 	h2 {
 		font-family: 'SF';
-		font-size: 2rem;
+		font-size: 1.8rem;
 		background-image: linear-gradient(to right, #3e7461, #96c9b7);
 		background-clip: text;
 		/* Fallback: Set a background color. */
@@ -66,14 +65,12 @@
 	display: flex;
 	align-items: center;
 	width: auto;
-	height: 120px;
+	height: 100%;
+	width: 100%;
 	flex-direction: row;
 	font-size: 0.875rem;
-	color: black;
-	background-color: rgb(248, 236, 236);
+	color: white;
 	border-radius: 20px;
-	padding: 10px;
-	border:3px solid #3e7461;
 	
 	@media (max-width: 1000px) {
 		align-items: center;
@@ -91,12 +88,12 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	width: 90%;
-	margin-left: 10%;
-	color: rgb(224, 222, 222);
+	width: 100%;
+	color: rgb(148, 148, 148);
 }
 
 .contact-description h1 {
+	font-size: 15px;
 	flex: 1;
 	text-align: center;
 }
@@ -118,7 +115,7 @@
 }
 
 .contact-details {
-	margin-left: 2rem;
+	margin-left: 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -147,12 +144,10 @@
 	}
 
 	dd {
-		color: var(--c-text-tertiary);
+		color: white;
 		margin-top: 2px;
-		margin-left: 2rem;
 	}
 	dt{
-		margin-left: 2rem;
 		padding: 2px;
 	}
 	.contact-message {
@@ -177,6 +172,9 @@
 	border: 1px solid white;
 	border-radius: 10px;
 	padding: 10px;
+	justify-content: center;
+	text-align: center;
+	width: 85%;
 	background: linear-gradient(to right, #234a3c, #406c5e);
 	@media (max-width: 1000px){
 		width: 50%;

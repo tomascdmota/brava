@@ -12,7 +12,7 @@ import './ContactComponent.scss'
         
     <div className="contacts">
         <div className="contact">
-        {!isMobile && <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/profile_2.png?v=1712073839"/>  }
+        { /* !isMobile && <img src="https://cdn.shopify.com/s/files/1/0733/7767/7577/files/profile_2.png?v=1712073839"/>  */}
         {isMobile && (
               <div>
                 <dt>Contact Date</dt>

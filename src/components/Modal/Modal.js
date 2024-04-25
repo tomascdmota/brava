@@ -133,7 +133,7 @@ const Modal = ({ isOpen, onClose }) => {
              />
              <label htmlFor="terms">I agree to the <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">terms and conditions</a></label>
            </div>
-           <button type="submit">Submit</button>
+           <button className='submit-button' type="submit">Submit</button>
            <button className="close-button" onClick={onClose}>X</button>
          </form>
        </div>
