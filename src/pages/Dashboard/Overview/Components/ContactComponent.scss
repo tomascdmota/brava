@@ -1,213 +1,74 @@
-
-  @font-face {
-	  font-family: 'SF';
-	  src: url('https://cdn.shopify.com/s/files/1/0733/7767/7577/files/SF.OTF?v=1712083466');
-  }
- 
-
-.contact-section {
-	@media (width <= 800px) {
-		margin-top: 0;
-	}
-	.gen-leads{
-		@media(max-width:1000px){
-			.contact-counter{
-
-			}
-		}
-	}
-}
-
-.contact-section-header {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	padding-bottom: 0.75rem;
-	
-	h2 {
-		font-family: 'SF';
-		font-size: 1.8rem;
-		background-image: linear-gradient(to right, #3e7461, #96c9b7);
-		background-clip: text;
-		/* Fallback: Set a background color. */
-		background-color: white;
-		font-weight: bolder;
-		/* Create the gradient. */
-		font-family: 'SFBOLD';
-		
-		/* Set the background size and repeat properties. */
-		background-size: 100%;
-		background-repeat: repeat;
-	
-		/* Use the text as a mask for the background. */
-		/* This will show the gradient as a text color rather than element bg. */
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent; 
-		-moz-background-clip: text;
-		-moz-text-fill-color: transparent;
-	}
-	@media (width <= 800px){
-		justify-content: center;
-		padding-top: 0;
-	}
-}
-
 .contacts {
 	display: flex;
 	flex-direction: column;
-	@media(max-width: 800px){
-		align-items: center;
-		width: 100%;
-	}
-}
-
-.contact {
+	align-items: center; /* Center items horizontally */
+  }
+  
+  .contact {
 	display: flex;
 	align-items: center;
-	width: auto;
-	height: 100%;
 	width: 100%;
-	flex-direction: row;
 	font-size: 0.875rem;
 	color: white;
 	border-radius: 20px;
-	
+  
 	@media (max-width: 1000px) {
-		align-items: center;
-		flex-direction: column;
+	  flex-direction: column; /* Stack items vertically on small screens */
 	}
-	& + * {
-		margin-top: 2rem;
-	}
-}
-.contact img{
-	height: 100px;
-}
-
-.contact-description {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-	color: rgb(148, 148, 148);
-}
-
-.contact-description h1 {
-	font-size: 15px;
-	flex: 1;
-	text-align: center;
-}
-
-.contact-logo {
-	border-radius: 4px;
-	width: 70px;
-	height: 70px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	
-}
-
-.contact-logo svg{
-		width: 70px;
-		height: 100px;
-		color: darkgray;
-}
-
-.contact-details {
-	margin-left: 1rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	justify-content: space-between;
-	flex: 1;
-	@media (max-width: 1000px) {
-		flex-wrap: wrap;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-	}
-	div {
-		width: calc(100% / 3 - 1rem);
-		@media (max-width: 1000px) {
-			width: 100%;
-		}
-		& + div {
-			margin-left: 1rem;
-			@media (max-width: 1000px) {
-				margin-left: 0;
-				margin-top: 1rem;
-			}
-		}
-	}
-
-	dd {
-		color: rgb(63, 63, 63);
-		margin-top: 2px;
-	}
-	dt{
-		padding: 2px;
-		color: rgb(63, 63, 63);
-	}
-	.contact-message {
-    margin-left: 4rem;
-
-    @media (max-width: 1000px) {
-      margin-left: 0;
-      margin-right: 0; /* Reset margin for smaller screens */
-    }
-
-    &.full-width-message {
-      @media (max-width: 1000px) {
-        margin-left: -4rem; /* Compensate for the margin applied earlier */
-        margin-right: -4rem; /* Compensate for the margin applied earlier */
-        width: calc(100% + 8rem); /* 4rem margin on each side */
-      }
-    }
   }
-}
-
-.contact-counter {
+  
+  .contact-details {
+	display: flex;
+	flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+	width: 100%; /* Ensure the details take up the full width */
+	align-items: center;
+  
+	@media (max-width: 1000px) {
+	  margin-left: 0; /* Remove margin on small screens */
+	  justify-content: center; /* Center items horizontally on small screens */
+	}
+  }
+  
+  .contact-details div {
+	flex: 1; /* Each detail takes up equal space */
+	width: calc(25% - 1rem); /* Set the width to 25% of the container width minus the margin */
+	margin-right: 2rem; /* Add space between detail items */
+  
+	&:last-child {
+	  margin-right: 0; /* Remove margin for the last detail item */
+	  color: white;
+	}
+  }
+  
+  dd {
+	color: rgb(255, 255, 255);
+	margin-top: 2px;
+	max-width: 80px;
+	white-space: nowrap; /* Prevent text from wrapping */
+  }
+  
+  dt {
+	color: rgb(255, 255, 255);
+	max-width: 40px;
+	margin-left: 10px;
+	white-space: nowrap; /* Prevent text from wrapping */
+  }
+  
+  .contact-counter {
 	border: 1px solid white;
 	border-radius: 10px;
 	padding: 10px;
 	justify-content: center;
 	text-align: center;
-	width: 100%;
+	width: 50%;
 	background: linear-gradient(to right, #234a3c, #406c5e);
-	@media (max-width: 1000px){
-		width: 50%;
-	}
-}
-.gen-leads{
-	@media(max-width: 800px) {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-}
-
-
-@media (min-width: 1001px) {
-	.contact {
-	  flex-direction: row;
-	}
   
-	.contact-details {
-	  flex-direction: row;
-	}
-  
-	.contact-message {
-	  margin-top: 0;
-	  margin-left: 2rem;
+	@media (max-width: 1000px) {
+	  width: 50%;
 	}
   }
   
-  @media (max-width: 1000px) {
-	.contact .contact-date {
-	  display: none; /* Hide the contact date on mobile */
-	}
+  .message-container {
+	max-height: 100px; /* Adjust the maximum height as needed */
+	overflow-y: auto; /* Enable vertical scrolling if the content overflows */
   }

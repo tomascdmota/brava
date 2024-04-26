@@ -8,10 +8,9 @@
   }
 
   .lead-wrapper {
-      background-color: #dbdbdb;
+      background-color: #1B1B1C;
       height: 60vh;
       width: 50vw;
-      margin-left: 10%;
       border-radius: 30px;
       position: relative;
     }
@@ -19,6 +18,9 @@
     .contact-description {
       display: flex;
       justify-content: space-between;
+      font-size: 10px;
+      border-bottom: 1px solid white;
+      margin-bottom: 10px;
     }
     .pagination-container {
       padding: 20px;
@@ -48,7 +50,7 @@
     }
     
     .download-csv-button {
-      position: absolute;
+      position: fixed;
       bottom: 20px;
       right: 20px;
       border-radius: 5px;
@@ -71,5 +73,107 @@
 
   .lead-wrapper{
     width: 100%;
+  }
+}
+
+
+.filter-container {
+  display: flex;
+  align-items: center;
+}
+
+.filter-container input[type="text"] {
+  width: 80% !important; /* Set the width to 100% to make it wider */
+  padding: 10px; /* Add padding for better appearance */
+  border-radius: 10px;
+}
+
+.filter-container select {
+  height: 100%; /* Set the height to match the input */
+  padding: 10px; 
+  margin-left: 10px;
+  border-radius: 10px;
+  width: 20%;
+  top:0;/* Add padding for better appearance */
+  margin-bottom: 16px;
+}
+
+.lead-header{
+  padding-top: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.lead-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* Black with 90% opacity */
+  z-index: 1000;
+}
+
+.lead-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lead-modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  width: 600px;
+  height: 400px;
+  background-color: #1B1B1C;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 30px;
+  color: #fff; /* Black color for the close button */
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ff0000; /* Change color on hover */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: auto; /* Align buttons to the bottom */
+}
+
+.modal-buttons button {
+  margin: 20px 10px; /* Add spacing between buttons */
+}
+
+
+@media (max-width: 900px) {
+  .modal-buttons{
+    flex-direction: column;
   }
 }
