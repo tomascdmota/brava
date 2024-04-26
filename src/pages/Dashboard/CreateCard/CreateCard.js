@@ -6,7 +6,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import CardComponent from '../../../pages/Card/CardComponent/CardComponent';
 
-const CreateCard = ({initialValues, isEditing }) => {
+const CreateCard = ({initialValues, isEditing,  cardId }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [profileImagePreview, setProfileImagePreview] = useState('');
   const [backgroundImagePreview, setBackgroundImagePreview] = useState('');
@@ -115,7 +115,8 @@ const CreateCard = ({initialValues, isEditing }) => {
 
       if (isEditing) {
         method = 'put';
-        endpoint = `https://${process.env.REACT_APP_HOST}/api/updatecard`; // Adjust endpoint for updating card
+        endpoint = `https://${process.env.REACT_APP_HOST}/api/updatecard/${id}/${cardId}`; 
+        console.log('cardid',cardId)// Adjust endpoint for updating card
       } else {
         method = 'post';
         endpoint = `https://${process.env.REACT_APP_HOST}/api/createcard`; // Endpoint for creating new card

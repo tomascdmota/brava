@@ -27,12 +27,11 @@ const EditCard = () => {
     fetchCardData();
   }, [userId, navigate]);
 
-  
-
   return (
     <div>
-      {cardData && <CreateCard initialValues={cardData} isEditing={true} />}
- {/* Pass card data as initialValues */}
+      {cardData && (
+        <CreateCard initialValues={cardData?.cards[0]} cardId={cardData.cards[0]?.card_id} isEditing={true} />
+      )}
     </div>
   );
 };
