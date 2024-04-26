@@ -493,13 +493,13 @@ function CardComponent({
   };
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
-      <div className="card-background" style={{ backgroundImage: `url(${background_image_url|| 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
+      <div className="card-background" style={{ backgroundImage: `url(${background_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
       <div className="card-component-header">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-           <img className="card-image" rel='preload' loading="lazy" src={profile_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava.jpg?v=1713204195'} alt="Profile" />
+            <img className="card-image" rel='preload' loading="lazy" src={profile_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava.jpg?v=1713204195'} alt="Profile" />
           </>
         )}
       </div>
@@ -540,16 +540,18 @@ function CardComponent({
           {olx && <a href={olx} ><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
           {piscapisca && <a href={piscapisca} ><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
           {custojusto && <a href={custojusto} ><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
+          
         </div>
       </div>
       </div>
+      <p style={{color:'white'}}>Powered by <a style={{color:'white'}} href="https://bravanfc.com" target='_blank'>BRAVA</a></p>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
       <NoteModal isOpen={isNotesOpen} background_image={background_image_url} profile_image_url={profile_image_url} closeModal={handleCloseNotes} notes={notes} />
       <QRCodeModal
         isOpen={showQRCode}
         onClose={closeQRCodeModal}
         id={id}
-        card_id={card_id}
+        card_id={String(card_id)}
       />
 
     </div>

@@ -23,9 +23,10 @@
 body {
 	font-family: "SF", sans-serif;
 	color: var(--c-text-primary);
-	background-color: var(--c-gray-800);
+	background-color:#222428;
 	display: flex;
 	justify-content: center;
+	overflow-x:hidden;
 }
 
 *,
@@ -58,61 +59,154 @@ a {
 }
 
 .overview {
-	overflow-x:hidden;
-	min-height: 100vh;
+	display: flex;
+	justify-content: space-between; // Align content to the start (left) of the screen
+	width: 100vw; // Full width of the viewport
+	overflow-x: hidden;
+	height: 100vh;
+	z-index: -1;
+	.overview-body {
+	  display: flex;
+	  justify-content: center; // Space between main content and sidebar
+	  width: 100%; // Take up full width
+	  padding: 0; // Remove any default padding
+	  margin: 0; // Remove any default margin
+	  z-index: -1;
+  
+	  .overview-body-navigation {
+		width: 15%;
+		z-index: -1;
+		background-color: #222428; // Example background color
+		padding: 20px; // Add padding as needed
+		display: flex;
+		margin-left: 50px;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		box-sizing: border-box; // Include padding and border in the element's total width and height
+		border-right: 1px solid #454545;
+	  }
+  
+	  .overview-body-main-content {
+		z-index: -1;
+		flex-grow: 1; // Allow main content to grow to fill remaining space
+		padding: 10px; // Add padding as needed
+		padding-top: 0;
+		width: 70vw;
+			box-sizing: border-box; // Include padding and border in the element's total width and height
+	  }
+  
+	 
+	}
+  
+  }
+
+
+  .side-navigation nav{
 	width: 100%;
-	max-width: 100%;
-	background-color: var(--c-gray-800);
-	padding: 1vw 4vw 0vw;
+	margin-left: 40px;
+	
+  }
+
+ 
+  .side-navigation a {
 	display: flex;
-	flex-direction: column;
-}
-
-.overview-body {
-	overflow-x:hidden;
-	height: 100%;
-	display: grid;
-	grid-template-columns: minmax(min-content, 175px) minmax(max-content, 1fr) minmax(
-			min-content,
-			400px
-		);
-
-	column-gap: 4rem;
-	justify-content: center;
-	padding-top: 2.5rem;
-
-	@media (max-width: 1200px) {
-		grid-template-columns: 1fr;
-		& > * {
-			margin-bottom: 3.5rem;
-		}
-	}
-}
-
-.overview-body-main-content {
-	width: 50vw;
-}
-.overview-body-navigation {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	width: 15vw;
-	margin-left: 0;
-	height: 100%;
+	flex-direction: row; /* Ensure icons and text are on the same line */
+	align-items: center; /* Align items vertically */
+	text-decoration: none;
 	padding: 10px;
-	background:#1F1F1F;
-	border-top-right-radius: 10px;
-	border: 1px solid white;
-	@media (max-width: 1200px) {
-		display: none;
+	margin-top: 20px;
+	font-size: 18px;
+	color: #d6d6d6; /* Set text color to white */
+	&:hover{
+		cursor: pointer;
+		background-color: #454545;
+		border-radius: 10px;
 	}
+  }
+
+  .side-navigation a img{
+	height: 30px;
+	margin-right: 10px;
+  }
+
+  .dropdown-header {
+	display: flex;
+	flex-direction: row; /* Ensure icons and text are on the same line */
+	align-items: center; /* Align items vertically */
+	text-decoration: none;
+	padding: 10px;
+	color: #d6d6d6; 
+	&:hover{
+		cursor: pointer;
+		background-color: #454545;
+		border-radius: 10px;
+	}
+  }
+
+  .dropdown-wrapper {
+	margin-top: 20px;
+  }
+  .dropdown-wrapper:hover{
+	cursor: pointer;
+	
+  }
+
+  .dropdown-header img {
+	height: 30px;
+	margin-right: 10px;
+  }
+
+.dropdown-wrapper ul {
+	list-style-type: none;
+	padding-left: 30px;
+	
+	margin: 0;
 }
 
-.overview-body-sidebar {
-	width: auto;
-}
+.dropdown-wrapper  li {
+	padding-bottom: 10px;
+	&:hover{
+		cursor: pointer;
+		color: #a7a7a7;
+	}
+} 
+.sidenav-logo {
+	display: flex;
+	align-items: center;
+  }
+  
+  .sidenav-logo-icon img {
+	height: 60px;
+  }
 
+  .sidenav-title{
+	text-align: center;
+	align-items: center;
+	margin-bottom:25px;
+	font-family: 'SFbold';
+  }
+
+
+  .lead-wrapper {
+	background-color: #34353C; /* Add a background color for visibility */
+	padding: 20px; /* Adjust padding as needed */
+	border-radius: 10px; /* Add border radius for aesthetics */
+	height: 500px; /* Set a fixed height */
+	position: relative; /* Set relative positioning for absolute positioning of children */
+  }
+  
+  .pagination-container {
+	position: absolute; /* Set absolute positioning */
+	bottom: 0; /* Align pagination container to the bottom */
+	left: 20px; /* Align pagination container to the left */
+	display: flex; /* Use flexbox for layout */
+	justify-content: space-between; /* Align items with space between */
+	width: calc(100% - 40px); /* Adjust width to account for padding */
+  }
+  
+ 
 
 .footer {
 	margin-top: auto;
@@ -141,7 +235,7 @@ a {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	color: var(--c-text-tertiary);
+	color: white;
 	a {
 		display: flex;
 		align-items: center;
@@ -252,6 +346,23 @@ a {
 	}
 }
 
+
+.pagination li{
+	display: inline-block;
+	margin:10px;
+}
+
+
+
+.active {
+	background-color: black;
+}
+.service-section-header{
+	width: 80%;
+	display: inline-flex;
+}
+
+
 .service-section {
 	& > h2 {
 		font-size: 1.5rem;
@@ -263,6 +374,7 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	border: none;
 	& > * + * {
 		margin-left: 1.25rem;
 	}
@@ -283,8 +395,7 @@ a {
 	position: relative;
 	input {
 		width: 100%;
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
+		padding-top: 1.5rem;
 		border: 0;
 		border-bottom: 1px solid var(--c-gray-600);
 		background-color: transparent;
@@ -461,11 +572,44 @@ a {
 
 .payment-section {
 	& > h2 {
-		font-size: 1.5rem;
+		font-size: 1rem;
 	}
-	width: 10vw;
-	margin-top: 30%;
+	width: 100%;
+	right: 0;
 }
+
+.payment-section h2{
+	font-family: 'SFBOLD';
+	font-size: 1rem;
+	color: #fff;
+}
+
+.pagination li:hover{
+	cursor: pointer;
+}
+
+
+.download-csv-button {
+	position: absolute;
+	bottom: 20px; /* Adjust as needed */
+	right: 20px;
+	border-radius:5px; /* Adjust as needed */
+	color: white;
+	background-color: white !important;
+  }
+
+  
+
+
+.pagination li.active {
+	background-color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 5px; /* Example background color for active page */
+	color: black; /* Example text color for active page */
+  }
 
 .payment-section-header {
 	display: flex;
@@ -680,3 +824,19 @@ button {
 	  max-height: 300px; /* Adjust the maximum height as needed */
 	}
   }
+
+
+
+  .card-actions{
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 20px;
+	color: white;
+  }
+  .card-actions li{
+	margin-bottom: 10px;
+  }
+  .card-actions li:hover{
+	color: #1A3930;
+	cursor: pointer;
+  } 	

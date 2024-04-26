@@ -11,6 +11,7 @@ const CreateCard = lazy(() => import('./pages/Dashboard/CreateCard/CreateCard.js
 const ProfileCard = lazy(() => import('./components/ProfileCard.js'));
 const Card = lazy(() => import('./pages/Card/Card.js'));
 const Account = lazy(() => import('./pages/Dashboard/Account/Account.js'));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions/TermsAndConditions.js"));
 
 function App() {
   return (
@@ -28,12 +29,13 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/:id/profile" element={<Profile />} />
-            <Route path="/:id/dashboard/*" element={<Dashboard />} />
+            <Route path="/:id/dashboard/:tab" element={<Dashboard />} />
             <Route path="/:id/dashboard/cards" element={<Cards />} />
             <Route path="/:id/dashboard/createcard" element={<CreateCard />} />
             <Route path="/:id/dashboard/account" element={<Account />} />
             <Route path="/:id/cards" element={<ProfileCard />} />
             <Route path="/:id/cards/:cardId" element={<Card />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
           </Routes>
         </Suspense>
       </BrowserRouter>

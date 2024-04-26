@@ -54,29 +54,10 @@
         <header className={`dashboard-header ${isMenuOpen ? 'menu-open' : ''}`}>
           <div className="dashboard-header-logo">
             <div className="dashboard-logo">
-              <span className="dashboard-logo-icon">
-                <img src="https://res.cloudinary.com/dnho57ne8/image/upload/v1699913993/brava_fqk4h4.png" alt="Logo" />
-              </span>
-              <h1 className="logo-title">Brava</h1>
+              
             </div>
           </div>
-          <div className="dashboard-header-navigation">
-            <div className="tabs">
-            <button onClick={(event) => handleTabClick('overview', event)} className={activeTab === 'overview' ? 'active' : ''}>
-            <a>Overview</a>
-          </button>
-          <button onClick={(event) => handleTabClick('cards', event)} className={activeTab === 'cards' ? 'active' : ''}>
-           <a> Cards</a>
-          </button>
-          <button onClick={(event) => handleTabClick('account', event)} className={activeTab === 'account' ? 'active' : ''}>
-           <a>Account</a> 
-          </button>
-          <button>
-            <a href="https://bravanfc.com" >Store</a>
-          </button>
-
-            </div>
-          </div>
+          
           <div className="dashboard-header-actions">
             <button onClick={() => handleTabClick('account')} className="user-profile">
               <span>{username}</span>
@@ -85,29 +66,7 @@
               </span>
             </button>
           </div>
-          {isMobile && (
-            <div>
-              <div className="dashboard-header-mobile">
-                <MenuIcon onClick={handleMenuClick} />
-              </div>
-              <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-                {isMenuOpen && <CloseIcon onClick={handleMenuClick} />}
-                <button onClick={(event) => handleTabClick('overview', event)} className={activeTab === 'overview' ? 'active' : ''}>
-                  Overview
-                </button>
-                <button onClick={(event) => handleTabClick('cards', event)} className={activeTab === 'cards' ? 'active' : ''}>
-                  Cards
-                </button>
-                <button onClick={(event) => handleTabClick('account', event)} className={activeTab === 'account' ? 'active' : ''}>
-                  Account
-                </button>
-                <button onClick={(event) => handleTabClick('account', event)} className={activeTab === 'account' ? 'active' : ''}>
-                  Store
-                </button>
-
-              </div>
-            </div>
-          )}
+         
         </header>
       </div>
     );

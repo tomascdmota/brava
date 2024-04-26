@@ -54,7 +54,6 @@ function Cards() {
     // Check for userData to be null instead of !userData
     return (
       <div className="cards-container">
-        <Header />
         {loading && <div className="spinner-container"><div className="spinner"></div></div>}
         <div className="nav-tiles">
         </div>
@@ -64,7 +63,6 @@ function Cards() {
 
   return (
     <div className="cards-container">
-      <Header />
       {loading && <div className="spinner-container"><div className="spinner"></div></div>}
       {Object.keys(userData).length === 0 ? <CreateCard setSubmissionSuccess={setSubmissionSuccess} /> : null}
       <div className="nav-tiles">

@@ -43,7 +43,7 @@ const Login = () => {
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 30);
       Cookies.set('session_token', token, { expires: 30 });
-      navigate(`/${userId}/dashboard`);
+      navigate(`/${userId}/dashboard/overview`);
     } catch (error) {
       console.log('Axios error', error);
 
@@ -104,7 +104,7 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                 />
-                <button type="submit">SIGN UP</button>
+                <button type="submit">LOGIN</button>
                 <p className="existing-users-text">Don't have an account yet? <Link className='signup' to="/signup">Click me!</Link></p>
               </form>
           </div>

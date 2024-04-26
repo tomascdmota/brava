@@ -13,9 +13,8 @@ function Account() {
 
     // For example, if using localStorage for authentication tokens:
     Cookie.remove('session_token');
-    localStorage.clear('profile_image_url');
- 
-    localStorage.clear('username');
+    localStorage.removeItem('profile_image_url');
+    localStorage.removeItem('username');
     // Redirect to the login page
     navigate('/login');
   };
