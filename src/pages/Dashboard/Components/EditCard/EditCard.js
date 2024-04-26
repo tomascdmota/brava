@@ -27,23 +27,11 @@ const EditCard = () => {
     fetchCardData();
   }, [userId, navigate]);
 
-  const handleSubmit = async (formData) => {
-    try {
-      const response = await axios.put(`https://${process.env.REACT_APP_HOST}/api/updatecard`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('Card updated:', response.data);
-      navigate(`/${userId}/dashboard/my-card`);
-    } catch (error) {
-      console.error('Error updating card:', error);
-    }
-  };
+  
 
   return (
     <div>
-      {cardData && <CreateCard initialValues={cardData} onSubmit={handleSubmit} isEditing={true} />}
+      {cardData && <CreateCard initialValues={cardData} isEditing={true} />}
  {/* Pass card data as initialValues */}
     </div>
   );
