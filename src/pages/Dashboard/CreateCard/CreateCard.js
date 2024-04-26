@@ -110,14 +110,21 @@ const CreateCard = ({initialValues, isEditing }) => {
         }
       }
   
+      let method;
       let endpoint;
+
       if (isEditing) {
+        method = 'put';
         endpoint = `https://${process.env.REACT_APP_HOST}/api/updatecard`; // Adjust endpoint for updating card
       } else {
+        method = 'post';
         endpoint = `https://${process.env.REACT_APP_HOST}/api/createcard`; // Endpoint for creating new card
       }
-  
-      const response = await axios.post(endpoint, formDataToSubmit, {
+
+      const response = await axios({
+        method: method,
+        url: endpoint,
+        data: formDataToSubmit,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
