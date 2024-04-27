@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './TermsAndConditions.css'; // Import CSS file for styling
+import axios from 'axios';
 
 function TermsAndConditions() {
   return (

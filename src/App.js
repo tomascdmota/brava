@@ -21,22 +21,27 @@ function App() {
       </Helmet>
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route
-              path="/"
-              element={<Navigate to="/login" replace />}
-            />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/:id/profile" element={<Profile />} />
-            <Route path="/:id/dashboard/:tab" element={<Dashboard />} />
-            <Route path="/:id/dashboard/cards" element={<Cards />} />
-            <Route path="/:id/dashboard/createcard" element={<CreateCard />} />
-            <Route path="/:id/dashboard/account" element={<Account />} />
-            <Route path="/:id/cards" element={<ProfileCard />} />
-            <Route path="/:id/cards/:cardId" element={<Card />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
+        <Routes>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+  
+            {/* Nested routes for user-specific dashboard */}
+            <Route path="/:id">
+              <Route index element={<Profile />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="dashboard">
+                <Route index element={<Dashboard />} />
+                <Route path=":tab" element={<Dashboard />} />
+                <Route path="cards" element={<Cards />} />
+                <Route path="createcard" element={<CreateCard />} />
+                <Route path="account" element={<Account />} />
+              </Route>
+              <Route path="cards" element={<ProfileCard />} />
+              <Route path="cards/:cardId" element={<Card />} />
+            </Route>
           </Routes>
+
         </Suspense>
       </BrowserRouter>
     </div>
