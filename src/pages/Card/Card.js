@@ -9,9 +9,9 @@ function Cards() {
   const [userData, setUserData] = useState(null); // Initialize as null
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(userId)
     axios
       .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/cards`, { withCredentials: true })
       .then((response) => {
@@ -41,7 +41,7 @@ function Cards() {
   if (loading) {
     return (
       <div className="cards-container">
-        <h1>My Cards</h1>
+        <h1>Loading...</h1>
         <div className="spinner-container"><div className="spinner"></div></div>
       </div>
     );

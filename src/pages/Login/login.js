@@ -16,7 +16,7 @@ const Login = () => {
     const sessionToken = Cookies.get('session_token');
     if (sessionToken) {
       const { userId } = decodeToken(sessionToken);
-      navigate(`/${userId}/dashboard`); // Redirect to dashboard if session token exists
+      navigate(`/${userId}/dashboard/overview`); // Redirect to dashboard if session token exists
     }
   }, []); // Empty dependency array ensures this effect runs only once on component mount
 
