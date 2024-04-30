@@ -1,0 +1,47 @@
+.last-contacts-component {
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #1B1B1C;
+  width: 80%;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.last-contacts-component h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #1B1B1C;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: rgb(77, 77, 77);
+}
+
+tr:nth-child(even) {
+  background-color: #2e2e30;
+}
+
+td {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

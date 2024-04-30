@@ -1,34 +1,56 @@
 /* styles.css */
 
 .graph-container {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .graph-container svg {
-    width: 100%;
-    height: auto;
-  }
-  
-  .axis text {
-    font-size: 12px;
-    color: white;
-  }
-  
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #fff;
-  }
-  
-  .bar {
-    fill: steelblue;
-  }
-  
-  .bar:hover {
-    fill: #4682b4;
-  }
-  
+  margin: 20px auto; /* Center the container horizontally */
+  border: 1px solid #ccc;
+  width: 30%; /* Set width to 30% of the screen width */
+  padding: 30px;
+  height: 100%;
+  max-height: 40vh;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #35353D;
+}
+
+.graph-container svg {
+  width: 100%;
+  height: auto;
+}
+
+.axis text {
+  font-size: 12px;
+  color: #fff;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #fff;
+}
+
+.line {
+  fill: none;
+  stroke: linear-gradient(270deg, #8824c2 0%, #550485 80%);;
+  stroke-width: 2px;
+}
+
+.dot {
+  fill: steelblue;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.dot:hover {
+  fill: #4682b4;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #fff;
+  color: #333;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  font-size: 12px;
+}

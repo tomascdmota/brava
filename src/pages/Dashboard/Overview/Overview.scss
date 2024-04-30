@@ -63,7 +63,7 @@ a {
 	justify-content: space-between; // Align content to the start (left) of the screen
 	width: 100vw; // Full width of the viewport
 	overflow-x: hidden;
-	height: 100vh;
+	min-height: 100vh;
 	z-index: -1;
 	.overview-body {
 	  display: flex;

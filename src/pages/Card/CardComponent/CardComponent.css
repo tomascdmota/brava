@@ -109,8 +109,8 @@ color: white;
 
 
 .cards-container {
-  height: 100%;
-  min-height: 100vh;
+  height: auto;
+  min-height: auto;
   margin: 0 !important;
   padding: 0;
   width: 100%;
@@ -123,6 +123,7 @@ color: white;
     margin-bottom: 0;
     width: 400px;
     height: auto;
+  min-height: auto;
     background: black;
   }
   
@@ -136,7 +137,6 @@ color: white;
   .social-icons-container{
     height: 100%;
     width: 100vw;
-    background-color: #1F1F1F;
   }
   .social-icons{
     width: 100%;
@@ -147,11 +147,11 @@ color: white;
     height: 100%;
     margin: 0;
     width: 100vw;
-    margin-top: 0;
     margin-bottom: 0;
     border: none;
     border-radius: 0px;
     overflow: hidden;
+    z-index: 999;
   }
   .card-component::before {
     content: "";
@@ -162,7 +162,12 @@ color: white;
     width: 1000px;
     height: 1000px;
     border-radius: 0%;
-   
+  }
+
+  .cards-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
 }

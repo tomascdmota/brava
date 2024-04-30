@@ -55,10 +55,9 @@
 	align-items: center;
 	justify-content: flex-end;
 	margin-right: 20px; /* Align items to the right */
-	@media (max-width: 800px) {
-	  display: hidden;
-	}
+	
   }
+
 
 .dashboard-header-actions-buttons {
 	display: flex;
@@ -221,6 +220,7 @@
 		color: var(--c-text-primary);
 		span:last-child {
 			box-shadow: 0 0 0 4px var(--c-gray-800), 0 0 0 5px var(--c-text-tertiary);
+			
 		}
 	}
 
@@ -232,6 +232,9 @@
 		font-weight: 300;
 		color: rgb(147, 146, 146);
 		font-family: 'SF';
+		@media (max-width: 450px){
+
+		}
 	}
 
 	span:last-child {
@@ -245,6 +248,9 @@
 		overflow: hidden;
 		margin-left: 1.5rem;
 		flex-shrink: 0;
+		@media (max-width: 450px){
+			margin-left: 10px;
+		}
 	}
 }
 .icon-button {

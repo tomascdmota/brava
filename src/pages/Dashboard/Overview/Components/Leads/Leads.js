@@ -7,20 +7,20 @@ import { saveAs } from 'file-saver';
 import axios from 'axios';
 
 const Leads = ({ userId, leadsData }) => {
-  const [contactData, setContactData] = useState(null); // State for contact data
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
-  const [filterOption, setFilterOption] = useState('mostRecent'); // State for filter option
-  const [currentPage, setCurrentPage] = useState(1); // Current page number
-  const [loading, setLoading] = useState(true); // Loading state
+  const [contactData, setContactData] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterOption, setFilterOption] = useState('mostRecent');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  const contactsPerPage = 7; // Number of contacts per page
+  const contactsPerPage = 7;
   const isMobile = window.innerWidth <= 1000;
-  // Fetch contacts data
+
   useEffect(() => {
     const fetchContactData = async () => {
       try {
-        const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/leads`);
-        setContactData(response.data);
+        const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/contacts`);
+        setContactData(response.data.contacts); // Update to set only the contacts array
         setLoading(false);
       } catch (error) {
         console.log('Error fetching contact data:', error);
@@ -31,33 +31,32 @@ const Leads = ({ userId, leadsData }) => {
     fetchContactData();
   }, [userId]);
 
-  // Filter contacts based on search query and filter option
-  const filteredContacts = contactData
-  ? contactData.filter(contact => {
-      return (
-        contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.company.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }).sort((a, b) => {
-      if (filterOption === 'mostRecent') {
-        return new Date(b.contact_date) - new Date(a.contact_date); // Sort from most recent to oldest
-      } else {
-        return new Date(a.contact_date) - new Date(b.contact_date); // Sort from oldest to most recent
-      }
-    })
-  : [];
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-  // Pagination
+  // Ensure contactData is an array before filtering
+  const filteredContacts = Array.isArray(contactData) ? contactData.filter(contact => {
+    return (
+      contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      contact.company.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }).sort((a, b) => {
+    if (filterOption === 'mostRecent') {
+      return new Date(b.contact_date) - new Date(a.contact_date);
+    } else {
+      return new Date(a.contact_date) - new Date(b.contact_date);
+    }
+  }) : [];
+
   const indexOfLastContact = currentPage * contactsPerPage;
   const indexOfFirstContact = indexOfLastContact - contactsPerPage;
   const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
   const contactCounter = currentContacts.length;
 
-  // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
-  // Download CSV function
   const downloadCSV = () => {
     if (contactData && contactData.length > 0) {
       const header = ['Name', 'Email', 'Company', 'Contact Date', 'Message'];
@@ -81,6 +80,7 @@ const Leads = ({ userId, leadsData }) => {
       saveAs(blob, 'leads.csv');
     }
   };
+
   const pagination = (
     <div className="pagination-container">
       <ul className="pagination">

@@ -55,9 +55,6 @@ function ContactComponent({ user_id, contact_id, name, company, email, message, 
         </div>
       </div>
     </div>
-    
-    
-      
       )}
     </div>
   );

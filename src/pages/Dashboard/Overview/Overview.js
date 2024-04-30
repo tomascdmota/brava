@@ -5,13 +5,15 @@ import Leads from './Components/Leads/Leads';
 import Card from '../Cards/Cards'
 import GraphComponent from './Components/Graph/Graph';
 import EditCard from '../Components/EditCard/EditCard';
+import Analytics from '../Analytics/Analytics';
+import TotalCountComponent from './Components/TotalCountComponent/TotalCountComponent';
+import LastContactsComponent from './Components/LastContactsComponent/LastContactsComponent';
 
 import Cookie from 'js-cookie';
 import SideNavigation from '../Components/SideNavigation/SideNavigation';
 import Account from '../Account/Account'
-import { Edit } from 'react-feather';
 
-const OverviewContent = ({ contactData, userId, leadsData }) => {
+const OverviewContent = ({ contactData, userId, leadsData, username }) => {
   const navigate = useNavigate();
   const { tab } = useParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -34,12 +36,6 @@ const OverviewContent = ({ contactData, userId, leadsData }) => {
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
-  useEffect(() => {
-    if (contactData && contactData.length > 0) {
-      // No need to setUserId here since userId is passed as a prop
-      console.log("User ID:", userId);
-    }
-  }, [contactData, userId]);
 
   const handleTabClick = (tab) => {
     navigate(`/${userId}/dashboard/${tab}`);
@@ -69,9 +65,7 @@ const OverviewContent = ({ contactData, userId, leadsData }) => {
       <div className="overview">
         <SideNavigation handleTabClick={handleTabClick} /> 
         <div className="overview-body-main-content">
-          {selectedTab === 'overview' && (
-           <GraphComponent leadsData={leadsData}/>
-          )}
+          {selectedTab === 'overview' && <Analytics leadsData={leadsData} username={username} contacts={contactData}/> }
           {selectedTab === 'my-card' && <Card />}
           {selectedTab === 'edit-card' && <EditCard />}
           {selectedTab === 'leads' && <Leads leadsData={leadsData}  userId={userId}/>}
