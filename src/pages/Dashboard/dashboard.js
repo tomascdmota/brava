@@ -6,11 +6,13 @@ import Header from './Components/Header';
 import OverviewContent from './Overview/Overview';
 import Cards from './Cards/Cards';
 import Cookie from 'js-cookie';
+import GraphComponent from './Overview/Components/Graph/Graph';
 
 export function Dashboard() {
   const { id: userId, tab } = useParams();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [leadsData, setLeadsData] = useState(null);
   const isDataFetched = useRef(false);
 
   useEffect(() => {
@@ -30,26 +32,31 @@ export function Dashboard() {
           navigate('/login');
           return;
         }
-
+    
         console.log('Fetching data...');
-        const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
-        
-        // Extract username and profile_image_url directly from the response data object
-        const { username, profile_image_url } = response.data;
-        
+        const response = await axios.get(`http://localhost:4001/api/${userId}/dashboard`, { withCredentials: true });
+    
+        // Extract username and profile_image_url from the response data object
+        const { username, profile_image_url } = response.data.userData;
+    
         // Set userData state with extracted data
         setUserData({ username, profile_image_url });
+    
+        // Set leadsData state with extracted data
+        setLeadsData(response.data.leadsData);
         
         // Store username and profile image URL in localStorage
         localStorage.setItem('profile_image_url', profile_image_url);
         localStorage.setItem('username', username);
-  
+    
         // Update the ref to indicate that data has been fetched
         isDataFetched.current = true;
       } catch (error) {
         console.log('Error fetching data:', error);
       }
     };
+    
+    
   
     // Fetch data only if userId exists and data is not being fetched
     fetchData();
@@ -61,10 +68,13 @@ export function Dashboard() {
       <Header header_username={userData ? userData.username : 'Loading...'} profile_picture={userData ? userData.profile_image_url : 'default_profile_picture_url'} />
       <div className="dashboard-body">
         {/* Pass the selected tab to the OverviewContent component */}
-        <OverviewContent selectedTab={tab}  contactData={userData} userId={userId}/>
+        <OverviewContent selectedTab={tab}  contactData={userData} userId={userId} leadsData={leadsData}/>
         {/* Render Cards component */}
         {tab === 'cards' && <Cards contactData={userData} />}
         {/* Add other tab content here */}
+        <div style={{marginLeft:"20%"}}>
+        <GraphComponent leadsData={leadsData} />
+        </div>
       </div>
     </div>
   );

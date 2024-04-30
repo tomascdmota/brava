@@ -13,7 +13,7 @@ function Cards() {
   useEffect(() => {
     console.log(userId)
     axios
-      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/cards`, { withCredentials: true })
+      .get(`http://localhost:4001/api/${userId}/cards`, { withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
@@ -35,6 +35,8 @@ function Cards() {
       .finally(() => {
         setLoading(false); // Set loading to false regardless of success or failure
       });
+
+
   }, [userId]);
 
   // Render loading indicator while data is being fetched

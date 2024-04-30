@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Leads.scss';
 import '../../Overview.scss';
+import GraphComponent from '../Graph/Graph';
 import ContactComponent from '../ContactComponent';
 import { saveAs } from 'file-saver';
 import axios from 'axios';
 
-const Leads = ({ userId }) => {
+const Leads = ({ userId, leadsData }) => {
   const [contactData, setContactData] = useState(null); // State for contact data
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const [filterOption, setFilterOption] = useState('mostRecent'); // State for filter option
@@ -14,7 +15,6 @@ const Leads = ({ userId }) => {
 
   const contactsPerPage = 7; // Number of contacts per page
   const isMobile = window.innerWidth <= 1000;
-
   // Fetch contacts data
   useEffect(() => {
     const fetchContactData = async () => {
@@ -170,6 +170,7 @@ const Leads = ({ userId }) => {
             <div className="payment-section-header"></div>
           </section>
         </div>
+        
       </div>
   );
   

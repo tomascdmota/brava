@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import "./Overview.scss"
 import Leads from './Components/Leads/Leads';
 import Card from '../Cards/Cards'
-import CreateCard from '../CreateCard/CreateCard';
+import GraphComponent from './Components/Graph/Graph';
 import EditCard from '../Components/EditCard/EditCard';
 
 import Cookie from 'js-cookie';
@@ -11,9 +11,7 @@ import SideNavigation from '../Components/SideNavigation/SideNavigation';
 import Account from '../Account/Account'
 import { Edit } from 'react-feather';
 
-const OverviewContent = ({ contactData, userId }) => {
-  const host = process.env.REACT_APP_HOST;
-  const isMobile = window.innerWidth <= 1000;
+const OverviewContent = ({ contactData, userId, leadsData }) => {
   const navigate = useNavigate();
   const { tab } = useParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -24,7 +22,6 @@ const OverviewContent = ({ contactData, userId }) => {
 
   // Calculate indexes of contacts to display on the current page
   const indexOfLastContact = currentPage * contactsPerPage;
-  const indexOfFirstContact = indexOfLastContact - contactsPerPage;
   var currentContacts = '';
   if (Array.isArray(contactData) && contactData.length > 0) {
     // Calculate indexes of contacts to display on the current page
@@ -73,13 +70,11 @@ const OverviewContent = ({ contactData, userId }) => {
         <SideNavigation handleTabClick={handleTabClick} /> 
         <div className="overview-body-main-content">
           {selectedTab === 'overview' && (
-            <section className="service-section">
-              Analytics
-            </section>
+           <GraphComponent leadsData={leadsData}/>
           )}
           {selectedTab === 'my-card' && <Card />}
           {selectedTab === 'edit-card' && <EditCard />}
-          {selectedTab === 'leads' && <Leads  userId={userId}/>}
+          {selectedTab === 'leads' && <Leads leadsData={leadsData}  userId={userId}/>}
           {selectedTab === 'account' && <Account />}
           {/* Add more conditions for other tabs */}
         </div>
