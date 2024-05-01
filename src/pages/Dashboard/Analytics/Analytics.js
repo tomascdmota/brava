@@ -12,7 +12,7 @@ function Analytics({ leadsData, contacts, username }) {
   const defaultLeadsData = leadsData || [];
   const defaultContacts = contacts || [];
   const [city, setCity] = useState('');
-  const ratio = ((defaultLeadsData.length / defaultContacts.length) * 100).toFixed(1) || 0;
+  const ratio = ((defaultContacts.length / defaultLeadsData.length) * 100).toFixed(1) || 0;
 
   useEffect(() => {
     if (!leadsData || !Array.isArray(leadsData)) return;

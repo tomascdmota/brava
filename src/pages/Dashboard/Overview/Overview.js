@@ -6,8 +6,6 @@ import Card from '../Cards/Cards'
 import GraphComponent from './Components/Graph/Graph';
 import EditCard from '../Components/EditCard/EditCard';
 import Analytics from '../Analytics/Analytics';
-import TotalCountComponent from './Components/TotalCountComponent/TotalCountComponent';
-import LastContactsComponent from './Components/LastContactsComponent/LastContactsComponent';
 
 import Cookie from 'js-cookie';
 import SideNavigation from '../Components/SideNavigation/SideNavigation';
