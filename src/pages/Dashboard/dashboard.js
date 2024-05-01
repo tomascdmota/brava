@@ -34,7 +34,7 @@ export function Dashboard() {
           return;
         }
     
-        const response = await axios.get(`https://${process.env.REACT_APP_HOST}/api/${userId}/dashboard`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:4001/api/${userId}/dashboard`, { withCredentials: true });
     
         // Extract username and profile_image_url from the response data object
         const { username, profile_image_url } = response.data.userData;
