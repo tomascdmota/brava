@@ -95,6 +95,7 @@
     ]
   },
   "devDependencies": {
+    "critical": "^7.1.2",
     "csso-cli": "^4.0.2",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
+
 import './Card.scss';
 const CardComponent = lazy(() => import('./CardComponent/CardComponent'));
 
