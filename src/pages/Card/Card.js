@@ -14,7 +14,7 @@ function Cards() {
   useEffect(() => {
     console.log(userId)
     axios
-      .get(`http://localhost:4001/api/${userId}/cards`, { withCredentials: true })
+      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/cards`, { withCredentials: true })
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
