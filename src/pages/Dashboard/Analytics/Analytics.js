@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Slider from 'react-slick'; // Import the Slider component
-import 'slick-carousel/slick/slick.css'; // Import slick carousel styles
-import 'slick-carousel/slick/slick-theme.css'; // Import slick carousel theme styles
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import PieChart from '../Overview/Components/PieChart/PieChart';
 import "./Analytics.scss";
-
 import LastContactsComponent from '../Overview/Components/LastContactsComponent/LastContactsComponent';
 import GraphComponent from '../Overview/Components/Graph/Graph';
 
 function Analytics({ leadsData, contacts, username }) {
-  // Provide default values for leadsData and contacts to prevent TypeError
   const defaultLeadsData = leadsData || [];
   const defaultContacts = contacts || [];
   const [city, setCity] = useState('');
@@ -17,37 +16,30 @@ function Analytics({ leadsData, contacts, username }) {
   useEffect(() => {
     if (!leadsData || !Array.isArray(leadsData)) return;
 
-    // Extract cities from leadsData
     const cities = leadsData.map(lead => lead.city);
-
-    // Count occurrences of each city
     const cityCounts = {};
     cities.forEach(city => {
       cityCounts[city] = (cityCounts[city] || 0) + 1;
     });
 
-    // Find the most dominant city
     const sortedCities = Object.keys(cityCounts).sort((a, b) => cityCounts[b] - cityCounts[a]);
     const mostDominant = sortedCities[0];
-
-    // Set the most dominant city
     setCity(mostDominant);
   }, [leadsData]);
 
-  // Settings for the Slider component
   const sliderSettings = {
     dots: true,
     arrows: false,
     infinite: false,
     speed: 200,
-    slidesToShow: 2, // Show 2 squares at a time
+    slidesToShow: 2,
     slidesToScroll: 1,
-    swipeToSlide: true, // Enable swipe
+    swipeToSlide: true,
     responsive: [
       {
-        breakpoint: 768, // Breakpoint for mobile
+        breakpoint: 768,
         settings: {
-          slidesToShow: 1, // Show 1 square at a time on mobile
+          slidesToShow: 1,
         }
       }
     ]
@@ -56,9 +48,7 @@ function Analytics({ leadsData, contacts, username }) {
   return (
     <div className='analytics-container'>
       <div className="analytics-section">
-        {/* Conditionally render different layouts based on screen size */}
         {window.innerWidth <= 768 ? (
-          /* Render the Slider component on mobile */
           <Slider {...sliderSettings}>
             <div className="analytics-rectangle">
               <div>
@@ -84,7 +74,6 @@ function Analytics({ leadsData, contacts, username }) {
             </div>
           </Slider>
         ) : (
-          /* Render the squares directly on desktop */
           <div className="analytics-rectangle">
             <div>
               <h1>{defaultContacts.length}</h1>
@@ -108,8 +97,9 @@ function Analytics({ leadsData, contacts, username }) {
           </div>
         )}
       </div>
-      <div className="analytics-graph">
+      <div className="graph-section">
         <GraphComponent leadsData={defaultLeadsData} />
+        <PieChart />
       </div>
       <div className="analytics-section">
         <LastContactsComponent

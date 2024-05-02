@@ -1,16 +1,19 @@
-/* styles.css */
-
 .graph-container {
   margin: 20px auto; /* Center the container horizontally */
   border: 1px solid #ccc;
-  width: 30%; /* Set width to 30% of the screen width */
-  padding: 30px;
+  width: 40%; /* Set width to 40% of the screen width */
+  padding: 10px;
   height: 100%;
+  margin-right: 10px;
   max-height: 40vh;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #35353D;
+  background-color: #1B1B1C;
+  @media(max-width: 800px){
+    width: 90%;
+  }
 }
+
 
 .graph-container svg {
   width: 100%;

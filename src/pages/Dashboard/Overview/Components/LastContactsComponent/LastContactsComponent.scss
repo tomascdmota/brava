@@ -1,16 +1,22 @@
+/* Desktop styles */
 .last-contacts-component {
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #1B1B1C;
   width: 80%;
+  border: 1px solid #ccc;
   margin: 0 auto; /* Center horizontally */
+  overflow-x: auto; /* Horizontally scrollable */
 }
 
 .last-contacts-component h1 {
   margin-bottom: 20px;
   font-size: 24px;
   color: #fff;
+}
+
+.table-container {
+  margin: auto; /* Center horizontally */
 }
 
 table {
@@ -44,4 +50,28 @@ td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 768px) {
+  .last-contacts-component {
+    width: 100%; /* Adjust width to fit mobile screen */
+    box-shadow: none; /* Remove box shadow for simplicity */
+    overflow-x: auto; /* Horizontally scrollable */
+    border: 2px solid #ccc;
+  }
+  
+  .table-container {
+    margin: auto; /* Center horizontally */
+  }
+  
+  table {
+    border-radius: 0; /* Remove border radius for full-width appearance */
+  }
+  
+  th,
+  td {
+    padding: 8px; /* Adjust padding for better spacing on small screens */
+    font-size: 14px; /* Adjust font size for better readability on small screens */
+  }
 }

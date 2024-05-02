@@ -1,0 +1,26 @@
+.pie-chart-container {
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    width: 40%; /* Increase the width */
+    padding: 10px;
+    margin-left: 5px;
+    max-height: 40vh;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #1b1b1c;
+    h2 {
+      margin-left: 20px;
+      color: #fff; /* Change heading text color */
+    }
+    @media (max-width: 800px) {
+      width: 90%;
+      margin-left: 7%;
+    }
+  }
+  
+  .pie-chart {
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+  
