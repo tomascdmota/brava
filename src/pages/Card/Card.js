@@ -8,6 +8,7 @@ function Cards() {
   const { id: userId } = useParams();
   const [userData, setUserData] = useState(null); // Initialize as null
   const [cards, setCards] = useState([]);
+  const [linkId, setLinkId] = useState('')
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +18,8 @@ function Cards() {
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
+        setLinkId(response.data.linkId);
+        
   
         // Preload LCP image
         const lcpImageUrls = response.data.cards.map((card) => card.profile_image_url);
@@ -38,7 +41,7 @@ function Cards() {
 
 
   }, [userId]);
-
+  console.log(linkId)
   // Render loading indicator while data is being fetched
   if (loading) {
     return (
@@ -48,7 +51,6 @@ function Cards() {
       </div>
     );
   }
-
   // Once data is fetched, render the page with the fetched data
   return (
     <div className="cards-container">
@@ -56,7 +58,7 @@ function Cards() {
         <div className="tiles">
           {cards.map((card) => (
             <Suspense key={card.card_id} fallback={<div>Loading card...</div>}>
-              <CardComponent {...card} />
+              <CardComponent linkId={linkId} {...card} />
             </Suspense>
           ))}
         </div>

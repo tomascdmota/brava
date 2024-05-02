@@ -44,18 +44,18 @@ const GraphComponent = ({ leadsData }) => {
   return (
     <div ref={containerRef} className='graph-container'>
       <VictoryChart width={dimensions.width} height={dimensions.height}>
-      <VictoryLabel text="Weekly Leads" x={100} y={10} textAnchor="middle" style={{ fill: '#fff', fontSize: 20 }} />
+      <VictoryLabel text="Weekly Taps" x={100} y={10} textAnchor="middle" style={{ fill: '#fff', fontSize: 22, fontWeight: 'bold' }} />
         <VictoryAxis
           tickValues={daysOfWeek}
           style={{
-            tickLabels: { fontSize: 16, fill: '#fff' }, // Customize axis tick labels
+            tickLabels: { fontSize: 16, fill: '#fff',fontWeight: 'bold'  }, // Customize axis tick labels
             axis: { stroke: '#fff' }, // Customize axis line
           }}
         />
         <VictoryAxis
           dependentAxis
           style={{
-            tickLabels: { fontSize: 16, fill: '#fff' }, // Customize axis tick labels
+            tickLabels: { fontSize: 16, fill: '#fff',fontWeight: 'bold'  }, // Customize axis tick labels
             axis: { stroke: '#fff' }, // Customize axis line
           }}
         />

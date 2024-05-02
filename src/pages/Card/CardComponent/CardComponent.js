@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -11,6 +11,7 @@ import NoteModal from './NotesModal/NoteModal';
 import Modal from '../../../components/Modal/Modal';
 import GoogleReviewsLogo from './Logos/googlereview.png';
 import './CardComponent.css';
+import axios from 'axios';
 
 
 const  FacebookLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/icons8-facebook.svg?v=1712083465';
@@ -59,12 +60,13 @@ function CardComponent({
   standvirtual,
   olx,
   piscapisca,
-  custojusto
+  custojusto,
+  linkId
 }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showQRCode, setShowQRCode] = useState(false)
+  const [showQRCode, setShowQRCode] = useState(false);
 
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
@@ -72,6 +74,26 @@ function CardComponent({
   const Region =  process.env.REACT_APP_S3_REGION;
   const Bucket =  process.env.REACT_APP_BUCKET;
   let mapsUrl;
+
+  const [clickCounts, setClickCounts] = useState({
+    google_reviews: 0,
+    instagram: 0,
+    facebook: 0,
+    linkedin: 0,
+    youtube: 0,
+    paypal: 0,
+    twitter: 0,
+    tiktok: 0,
+    spotify: 0,
+    vinted: 0,
+    notes: 0,
+    address: 0,
+    standvirtual: 0,
+    olx: 0,
+    piscapisca: 0,
+    custojusto: 0,
+    url:0
+  });
 
   useEffect(() => {
   
@@ -149,6 +171,7 @@ function CardComponent({
   };
 
  
+
 
   const saveImageToIndexedDB = async (imageBlob) => {
     try {
@@ -491,6 +514,23 @@ function CardComponent({
       console.error('Error opening modal:', error);
     }
   };
+  
+  const handleClick = (socialMedia) => {
+    const updatedCounts = { ...clickCounts, [socialMedia]: clickCounts[socialMedia] + 1 };
+    setClickCounts(updatedCounts);
+  
+  
+    // Send the updated count to the server only if the clicked icon has an href
+      axios.post(`https://${process.env.REACT_APP_HOST}/api/${linkId}/leads`, updatedCounts)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error('Error sending click counts:', error);
+        });
+  };
+  
+
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
       <div className="card-background" style={{ backgroundImage: `url(${background_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
@@ -523,24 +563,23 @@ function CardComponent({
           style={{ height: "55px", width: "55px", borderRadius:"10px" }}
         />
          </div>
-          {url && <a href={url}><img rel='preload' className="url" loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
-          {google_reviews && <a href={google_reviews}><img rel='preload' loading="lazy" src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
-          {instagram && <a href={instagram}><img rel='preload' loading="lazy"src={InstagramLogo} alt="Instagram" focusable /></a>}
-          {facebook && <a href={facebook}><img rel='preload' loading="lazy"src={FacebookLogo} alt="Facebook" focusable /></a>}
-          {linkedin && <a href={linkedin}><img rel='preload' loading="lazy"src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
-          {youtube && <a href={youtube}><img rel='preload' loading="lazy"src={YouTubeLogo} alt="YouTube" focusable /></a>}
-          {paypal &&<a href={paypal}><img rel='preload' loading="lazy"src={PaypalLogo} alt="Paypal" focusable /></a>}
-          {twitter &&<a href={twitter}><img rel='preload' loading="lazy"src={TwitterLogo} alt="Twitter" focusable /></a>}
-          {tiktok &&<a href={tiktok}><img rel='preload' loading="lazy"src={TiktokLogo} alt="TikTok" focusable  style={{ height: "80px", width: "80px"}} /></a>}
-          {spotify &&<a  href={spotify}><img rel='preload' className='spotify' loading="lazy"src={SpotifyLogo} alt="Spotify" focusable /></a>}
-          {vinted &&<a  href={vinted}><img rel='preload' className='spotify' loading="lazy"src={VintedLogo} alt="Vinted" focusable style={{ borderRadius:"20px"}} /></a>}
-          {notes && <a onClick={handleOpenNotes}><img rel='preload' loading="lazy"style={{ height:"60px"}} src={NotesLogo} alt="Notes" focusable /></a>}
-          {address && <a href={mapsUrl} onClick={openGoogleMaps}><img rel='preload' loading='lazy' src={MapsLogo}  alt='Maps' focusable/></a>}
-          {standvirtual && <a href={standvirtual} ><img rel='preload' loading='lazy' src={StandvirtualLogo} style={{height:"60px", borderRadius:"10px"}} alt='standvirtual' focusable/></a>}
-          {olx && <a href={olx} ><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
-          {piscapisca && <a href={piscapisca} ><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
-          {custojusto && <a href={custojusto} ><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
-          
+         {url && <a href={url} onClick={() => handleClick('url')}><img rel='preload' className="url" loading="lazy" src={UrlLogo} alt="Url" focusable /></a>}
+      {google_reviews && <a href={google_reviews} onClick={() => handleClick('google_reviews')}><img rel='preload' loading="lazy" src={GoogleReviewsLogo} alt="Instagram" focusable /></a>}
+      {instagram && <a href={instagram} onClick={() => handleClick('instagram')}><img rel='preload' loading="lazy" src={InstagramLogo} alt="Instagram" focusable /></a>}
+      {facebook && <a href={facebook} onClick={() => handleClick('facebook')}><img rel='preload' loading="lazy" src={FacebookLogo} alt="Facebook" focusable /></a>}
+      {linkedin && <a href={linkedin} onClick={() => handleClick('linkedin')}><img rel='preload' loading="lazy" src={LinkedInLogo} alt="LinkedIn" focusable /></a>}
+      {youtube && <a href={youtube} onClick={() => handleClick('youtube')}><img rel='preload' loading="lazy" src={YouTubeLogo} alt="YouTube" focusable /></a>}
+      {paypal && <a href={paypal} onClick={() => handleClick('paypal')}><img rel='preload' loading="lazy" src={PaypalLogo} alt="Paypal" focusable /></a>}
+      {twitter && <a href={twitter} onClick={() => handleClick('twitter')}><img rel='preload' loading="lazy" src={TwitterLogo} alt="Twitter" focusable /></a>}
+      {tiktok && <a href={tiktok} onClick={() => handleClick('tiktok')}><img rel='preload' loading="lazy" src={TiktokLogo} alt="TikTok" focusable  style={{ height: "80px", width: "80px"}} /></a>}
+      {spotify && <a  href={spotify} onClick={() => handleClick('spotify')}><img rel='preload' className='spotify' loading="lazy" src={SpotifyLogo} alt="Spotify" focusable /></a>}
+      {vinted && <a  href={vinted} onClick={() => handleClick('vinted')}><img rel='preload' className='spotify' loading="lazy" src={VintedLogo} alt="Vinted" focusable style={{ borderRadius:"20px"}} /></a>}
+      {notes && <a onClick={() => handleClick('notes')}><img rel='preload' loading="lazy"style={{ height:"60px"}} src={NotesLogo} alt="Notes" focusable /></a>}
+      {address && <a href={mapsUrl} onClick={() => handleClick('address')}><img rel='preload' loading='lazy' src={MapsLogo}  alt='Maps' focusable/></a>}
+      {standvirtual && <a href={standvirtual} onClick={() => handleClick('standvirtual')}><img rel='preload' loading='lazy' src={StandvirtualLogo} style={{height:"60px", borderRadius:"10px"}} alt='standvirtual' focusable/></a>}
+      {olx && <a href={olx} onClick={() => handleClick('olx')}><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
+      {piscapisca && <a href={piscapisca} onClick={() => handleClick('piscapisca')}><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
+      {custojusto && <a href={custojusto} onClick={() => handleClick('custojusto')}><img rel='preload' loading='lazy' src={CustojustoLogo} alt='custojusto' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
         </div>
       </div>
       </div>
