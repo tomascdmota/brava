@@ -521,7 +521,7 @@ function CardComponent({
   
   
     // Send the updated count to the server only if the clicked icon has an href
-      axios.post(`https://${process.env.REACT_APP_HOST}/api/${linkId}/leads`, updatedCounts)
+      axios.post(`http://localhost:4001/api/${linkId}/leads`, updatedCounts)
         .then((response) => {
           console.log(response);
         })
