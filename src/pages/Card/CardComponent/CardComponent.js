@@ -531,6 +531,7 @@ function CardComponent({
   };
   
 
+
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>
       <div className="card-background" style={{ backgroundImage: `url(${background_image_url || 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/brava_Front4-removebg-preview.png?v=1712164655'})` }}></div>
@@ -574,8 +575,8 @@ function CardComponent({
       {tiktok && <a href={tiktok} onClick={() => handleClick('tiktok')}><img rel='preload' loading="lazy" src={TiktokLogo} alt="TikTok" focusable  style={{ height: "80px", width: "80px"}} /></a>}
       {spotify && <a  href={spotify} onClick={() => handleClick('spotify')}><img rel='preload' className='spotify' loading="lazy" src={SpotifyLogo} alt="Spotify" focusable /></a>}
       {vinted && <a  href={vinted} onClick={() => handleClick('vinted')}><img rel='preload' className='spotify' loading="lazy" src={VintedLogo} alt="Vinted" focusable style={{ borderRadius:"20px"}} /></a>}
-      {notes && <a onClick={() => handleClick('notes')}><img rel='preload' loading="lazy"style={{ height:"60px"}} src={NotesLogo} alt="Notes" focusable /></a>}
-      {address && <a href={mapsUrl} onClick={() => handleClick('address')}><img rel='preload' loading='lazy' src={MapsLogo}  alt='Maps' focusable/></a>}
+      {notes && <a onClick={() => {handleClick('notes'); handleOpenNotes()}}><img rel='preload' loading="lazy"style={{ height:"60px"}} src={NotesLogo} alt="Notes" focusable /></a>}
+    {address && <a href={mapsUrl} onClick={() => {handleClick('address'); openGoogleMaps()}}><img rel='preload' loading='lazy' src={MapsLogo}  alt='Maps' focusable/></a>}
       {standvirtual && <a href={standvirtual} onClick={() => handleClick('standvirtual')}><img rel='preload' loading='lazy' src={StandvirtualLogo} style={{height:"60px", borderRadius:"10px"}} alt='standvirtual' focusable/></a>}
       {olx && <a href={olx} onClick={() => handleClick('olx')}><img rel='preload' loading='lazy' src={OlxLogo} alt='olx' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}
       {piscapisca && <a href={piscapisca} onClick={() => handleClick('piscapisca')}><img rel='preload' loading='lazy' src={PiscapiscaLogo} alt='piscapisca' focusable style={{height:"60px", borderRadius:"10px"}}/></a>}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Leads.scss';
 import '../../Overview.scss';
-import GraphComponent from '../Graph/Graph';
 import ContactComponent from '../ContactComponent';
 import { saveAs } from 'file-saver';
 import axios from 'axios';

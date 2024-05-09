@@ -151,11 +151,15 @@
   .msform {
     width: 100%; /* Adjust the width of the form */
     margin: 50px auto;
+  
     font-family: 'SF';
     text-align: center;
     position: relative;
   }
   
+  #msform {
+    height: 100%;
+  }
   .createcard-component {
     border: 1px solid black;
     width: 30%;
