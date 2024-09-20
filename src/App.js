@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 const SignUp = lazy(() => import('./pages/Signup/signup.js'));
 const Profile = lazy(() => import('./pages/Profile/profile'));
-const Login = lazy(() => import('./pages/Login/login'));
+const Login = lazy(() => import('./pages/Login/login.tsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard/dashboard'));
 const Cards = lazy(() => import('./pages/Dashboard/Cards/Cards.js'));
 const CreateCard = lazy(() => import('./pages/Dashboard/CreateCard/CreateCard.js'));
