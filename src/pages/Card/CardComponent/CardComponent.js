@@ -34,7 +34,7 @@ const PiscapiscaLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/p
 const CustojustoLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/custojusto.png?v=1713213932';
 
 const s3Client = new S3({
-  region: process.env.REACT_APP_S3_REGION,
+  region: 'eu-west-2',
   credentials: {
     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
