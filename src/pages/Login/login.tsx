@@ -43,7 +43,7 @@ export default function SignInSide() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
 
     if (token) {
             navigate('/dashboard');
@@ -247,7 +247,6 @@ export default function SignInSide() {
               color: '#fff', // White text for contrast
               borderRadius: 2, // Slightly rounded corners for smoothness
               border: { xs:"none",sm:'1px solid rgb(148, 160, 184)'},
-              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)', // Soft shadow for depth
             }}
           >
             <CardContent>

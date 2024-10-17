@@ -31,53 +31,27 @@ function CardComponent({
 
     const fetchImage = async (imageType, imageUrl, setImageCallback) => {
       try {
-        const s3Client = new S3({
-          credentials: {
-            accessKeyId,
-            secretAccessKey,
-          },
-          region: Region,
-        });
-
-        const key = new URL(imageUrl).pathname.replace(/^\//, '');
-        const getObjectParams = {
-          Bucket,
-          Key: encodeURIComponent(key),
-        };
-
-        const command = new GetObjectCommand(getObjectParams);
-        const response = await s3Client.send(command);
-
-        if (!isMounted) {
-          return;
+        // Fetch the image directly from the public URL
+        const response = await fetch(imageUrl);
+    
+        // Check if the response is OK (status code 200)
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
         }
-
-        const chunks = [];
-        const streamReader = response.Body.getReader();
-
-        while (true) {
-          const { done, value } = await streamReader.read();
-
-          if (done) {
-            break;
-          }
-
-          chunks.push(value);
-        }
-
-        const arrayBuffer =
-          chunks.length > 1 ? chunks.reduce((a, b) => [...a, ...b]) : chunks[0];
-        const imageBuffer = new Uint8Array(arrayBuffer);
-
-        const blob = new Blob([imageBuffer], { type: response.ContentType });
-
+    
+        // Convert the response to a Blob
+        const blob = await response.blob();
+    
+        // Create an object URL for the Blob
         const imageObjectURL = URL.createObjectURL(blob);
-
+    
+        // Call the callback with the object URL
         setImageCallback(imageObjectURL);
       } catch (error) {
         console.error(`Error fetching ${imageType} image:`, error);
       }
     };
+    
 
     const fetchProfileImage = () => {
       fetchImage('profile', profile_image_url, setProfileImage);
@@ -110,7 +84,7 @@ function CardComponent({
         URL.revokeObjectURL(backgroundImage);
       }
     };
-  }, [profile_image_url, background_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
+  }, [Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
 
   return (
     <div className={`card-component ${loading ? 'loading' : ''}`}>

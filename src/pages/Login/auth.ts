@@ -1,23 +1,22 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:4001';
+const BASE_URL = 'https://bravanfc.com';
 
-// Define types for the responses
+
 interface LoginResponse {
   access_token?: string;
   username: string;
   userId?: string;
-  // Add other properties if needed
 }
 
 interface LogoutResponse {
-  message?: string; // Adjust based on your actual response
+  message?: string; 
 }
 
 // Function to authenticate user
 const login = async (username: string, password: string): Promise<LoginResponse> => {
   try {
-    const response = await axios.post<LoginResponse>(`${BASE_URL}/api/auth/login`, { username, password });
+    const response = await axios.post<LoginResponse>(`${BASE_URL}/api/login`, { username, password });
     return response.data;
   } catch (error) {
     console.error('Login Error:', error);
@@ -25,7 +24,7 @@ const login = async (username: string, password: string): Promise<LoginResponse>
   }
 };
 
-// Function to logout user
+
 const logout = async (): Promise<LogoutResponse> => {
   try {
     const response = await axios.post<LogoutResponse>(`${BASE_URL}/auth/logout`);

@@ -28,7 +28,7 @@ export function Dashboard() {
 
     const fetchData = async () => {
       try {
-        const sessionToken = Cookie.get('session_token');
+        const sessionToken = Cookie.get('token');
         if (!sessionToken) {
           navigate('/login');
           return;

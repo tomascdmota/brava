@@ -11,16 +11,17 @@ function Cards() {
   const [cards, setCards] = useState([]);
   const [linkId, setLinkId] = useState('')
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // State for error handling
+
 
   useEffect(() => {
-    console.log(userId)
+    setLoading(true)
     axios
-      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/cards`, { withCredentials: true })
+      .get(`https://${process.env.REACT_APP_HOST}/api/${userId}/cards`)
       .then((response) => {
         setUserData(response.data);
         setCards(response.data.cards);
         setLinkId(response.data.linkId);
-        
   
         // Preload LCP image
         const lcpImageUrls = response.data.cards.map((card) => card.profile_image_url);
@@ -35,6 +36,7 @@ function Cards() {
       })
       .catch((error) => {
         console.error('Error fetching cards:', error);
+        setError(error.message);
       })
       .finally(() => {
         setLoading(false); // Set loading to false regardless of success or failure
@@ -42,7 +44,6 @@ function Cards() {
 
 
   }, [userId]);
-  console.log(linkId)
   // Render loading indicator while data is being fetched
   if (loading) {
     return (

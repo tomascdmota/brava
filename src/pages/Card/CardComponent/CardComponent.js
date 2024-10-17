@@ -32,7 +32,6 @@ const PiscapiscaLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/p
 const CustojustoLogo = 'https://cdn.shopify.com/s/files/1/0733/7767/7577/files/custojusto.png?v=1713213932'
 
 
-
 function CardComponent({
   card_id,
   id,
@@ -67,12 +66,8 @@ function CardComponent({
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
-
   const [isNotesOpen, setIsNotesOpen] = useState(false);
-  const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
-  const secretAccessKey =  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
-  const Region =  process.env.REACT_APP_S3_REGION;
-  const Bucket =  process.env.REACT_APP_BUCKET;
+  
   let mapsUrl;
 
   const [clickCounts, setClickCounts] = useState({
@@ -92,17 +87,14 @@ function CardComponent({
     olx: 0,
     piscapisca: 0,
     custojusto: 0,
-    url:0
+    url: 0
   });
 
   useEffect(() => {
-  
     let isMounted = true;
-  
+
     const loadImageAndSetState = async () => {
-  
       const imageBuffer = await loadImageFromIndexedDB();
-  
       if (isMounted) {
         if (imageBuffer) {
           const blob = new Blob([imageBuffer], { type: 'image/jpg' });
@@ -113,46 +105,38 @@ function CardComponent({
         }
       }
     };
-  
+
     loadImageAndSetState();
-  
+
     return () => {
       isMounted = false;
-  
       if (image) {
         URL.revokeObjectURL(image);
       }
     };
-  }, []);
-
+  }, [profile_image_url]);
 
   const openQRCodeModal = () => {
-    setShowQRCode(true)
-  }
+    setShowQRCode(true);
+  };
+
   const closeQRCodeModal = () => {
-    setShowQRCode(false)
-  }
-  
- 
+    setShowQRCode(false);
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
-    
   };
- const handleOpenNotes = () => {
-  setIsNotesOpen(true);
- }
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-
   const openGoogleMaps = () => {
-    // Construct the Google Maps URL with the address as a query parameter
-     mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
-
-    // Open a new window or tab with the Google Maps URL
+    mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
     window.open(mapsUrl, '_blank');
   };
+
   const initIndexedDB = async () => {
     try {
       const db = await openDB('brava-db', 1, {
@@ -170,31 +154,19 @@ function CardComponent({
     }
   };
 
- 
-
-
   const saveImageToIndexedDB = async (imageBlob) => {
     try {
       const db = await initIndexedDB();
       const tx = db.transaction('images', 'readwrite');
       const store = tx.objectStore('images');
-  
-      // Use a unique key, such as the S3 key, assuming it's unique for each image
       const key = 'profileImage';
-      
-      // Create an object with a URL (if needed) and the image data
       const data = {
         key,
-        url: profile_image_url,  // Add the URL if it's necessary for your use case
+        url: profile_image_url,
         data: imageBlob,
       };
-  
-      // Store the data in IndexedDB
       store.put(data);
-  
-      // Complete the transaction
       await tx.complete;
-      
       console.log('Image stored in IndexedDB:', data);
     } catch (error) {
       console.error('Error storing image in IndexedDB:', error);
@@ -207,7 +179,6 @@ function CardComponent({
       const tx = db.transaction('images');
       const store = tx.objectStore('images');
       const entry = await store.get('profileImage');
-  
       return entry ? entry.data : null;
     } catch (error) {
       console.error('Error loading from IndexedDB:', error);
@@ -217,34 +188,15 @@ function CardComponent({
 
   const fetchImage = async () => {
     try {
-      const s3Client = new S3({
-        credentials: {
-          accessKeyId,
-          secretAccessKey,
-        },
-        region: Region,
-      });
-  
-      // Parse the profile_image_url to extract the S3 key
-      const urlObject = new URL(profile_image_url);
-      const key = decodeURIComponent(urlObject.pathname.replace(/^\//, ''));
-  
-      const getObjectParams = {
-        Bucket,
-        Key: key,
-      };
-  
-      const command = new GetObjectCommand(getObjectParams);
-      const response = await s3Client.send(command);
-  
-     
-  
-      const blob = new Blob([response.Body], { type: response.ContentType });
+      const imageUrl = profile_image_url;
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const blob = await response.blob();
       saveImageToIndexedDB(blob);
-      // Save the image Blob directly to the state
       setImage(blob);
       setLoading(false);
-  
       if (onLoad) {
         onLoad();
       }
@@ -253,67 +205,59 @@ function CardComponent({
     }
   };
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadImageAndSetState = async () => {
-      const imageBuffer = await loadImageFromIndexedDB();
-
-      if (imageBuffer) {
-        const blob = new Blob([imageBuffer], { type: 'image/jpg' });
-        setImage(blob);
-        setLoading(false);
-      } else {
-        fetchImage();
-      }
-    };
-
-    loadImageAndSetState();
-
-    return () => {
-      isMounted = false;
-
-      if (image) {
-        URL.revokeObjectURL(image);
-      }
-    };
-  }, [profile_image_url, Bucket, Region, accessKeyId, secretAccessKey, onLoad]);
-
-
+  const convertBlobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result); // This will return the Base64 string
+      };
+      reader.onerror = () => {
+        reject(new Error('Failed to read blob as Base64.'));
+      };
+      reader.readAsDataURL(blob); // Read the Blob as a data URL
+    });
+  };
 
   const saveToContacts = async () => {
     try {
       const card = new vcf();
       const imageBuffer = await loadImageFromIndexedDB();
   
+      // Check if the image was found in IndexedDB
       if (!imageBuffer) {
         console.error('Image not found in IndexedDB.');
         return;
       }
   
-      // Set basic properties
+      // Convert the image Blob to a Base64 string
+      const base64Image = await convertBlobToBase64(imageBuffer);
+      console.log('Base64 Image:', base64Image); // Log the Base64 image
   
-      // Manually encode special characters in the names
+      // Function to remove diacritics from a string
       const removeDiacritics = (str) => unorm.nfkd(str).replace(/[\u0300-\u036f]/g, '');
+  
+      // Decode fields from the URL and remove diacritics
       const decodedUsername = removeDiacritics(decodeURIComponent(username));
       const decodedTitle = removeDiacritics(decodeURIComponent(title));
-      const decodedNotes = removeDiacritics(decodeURIComponent(notes))
-      const decodedAddress = removeDiacritics(decodeURIComponent(address))
-      // Set structured name with properly encoded values
+      const decodedNotes = removeDiacritics(decodeURIComponent(notes));
+      const decodedAddress = removeDiacritics(decodeURIComponent(address));
+  
+      // Add standard vCard fields
       card.add('n', [decodedUsername]);
-  
-      // Set formatted name with the full, properly encoded name
       card.add('fn', [decodedUsername]);
-  
       card.add('org', company);
       card.add('tel', phone);
       card.add('email', email);
-  
-      // Set additional properties
       card.add('title', [decodedTitle]);
       card.add('url', `https://app.bravanfc.com/${id}/cards/${card_id}`);
   
-      // Set social media properties
+      // Add the profile image in Base64 format if it exists
+      if (base64Image) {
+        const imageBase64 = base64Image.split(',')[1]; // Remove the data URL prefix
+        card.add('photo', `;ENCODING=BASE64;TYPE=JPEG:${imageBase64}`);
+      }
+  
+      // Add social profiles only if they exist
       if (facebook) {
         card.add('x-socialprofile', facebook, { type: 'Facebook' });
       }
@@ -326,210 +270,83 @@ function CardComponent({
       if (youtube) {
         card.add('x-socialprofile', youtube, { type: 'Youtube' });
       }
-      if(notes) {
-        card.add('note', [decodedNotes])
+      if (notes) {
+        card.add('note', [decodedNotes]);
       }
-      if(twitter){
-        card.add('x-socialprofile', twitter, {type: 'Twitter'});
+      if (twitter) {
+        card.add('x-socialprofile', twitter, { type: 'Twitter' });
       }
-      if(paypal){
-        card.add('x-socialprofile', paypal, {type: "Paypal"});
+      if (paypal) {
+        card.add('x-socialprofile', paypal, { type: 'Paypal' });
       }
-      if(tiktok){
-        card.add('x-socialprofile', tiktok, {type: "TikTok"});
+      if (tiktok) {
+        card.add('x-socialprofile', tiktok, { type: 'TikTok' });
       }
-      if(spotify){
-        card.add('x-socialprofile', spotify, {type: "Spotify"});
+      if (spotify) {
+        card.add('x-socialprofile', spotify, { type: 'Spotify' });
       }
-      if(vinted){
-        card.add('x-socialprofile', vinted, {type: "Vinted"});
+      if (vinted) {
+        card.add('x-socialprofile', vinted, { type: 'Vinted' });
       }
-      if(olx){
-        card.add('x-social-profile', olx ,{type:"Olx"});
+      if (olx) {
+        card.add('x-socialprofile', olx, { type: 'Olx' });
       }
-      if(standvirtual){
-        card.add('x-social-profile', standvirtual ,{type:"standvirtual"});
+      if (standvirtual) {
+        card.add('x-socialprofile', standvirtual, { type: 'standvirtual' });
       }
-      if(piscapisca){
-        card.add('x-social-profile', piscapisca ,{type:"piscapisca"});
+      if (piscapisca) {
+        card.add('x-socialprofile', piscapisca, { type: 'piscapisca' });
       }
-      if(custojusto){
-        card.add('x-social-profile', custojusto ,{type:"custojusto"});
+      if (custojusto) {
+        card.add('x-socialprofile', custojusto, { type: 'custojusto' });
       }
   
-  
-      // Set address
+      // Add the address
       card.add('adr', [decodedAddress]);
-
-      // Extract the S3 key from the profile_image_url
-      const urlObject = new URL(profile_image_url);
-      const imageKey = decodeURIComponent(urlObject.pathname.replace(/^\//, ''));
   
-      // Generate a pre-signed URL for the image
-      const imageURL = await generatePresignedURL(imageKey);
-  
-      const encodedImage = await fetchAndEncodeImage(imageURL);
-      if (!encodedImage) {
-        console.error('Error fetching and encoding image.');
-        return;
-      }
-  
-      // Set image in vCard
-      card.add('photo', encodedImage, { encoding: 'b', type: 'image/jpeg' });
-  
-      // Generate vCard data as a string
+      // Convert the card to a string and log it
       const vCardData = card.toString('3.0');
       console.log(vCardData);
   
-      // Create a Blob from the vCard data with explicit UTF-8 encoding
+      // Create a Blob from the vCard data and initiate download
       const vcard_blob = new Blob([new TextEncoder().encode(vCardData)], {
         type: 'text/vcard;charset=utf-8',
       });
-  
-      // Open a new URL to prompt the user to add the contact
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(vcard_blob);
-      downloadLink.download = 'contact.vcf';
-  
-      // Trigger a click event to simulate a download prompt
-       // Redirect the user to the vCard file
-    window.location.href = URL.createObjectURL(vcard_blob);
-
-    // Release the object URL
-    URL.revokeObjectURL(vcard_blob);
+      window.location.href = URL.createObjectURL(vcard_blob);
+      URL.revokeObjectURL(vcard_blob);
     } catch (error) {
       console.error('Error saving to contacts:', error);
     }
   };
   
-  // Function to fetch and encode the image
-  const fetchAndEncodeImage = async (imageUrl) => {
-    try {
-      const response = await fetch(imageUrl);
-      const imageBlob = await response.blob();
-  
-      // Resize and compress the image with a lower quality
-      const resizedAndCompressedBase64 = await resizeAndCompressImage(imageBlob, {
-        maxWidth: 800,
-        maxHeight: 800,
-        quality: 0.9, // Adjust the quality as needed
-      });
-  
-      return resizedAndCompressedBase64;
-    } catch (error) {
-      console.error('Error fetching, resizing, and encoding image:', error);
-      return null;
-    }
-  };
-  
-  const resizeAndCompressImage = async (blob, options) => {
-    try {
-      const image = new Image();
-      image.src = URL.createObjectURL(blob);
-  
-      await new Promise((resolve, reject) => {
-        image.onload = resolve;
-        image.onerror = reject;
-      });
-  
-      const { maxWidth, maxHeight, quality } = options;
-  
-      let width = image.width;
-      let height = image.height;
-  
-      if (width > height) {
-        if (width > maxWidth) {
-          height *= maxWidth / width;
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width *= maxHeight / height;
-          height = maxHeight;
-        }
-      }
-  
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const context = canvas.getContext('2d');
-  
-      // Draw the image on the canvas progressively
-      context.drawImage(image, 0, 0, width, height);
-  
-      // Convert the canvas content to a blob
-      const resizedBlob = await new Promise((resolve) => {
-        canvas.toBlob(resolve, 'image/jpeg', quality);
-      });
-  
-      // Convert the resized blob to base64
-      const resizedBlobBuffer = await new Response(resizedBlob).arrayBuffer();
-      const resizedBlobBase64 = btoa(
-        new Uint8Array(resizedBlobBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
-  
-      return resizedBlobBase64;
-    } catch (error) {
-      console.error('Error resizing and compressing image:', error);
-      return null;
-    }
-  };
-  
-  
-  
-  const generatePresignedURL = async (imageKey) => {
-    try {
-      const s3Client = new S3({
-        region: 'eu-west-2',
-        credentials: {
-          accessKeyId: accessKeyId,
-          secretAccessKey: secretAccessKey,
-        },
-      });
-  
-      const params = {
-        Bucket: 'brava-bucket',
-        Key: imageKey,
-        Expires: 900,
-      };
-  
-      const signedURL =  getSignedUrl(s3Client, new GetObjectCommand(params));
-      console.log(signedURL)
-      return signedURL;
-    } catch (error) {
-      console.error('Error generating pre-signed URL:', error);
-      throw error;
-    }
-  };
+
   const handleCloseNotes = () => {
-    setIsNotesOpen(false); // Set the state to close the modal
+    setIsNotesOpen(false);
   };
 
+  const handleOpenNotes = () => {
+    setIsNotesOpen(true);
+  };
 
   const handleGetInTouch = () => {
     try {
-      // Instead of triggering a download, open the modal
       openModal();
     } catch (error) {
       console.error('Error opening modal:', error);
     }
   };
-  
+
   const handleClick = (socialMedia) => {
     const updatedCounts = { ...clickCounts, [socialMedia]: clickCounts[socialMedia] + 1 };
     setClickCounts(updatedCounts);
-  
-  
-    // Send the updated count to the server only if the clicked icon has an href
-      axios.post(`https://${process.env.REACT_APP_HOST}/api/${linkId}/leads`, updatedCounts)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.error('Error sending click counts:', error);
-        });
+    axios.post(`https://${process.env.REACT_APP_HOST}/api/${linkId}/leads`, updatedCounts)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error('Error sending click counts:', error);
+      });
   };
-  
 
 
   return (
